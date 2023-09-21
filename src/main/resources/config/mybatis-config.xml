@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-  <settings>
-     <setting name="mapUnderscoreToCamelCase" value="true"/>
-  </settings>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+
+    <typeAliases>
+        <typeAlias type="java.util.Map" alias="map" />
+
+        <typeAlias type="app.sum.bti.community.vo.BoardVO$BoardList"  alias="boardList"/>
+        <typeAlias type="app.sum.bti.community.vo.BoardVO$Detail" alias="boardDetail"/>
+        <typeAlias type="app.sum.bti.community.vo.BoardVO$UpdateRequest" alias="boardUpdate"/>
+        <typeAlias type="app.sum.bti.community.vo.BoardVO$Request"  alias="boardCreate"/>
+        <typeAlias type="app.sum.bti.community.vo.BoardFileVO"  alias="fileVO"/>
+
+
+    </typeAliases>
 
 </configuration>
