@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+
+    <style>
+        .infj {
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+        }
+        .imgboard {
+            height: 520px;
+            overflow: auto;
+        }
+    </style>
+
+</head>
+<body>
+
+
+  <input type="hidden"  id="myId"  name ="myId"  value="admin">
+  <div class="row imgboard"  id="galleryArea">
+      <div class="col-lg-6  col-md-6  col-sm-6  col-xs-6">
+         <span th:each="vo:${coupleList}" >
+
+            <span th:if="${vo.userGender == '남자'}">
+                 <img class="infj img-responsive" th:src="@{'/images/' + ${vo.userMbti}+ '.png'}">
+                 <button type="button" th:onclick="">좋아요</button>
+            </span>
+
+            <span th:if="${vo.userGender == '여자'}">
+                  <img class="infj img-responsive" th:src="@{'/images/' + ${vo.userMbti}+ '.png'}">
+                  <button type="button" th:onclick="">좋아요</button>
+
+            </span>
+
+         </span>
+      </div>
+  </div>
+
+</body>
+
+<script>
+    function likeSave(userId) {
+        const myId = $('#myId').val();
+        const likeList = {
+            userId: myId,
+            likeFrom: myId,
+            likeTo: userId
+        };
+
+        $.ajax(
+            {
+               url: "/Like/list",
+               type: 'POST',
+               dataType: 'json',
+               data: likeList
+            }
+        ).done(function(data) {
+            if (data.resultCode === 200) {
+                alert('좋아요가 추가되었습니다.');
+            } else {
+                alert('좋아요 추가가 실패하였습니다.');
+            }
+        })
+            .fail(function(xhr, error, status) {
+                alert('좋아요 요청 중 오류가 발생했습니다.');
+            });
+    }
+
+</script>
+
+</html>

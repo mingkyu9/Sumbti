@@ -6,4 +6,10 @@
      <setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
 
+  <typeAliases>
+     <typeAlias type="java.util.Map" alias="map" />
+     <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleList" alias="coupleList"/>
+     <typeAlias type="app.sum.bti.mypage.vo.LikeVO$LikeList" alias="likeList"/>
+  </typeAliases>
+
 </configuration>
