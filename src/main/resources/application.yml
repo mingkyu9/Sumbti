@@ -8,9 +8,9 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:13306/it_academy?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://222.239.249.197/sumbti?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username: root
-    password: 1234
+    password: ehdduf922
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       connection-timeout: 60000
