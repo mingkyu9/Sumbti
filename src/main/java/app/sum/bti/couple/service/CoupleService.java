@@ -18,12 +18,23 @@ public class CoupleService {
         return mapper.getCoupleList();
     }
 
+    public List<CoupleVO.CoupleList> getCoupleListPick() throws SQLException {
+        return mapper.getCoupleList();
+    }
+
     public List<CoupleVO.CoupleList> getCoupleListSelect(List<String> selectedMBTI) throws SQLException {
         List<CoupleVO.CoupleList> list = mapper.getCoupleList();
-        for(int i=0; i<list.size(); i++) {
-            if(selectedMBTI.get(i).contains(list.get(i).getUserMbti())) {
-                list.remove(i);
+        if (selectedMBTI == null) {
+            return list;
+        }
+
+        for (int i = 0; i < selectedMBTI.size(); i++) {
+            for (int j = 0; j < list.size(); j++) {
+                if (selectedMBTI.get(i).contains(list.get(j).getUserMbti())) {
+                    list.remove(j);
+                }
             }
+
         }
         return list;
     }

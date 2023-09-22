@@ -5,13 +5,13 @@
 
     <select id="getCoupleList"  resultType="coupleList">
 
+
         select user_id,
-               user_mbti,
-               user_gender,
-               love_mbti,
-               hate_mbti,
-               user_nick
-        from user_info
+        user_mbti,
+        user_gender,
+        user_nick,
+        (select count(*) from like_list lk where lk.like_to  = u.user_id) as like_count
+        from user_info u
     </select>
 
     <select id="getCoupleListSelect"  resultType="coupleList">

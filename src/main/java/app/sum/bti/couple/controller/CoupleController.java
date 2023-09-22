@@ -4,11 +4,10 @@ import app.sum.bti.couple.service.CoupleService;
 import app.sum.bti.couple.vo.CoupleVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,20 +30,54 @@ public class CoupleController {
         return view;
     }
 
+
     @GetMapping("/zone2")
-    public ModelAndView getCoupleListSelect(@RequestParam(value = "selectedMBTI", required = false) List<String> selectedMBTI){
+    public ModelAndView getCoupleListPick(){
         ModelAndView view  = new ModelAndView();
 
         try {
-            List<CoupleVO.CoupleList> coupleList = coupleService.getCoupleListSelect(selectedMBTI);
+            List<CoupleVO.CoupleList> coupleList = coupleService.getCoupleListPick();
+
+            coupleList = coupleList.stream().map( obj-> {
+                String mbti = obj.getUserMbti();
+                String img = "/img/profileIcon/" + (obj.getUserGender().equals("남자") ? "m-"+mbti+".png" :"f-"+mbti+".png");
+                obj.setImages(img);
+                return obj;
+            }).toList();
             view.addObject("coupleList",coupleList);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        view.setViewName("views/zonezone2");
+        view.setViewName("views/coupleZone/coupleZoneSelectedList");
 
         return view;
+    }
+
+    @PostMapping("/select")
+    @ResponseBody
+    public Map<String, Object> getCoupleListSelect(@RequestBody  Map<String, Object> requestData){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        List<CoupleVO.CoupleList> coupleList = new ArrayList<CoupleVO.CoupleList>();
+
+        try {
+
+            List<String> selectedMBTI = (List<String>)requestData.get("selectedMBTI");
+            coupleList = coupleService.getCoupleListSelect(selectedMBTI);
+
+            coupleList = coupleList.stream().map( obj-> {
+                String mbti = obj.getUserMbti();
+                String img = "/img/profileIcon/" + (obj.getUserGender().equals("남자") ? "m-"+mbti+".png" :"f-"+mbti+".png");
+                obj.setImages(img);
+                return obj;
+            }).toList();
+
+            resultMap.put("coupleList",coupleList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return resultMap;
     }
 
 }

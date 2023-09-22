@@ -14,6 +14,8 @@ public class CoupleVO {
         private String loveMbti;
         private String hateMbti;
         private String userNick;
+        private int likeCount; //  현재 리스트 인물을 조아요한 카운트
+        private String images;
 
     }
 
