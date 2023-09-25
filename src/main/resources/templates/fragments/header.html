@@ -1,64 +1,58 @@
+<!--exam-->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-    <div th:fragment="header">
-		   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-			    <a class="navbar-brand" href="#">홈페이지</a>
-			    <button class="navbar-toggler" type="button"
-			         data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-			       <span class="navbar-toggler-icon"></span>
-			    </button>
-			  <div class="collapse navbar-collapse" id="navbarText">
-				    <ul class="navbar-nav mr-auto"  id="menu">
-				      <li class="nav-item  active">
-				        <a class="nav-link" href="/home" id="home">Home </a>
-				      </li>
-				      <li class="nav-item">
-				        <a class="nav-link" href="/board/list?nowPageNumber=0" id="board">게시판</a>
-				      </li>
-				      <li class="nav-item">
-				        <a class="nav-link" href="/gall/list?nowPageNumber=0" id="gallery">이미지게시판</a>
-				      </li>
-				    </ul>
-				    <span class="navbar-text"  style="margin-right: 50px;">
-				       <div class="dropdown"  th:style="${session.memInfo != null ? 'display:block' : 'display:none'}">
-						   <a class="btn dropdown-toggle" href="javascript:void(0)" role="button" data-toggle="dropdown" aria-expanded="false">
-							 <span th:text="|${session.memInfo!= null ? session.memInfo.memName : ''}님 환영합니다.|"></span>
-						  </a>
-						  <ul class="dropdown-menu" role="menu" style="min-width:  7rem;text-align: center;">
-							 <li><a href="/logout">로그아웃</a></li>
-						  </ul>
-					   </div>
-					   <div   th:style="${session.memInfo == null ? 'display:block' : 'display:none'}">
-						  <a href="/login">로그인</a>
-					    </div>		
-				    </span>
-			  </div>
-			</nav> 
-			
-			<script>
-	
-				function setActiveMenu(){
-					const arrayMenu = ['home', 'board', 'gall'];
-					//요청된 url 을 가져온다.
-					const requestUrl = location.pathname;
-					
-					//선택된 메뉴를 표시하기 
-					for (menu of  arrayMenu)   {
-						//menu id 를 가진 경로가 있다!!
-						if(requestUrl.indexOf(menu) > -1) {
-							 //기존에 선택된 메뉴를 해제한다.
-							 $('#menu').find('li').removeClass('active');
-							 $('#' + menu).addClass('active');
-						}
-					}
-				}
-				
-				
-				$(document).ready(function(){
-				      setActiveMenu();	
-				});
-				
-			</script>	
-	 </div>
+<div th:fragment="header">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#" id="logo">
+            <img th:src="@{/img/logo/mainLogo.png}" style="width: 130px;">
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
+                    <a class="nav-link" href="#" id="home">홈</a>
+                </li>
+                <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
+                    <a class="nav-link" href="#" id="myPage">마이 페이지</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" id="null">  </a>
+                </li>
+                <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
+                    <a class="nav-link" href="#" id="coupleZone"> 커플존 </a>
+                </li>
+                <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
+                    <a class="nav-link" href="#" id="friendZone"> 프렌드존 </a>
+                </li>
+                <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
+                    <a class="nav-link" href="#" id="communityZone"> 커뮤니티존 </a>
+                </li>
+
+            </ul>
+<!--            <form class="form-inline my-2 my-lg-0">&ndash;&gt;-->
+<!--                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">&ndash;&gt;-->
+<!--                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>&ndash;&gt;-->
+<!--            </form>-->
+        </div>
+    </nav>
+
+    <script>
+
+        function init(){
+            console.log('aaa');
+            console.log(location.pathname);
+        }
+
+
+        $(document).ready(function(){
+            init();
+        });
+
+    </script>
+</div>
 </html>

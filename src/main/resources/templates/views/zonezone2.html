@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        .infj {
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+        }
+        .imgboard {
+            height: 520px;
+            overflow: auto;
+        }
+    </style>
+
+</head>
+<body>
+
+  되나?? <!-- 디비에서 다 필터링해서 가져올까? 조건이 복잡하면 자바가 나을거 같은데? -->
+  <input type="hidden"  id="myId"  name ="myId"  value="admin">
+
+  <input type="checkbox" id="i" name="chooseMBTI" value="i">
+    <label for="i">i</label>
+  <input type="checkbox" id="e" name="chooseMBTI" value="e">
+    <label for="e">e</label>
+  <input type="checkbox" id="n" name="chooseMBTI" value="n">
+    <label for="n">n</label>
+  <input type="checkbox" id="s" name="chooseMBTI" value="s">
+    <label for="s">s</label>
+  <input type="checkbox" id="f" name="chooseMBTI" value="f">
+    <label for="f">f</label>
+  <input type="checkbox" id="t" name="chooseMBTI" value="t">
+    <label for="t">t</label>
+  <input type="checkbox" id="j" name="chooseMBTI" value="j">
+    <label for="j">j</label>
+  <input type="checkbox" id="p" name="chooseMBTI" value="p">
+    <label for="p">p</label>
+
+  <button type="button" id="pick" onclick="pickUser();">pick</button>
+
+
+
+  <div class="row imgboard"  id="galleryArea">
+      <div class="col-lg-6  col-md-6  col-sm-6  col-xs-6">
+         <span th:each="vo:${coupleList}" id="vo">
+
+            <span th:if="${vo.userGender == '남자'} ">
+                 <img class="infj img-responsive" th:src="@{'/images/' + ${vo.userMbti}+ '.png'}">
+                 <button type="button" th:onclick="likeUser('${vo.userId}')">좋아요</button>
+            </span>
+
+            <span th:if="${vo.userGender == '여자'}">
+                  <img class="infj img-responsive" th:src="@{'/images/' + ${vo.userMbti}+ '.png'}">
+                <button type="button" th:onclick="likeUser('${vo.userId}')">좋아요</button>
+            </span>
+
+         </span>
+      </div>
+  </div>
+
+</body>
+
+<script>
+
+    function pickUser() {
+        const selectedMBTI = $("input[name='chooseMBTI']:checked").map(function(){
+                return this.value;
+        }).get();
+
+        console.log(selectedMBTI);
+
+        $.ajax({
+            type:'post',
+            url: '/select',
+            contentType:'application/json',
+            data: JSON.stringify({
+                selectedMBTI: selectedMBTI
+            }),
+            dataType : 'json'
+        }).done(function(data){
+                alert(typeof data.coupleList);
+
+        }).fail(function(xhr, error, status) {
+            alert(error);
+        });
+    }
+
+</script>
+
+</html>
+
