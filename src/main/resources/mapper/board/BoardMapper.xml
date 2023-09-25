@@ -4,14 +4,9 @@
 
 <resultMap type="boardDetail"    id="detailBoard">
 <result property="boardTitle" column="board_title" />
-<result property="boardOwner" column="board_owner" />
+<result property="userId" column="board_owner" />
 <result property="boardContents" column="board_contents" />
- <collection property="files" javaType="List"   ofType="fileVO">
-     <result property="fileId" column="file_id"/>
-     <result property="filePath" column="file_path"/>
-     <result property="storedFileName" column="stored_file_name"/>
-     <result property="originFileName" column="origin_file_name"/>
-  </collection>
+
 </resultMap>
 
     <select id="getBoardTotal" parameterType="map" resultType="int">
@@ -20,7 +15,6 @@
     </select>
 
     <select id="getBoardList"  parameterType="map"   resultType="boardList">
-
         select
                 board_num,
                 board_title,
@@ -28,24 +22,17 @@
                 board_like,
                 board_time
         from board
+        order by board_num desc
+        limit #{start}, #{end}
     </select>
   
 
   
-  <insert id="writeBoard" parameterType="boardCreate" useGeneratedKeys="true" keyProperty="boardId">
+  <insert id="writeBoard" parameterType="boardCreate" useGeneratedKeys="true" keyProperty="boardNum">
  			   insert into board(board_title, board_contents, board_owner)
                        	    values(#{boardTitle}, #{boardContents},  #{boardOwner} )
   </insert>
 
-
-
-    
-
-    
-    
-      
-
-  
 
   
 <select  id="getFileInfo" parameterType="map"    resultType="fileVO"> 
@@ -58,7 +45,32 @@
 		    where file_id =  #{fileId}
     
     </select>
+    <select id="getBoardDetail"  parameterType="map"   resultMap="detailBoard">
+        select  b.board_num,
+                b.board_title,
+                b.user_id,
+                b.board_like,
+                b.board_contents,
+                date_format(b.update_date, '%Y-%m-%d %H:%i:%s') as update_date
+        where b.board_num = #{boardNum}
+        from b.board
+    </select>
+    <update id="updateBoard"   parameterType="boardUpdate">
+        update board
+        <set>
+            <if test="boardTitle neq null  and  boardTitle neq ''  ">
+                board_title = #{boardTitle},
+            </if>
+            <if test="boardContents  neq null  and  boardContents   neq ''  ">
+                board_contents = #{boardContents},
+            </if>
+            <if test="updateDate  neq null ">
+                update_date = #{updateDate},
+            </if>
+        </set>
+        where board_num =  #{board_num}
 
+    </update>
 </mapper>
 
 

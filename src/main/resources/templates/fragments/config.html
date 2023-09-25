@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                              xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+	
+	<th:block th:fragment="config">
+		
+		<link rel="stylesheet"  th:href="@{/webjars/bootstrap/4.6.2/css/bootstrap.min.css}">
+		
+		
+		<script   th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+		<script   th:src="@{/webjars/bootstrap/4.6.2/js/bootstrap.min.js}"></script>
+		
+		<style>
+			 html{
+				 position: relative;
+				 height:  100%;
+				 margin : 0;
+			 }
+			 
+			 body{
+				 height: 100%;
+				 background-color: #eeefef;
+			 }
+			 
+			 .footer{
+
+				width: 100%;
+				padding: 15px 0;
+				text-align: center;
+				font-weight: bold;
+				font-size: 25px;
+			 }
+			 
+			 .layout-content{
+				 height: calc(100vh - 200px);
+				 min-height:   calc(60vh - 150px);
+			 }
+			
+		</style>
+		
+		<!-- content 에서 사용하는 css 를 config 파일에 대체 한다 -->
+		<th:block layout:fragment="css"></th:block>
+	
+	</th:block>
+
+</body>
+</html>

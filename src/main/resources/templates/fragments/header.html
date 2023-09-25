@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+
+    <div th:fragment="header">
+		   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+			    <a class="navbar-brand" href="#">홈페이지</a>
+			    <button class="navbar-toggler" type="button"
+			         data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+			       <span class="navbar-toggler-icon"></span>
+			    </button>
+			  <div class="collapse navbar-collapse" id="navbarText">
+				    <ul class="navbar-nav mr-auto"  id="menu">
+				      <li class="nav-item  active">
+				        <a class="nav-link" href="/home" id="home">Home </a>
+				      </li>
+				      <li class="nav-item">
+				        <a class="nav-link" href="/board/list?nowPageNumber=0" id="board">게시판</a>
+				      </li>
+				      <li class="nav-item">
+				        <a class="nav-link" href="/gall/list?nowPageNumber=0" id="gallery">이미지게시판</a>
+				      </li>
+				    </ul>
+				    <span class="navbar-text"  style="margin-right: 50px;">
+				       <div class="dropdown"  th:style="${session.memInfo != null ? 'display:block' : 'display:none'}">
+						   <a class="btn dropdown-toggle" href="javascript:void(0)" role="button" data-toggle="dropdown" aria-expanded="false">
+							 <span th:text="|${session.memInfo!= null ? session.memInfo.memName : ''}님 환영합니다.|"></span>
+						  </a>
+						  <ul class="dropdown-menu" role="menu" style="min-width:  7rem;text-align: center;">
+							 <li><a href="/logout">로그아웃</a></li>
+						  </ul>
+					   </div>
+					   <div   th:style="${session.memInfo == null ? 'display:block' : 'display:none'}">
+						  <a href="/login">로그인</a>
+					    </div>		
+				    </span>
+			  </div>
+			</nav> 
+			
+			<script>
+	
+				function setActiveMenu(){
+					const arrayMenu = ['home', 'board', 'gall'];
+					//요청된 url 을 가져온다.
+					const requestUrl = location.pathname;
+					
+					//선택된 메뉴를 표시하기 
+					for (menu of  arrayMenu)   {
+						//menu id 를 가진 경로가 있다!!
+						if(requestUrl.indexOf(menu) > -1) {
+							 //기존에 선택된 메뉴를 해제한다.
+							 $('#menu').find('li').removeClass('active');
+							 $('#' + menu).addClass('active');
+						}
+					}
+				}
+				
+				
+				$(document).ready(function(){
+				      setActiveMenu();	
+				});
+				
+			</script>	
+	 </div>
+</html>

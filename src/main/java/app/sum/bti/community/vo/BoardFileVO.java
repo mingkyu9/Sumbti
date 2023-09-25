@@ -6,7 +6,7 @@ import lombok.Data;
 public class BoardFileVO {
 
 	private int fileId;
-	private int boardId;
+	private int boardNum;
 	private String filePath;
 	private String originFileName;
 	private String storedFileName;

@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/mapper")
+@RequestMapping("/board")
 @RequiredArgsConstructor
 @Slf4j
 public class BoardController {
@@ -53,7 +53,120 @@ public class BoardController {
 			
 		return view;
 	}
-	
+
+	@PostMapping("/add")
+	@ResponseBody
+	public Map<String, Object> writeBoard(@ModelAttribute BoardVO.Request boardRequest) {
+		Map<String, Object> resultMap = new HashMap<>();
+
+		try {
+			int result = service.writeBoard(boardRequest);
+
+			if(result > 0) {
+				resultMap.put("resultCode", 200);
+			}else {
+				throw new  Exception("insert Error");
+			}
+
+		}catch (Exception e) {
+			resultMap.put("resultCode", 500);
+			e.printStackTrace();
+		}
+
+		return resultMap;
+
+	}
+
+
+	@GetMapping("/detail/view")
+	public ModelAndView  boardDetailView(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber,
+										 @RequestParam("boardNum") int boardNum) {
+
+		ModelAndView view = new ModelAndView();
+
+		view.addObject("nowPageNumber", nowPageNumber);
+		view.addObject("boardNum", boardNum);
+		view.setViewName("views/board/boardDetail");
+
+		try {
+
+			//게시글 상세정보 가져오기 
+			BoardVO.Detail detail = service.getBoardDetail(boardNum);
+			view.addObject("detail", detail);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return view;
+	}
+
+
+	@GetMapping("/del/{boardNum}")
+	public ModelAndView deleteBoard(@PathVariable("boardNum") int boardNum) {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("redirect:/board/list?nowPageNumber=0");
+		try {
+
+			service.deleteBoard(boardNum);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return view;
+	}
+
+
+	@GetMapping("/modify/view")
+	public ModelAndView  boardModifylView(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber,
+										  @RequestParam("boardNum") int boardNum) {
+
+		ModelAndView view = new ModelAndView();
+
+		view.addObject("nowPageNumber", nowPageNumber);
+		view.addObject("boardNum", boardNum);
+		view.setViewName("views/board/boardUpdateNote");
+
+		try {
+
+			//게시글 상세정보 가져오기 
+			BoardVO.Detail detail = service.getBoardDetail(boardNum);
+			view.addObject("detail", detail);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return view;
+	}
+
+
+
+	@PostMapping("/modify")
+	@ResponseBody
+	public Map<String, Object>  updateBoard(@ModelAttribute BoardVO.UpdateRequest  boardUpdate) {
+		Map<String, Object> resultMap = new HashMap<>();
+
+		try {
+
+			int result = service.updateBoard(boardUpdate);
+
+			if(result > 0) {
+				resultMap.put("resultCode", 200);
+			}else {
+				throw new  Exception("insert Error");
+			}
+
+		}catch (Exception e) {
+			resultMap.put("resultCode", 500);
+			e.printStackTrace();
+		}
+
+		return resultMap;
+
+	}
+
 
 	
 }

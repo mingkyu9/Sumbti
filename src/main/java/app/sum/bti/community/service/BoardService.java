@@ -7,10 +7,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,29 +25,30 @@ public class BoardService {
 
 	private final BoardMapper mapper;
 	private final PagingVO pageVO;
-	
+
 	@Value("${server.stored.file.path}")
 	private String filePath;
-	
+
 	@Value("${server.editor.img.path}")
 	private String editorPath;
-	
+
 	/**
-	 * 게시글 리스트 가져오기 
+	 * 게시글 리스트 가져오기
+	 *
 	 * @param param
 	 * @return
 	 * @throws Exception
 	 */
 	public BoardVO.Response getBoardList(Map<String, Object> param) throws Exception {
 		int totalSize = 0;
-		int nowPageNumber = (int)param.get("nowPageNumber");
+		int nowPageNumber = (int) param.get("nowPageNumber");
 		totalSize = mapper.getBoardTotal(param);
 		List<BoardVO.BoardList> boardList = new ArrayList<>();
 		pageVO.dataInit(nowPageNumber, totalSize);
 
-		if(totalSize > 0) {
-			param.put("start",  pageVO.getBeginPage());
-			param.put("end",  pageVO.getEndPage());
+		if (totalSize > 0) {
+			param.put("start", pageVO.getBeginPage());
+			param.put("end", pageVO.getEndPage());
 
 			boardList = mapper.getBoardList(param);
 		}
@@ -55,13 +62,41 @@ public class BoardService {
 				.nowPageNumber(nowPageNumber)
 				.build();
 	}
-	
-	
 
-	
-	
+	@Transactional
+	public int writeBoard(BoardVO.Request boardRequest) throws Exception {
+		boardRequest.setUserId("amin");
+		int result = mapper.writeBoard(boardRequest);
 
+		return result;
+	}
+
+	public BoardVO.Detail getBoardDetail(int boardNum) throws Exception {
+		//조회수 증가
+		mapper.updateBoardCount(boardNum);
+		return mapper.getBoardDetail(boardNum);
+	}
+	@Transactional
+	public int updateBoard(BoardVO.UpdateRequest updateBoard) throws Exception {
+		BoardVO.Detail detail = mapper.getBoardDetail(updateBoard.getBoardNum());
+		//기존의 저장된 파일 리스트
+
+		int result = 0;
+
+		//현재 시간을 가져온다 -서버 시간 기준
+		LocalDateTime nowTime = LocalDateTime.now();
+		updateBoard.setUpdateDate(nowTime);
+
+		// 게시글을 업데이트
+		result = mapper.updateBoard(updateBoard);
+
+
+		return result;
+	}
+	@Transactional
+	public void deleteBoard(int boardNum) throws Exception {
+		BoardVO.Detail detail = mapper.getBoardDetail(boardNum);
+
+		mapper.deleteBoard(boardNum);
+	}
 }
-
-
-

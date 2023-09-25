@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{layout/main_layout}">
+
+<th:block layout:fragment="css">
+<link rel="stylesheet" href="/summer/summernote-lite.css">
+ <style>
+	 .contents {
+		margin-top: 120px;
+		height: 550px;
+	
+	 }
+	 
+	 .form {
+	    border-top: 1px solid rgb(98, 98, 98);
+	    margin-top : 30px;
+		padding:30px;
+		border-radius: 5px;
+	 }
+	 
+	 .form-group  input {
+		 width: 100%;
+	 }
+	 
+	  .form-group  textarea{
+		  resize: none;
+		  outline: none;
+		  width: 100%;
+	  }
+	  
+	  .btn-area {
+		  width: 100%;
+		  height: 30px;
+		  line-height: 30px;
+		  text-align: right;
+		  padding-right : 30px;
+	  }
+	  
+	    .note-editable  {
+		  background-color: white;
+	  }
+	  
+  </style>
+	</th:block>
+<!-- main_layout 에 속할 페이지 이기때문에 내용만 있으면 된다 -->
+<div layout:fragment="content">
+	 <div class="container">
+	      <div class="contents">
+			   <div style="text-align: center;">
+			           <h3>게시글 수정 </h3>
+		       </div>
+		       <div class="form">
+					     <form  id="frm"v enctype="">
+					             <div class="form-group">
+							         <label for="boardTitle">게시글 제목</label>
+		    						  <input type="text" class="form-control" id="boardTitle"   name="boardTitle" th:value="${detail.boardTitle}">  
+							     </div>
+							     <div class="form-group">
+							           <label for="files">첨부파일</label>
+							          <input type="file" class="form-control-file" id="attachFile"  name="attachFile">
+							     </div>
+							      <div class="form-group">
+								       <label for="boardContents">글 내용 </label>
+								        <textarea class="form-control" 
+								          id="boardContents"   
+								          name="boardContents" rows="6"></textarea>
+								  </div>
+								  <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
+								   <input type="hidden" id="boardId" name="boardId"  th:value="${detail.boardId}">
+								   <input type="hidden" id="fileCount" th:value="${fileCount}">
+						   </form>
+			      </div>
+			      <div class="btn-area">
+					      <button type="button" class="btn btn-primary" id="saveBtn"  onclick="modify();">글수정</button>
+					      <button type="button" class="btn btn-secondary" id="moveBtn"  onclick="cancel();">취소</button>
+				  </div>	  
+		  </div>
+	 </div>
+	  <script src="/summer/summernote-lite.js"></script>
+	 <script src="/summer/lang/summernote-ko-KR.js"></script>
+	 <script th:inline="javascript">
+		        
+	 const  contents =   [[${detail.boardContents}]] ;
+		 
+		 function validated() {
+			     const boardTitle = $('#boardTitle');
+			     const boardContents = $('#boardContents');
+			     
+			     if($.trim( boardTitle.val() ).length === 0 ) {
+					 alert('제목을 입력하십시오.');
+					 boardTitle.focus();
+					 return false;
+				 }
+				 
+				   if($.trim( boardContents.val() ).length === 0 ) {
+					 alert('내용을 입력하십시오.');
+					 boardContents.focus();
+					 return false;
+				 }
+				 
+				 //파일 체크 
+				 const newFile = $('#files').val();
+				 const fileCount = $('#fileCount').val();
+				 if($.trim(newFile).length  > 0   &&  Number(fileCount)  > 0 ) {
+					    
+					    const isConfirm = confirm('파일을 등록하면 기존파일은 삭제됩니다. 진행하시겠습니까?');					    
+					   if(!isConfirm) {
+						   // 선택된 파일 삭제
+						   $('#files').val('');
+						   return false;
+					   }
+				 }
+				 
+				 return true;
+		 }
+		 
+		 function modify() {
+			 
+			  if(validated()) {
+				  
+				  // ajax 로 파일을 포함한 데이터를 전송하기 위해서는 form 객체를 생성
+				  const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
+				  //form 데이터 만들기
+				  const formData = new FormData(formObj);
+				  
+				  $.ajax(
+					  {
+						  url: '/board/modify',
+						  type: 'post',
+						  dataType : 'json',
+						  contentType: false,  //전송할 타입 제거 
+						  processData : false, //ajax 전송 파라메터 없음 
+						  enctype:'mutipart/form-data',
+						  data : formData 
+					  }
+				  ).done(function(data){
+					      if(data.resultCode === 200) {
+							  alert('글이 수정되었습니다.');
+							  location.href = '/board/list';    // 리스트로 가기 
+					       }else {
+							   alert('글 수정이 실패하였습니다');
+							   return false;
+						   }
+				  }).fail(function(xhr, error, status) {
+					    alert(error);
+				  });
+			  }//endif 
+		 }
+		 
+		 function cancel() {
+			 location.href  ='/board/detail/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardId=' + $('#boardId').val() ;
+		 }
+		 
+	/*<![CDATA[*/
+		  function initNote() {
+			   
+			    $('#boardContents').summernote(
+					{
+				        height : 300,
+				        minHeight: null,
+				        maxHeight: null,
+				        focus : true,     // 에디터 호출을 포커스 줄지 여부 
+				        placeholder : '최대 2048자까지 쓸수 있습니다'	,
+				        callbacks : {
+							onImageUpload  : function(files) {
+										console.log(files)
+										uploadEditorImage(files[0], this);
+							},
+							//copay & paste로 이미지 넣을 때
+							onPaste : function(e){
+								console.log('1')
+								  let clipboardData  = e.originalEvent.clipboardData;
+								  if(clipboardData && clipboardData.items && clipboardData.items.length) {
+									  let item = clipboardData.items[0];
+									  
+									  if(item.kind ==='file' &&  item.type.indexOf('image/') !== -1) {
+										   e.preventDefault();
+									  }
+								  }
+							}
+					  }						
+				});
+				
+				$('#boardContents').summernote('code', contents);
+		 }
+       /*]]>*/
+		 
+		 function uploadEditorImage(file, editor) {
+			     //전송할 폼데이터 객체 생성
+			 	  const formData = new FormData();
+			 	   //객체에 file 저장 
+			 	   formData.append("file",file);
+			 	   
+			 	   	  $.ajax(
+					  {
+						  url: '/board/editor/image',
+						  type: 'post',
+						  dataType : 'json',
+						  contentType: false,  //전송할 타입 제거 
+						  processData : false, //ajax 전송 파라메터 없음 
+						  enctype:'mutipart/form-data',
+						  data : formData 
+					  }
+				  ).done(function(data){
+					      console.log(data);
+					      $(editor).summernote('editor.insertImage', data.fileUrl);
+					      
+				  }).fail(function(xhr, error, status) {
+					    alert(error);
+				  });
+			 
+		 }
+		 
+		 
+		 $(document).ready(function(){
+			   initNote();
+		 });
+		 
+	 </script>
+</div>
+</html>

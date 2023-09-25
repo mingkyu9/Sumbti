@@ -40,29 +40,29 @@ public interface BoardMapper {
 	
 	/**
 	 * 게시글 상세보기 
-	 * @param boardId
+	 * @param boardNum
 	 * @return
 	 * @throws SQLException
 	 */
-	public BoardVO.Detail getBoardDetail(@Param("boardId") int boardId ) throws SQLException;
+	public BoardVO.Detail getBoardDetail(@Param("boardNum") int boardNum ) throws SQLException;
 	
 	/**
 	 * 조회수 증가 
-	 * @param boardId
+	 * @param boardNum
 	 * @return
 	 * @throws SQLException
 	 */
-	public int updateBoardCount(@Param("boardId") int boardId ) throws SQLException;
+	public int updateBoardCount(@Param("boardNum") int boardNum ) throws SQLException;
 	
 
 	
 	/**
 	 * 게시글 삭제
-	 * @param boardId
+	 * @param boardNum
 	 * @return
 	 * @throws SQLException
 	 */
-	public int deleteBoard(@Param("boardId") int boardId ) throws SQLException;
+	public int deleteBoard(@Param("boardNum") int boardNum ) throws SQLException;
 	
 	/**
 	 * 게시글 수정하기

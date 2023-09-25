@@ -39,12 +39,12 @@ public class BoardVO {
 	@NoArgsConstructor 
 	public static class Detail{
 		
-		private int boardId;
+		private int boardNum;
 		private String boardTitle;
-		private String boardOwner;
+		private String userId;
+		private int boardLike;
+		private String boardTime;
 		private String boardContents;
-		private int boardCount;
-		private List<BoardFileVO> files;
 		private String updateDate;		
 	}
 	
@@ -52,7 +52,7 @@ public class BoardVO {
 	@Data
 	public static class UpdateRequest{
 		
-		private int boardId;
+		private int boardNum;
 		private String boardTitle;
 		private String boardContents;
 		private MultipartFile[] attachFile;
@@ -65,9 +65,9 @@ public class BoardVO {
 	@Data
 	public static class Request{
 		
-		private int boardId;
+		private int boardNum;
 		private String boardTitle;
-		private String boardOwner;
+		private String userId;
 		private String boardContents;
 
 

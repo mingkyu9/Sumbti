@@ -12,7 +12,7 @@ public class PagingVO {
 
 	private int totalPage; // 전체 페이지 수
 	private int nowPageNumber; // 현재 페이지 번호
-	private int blockPageCount = 3; // 한블럭당 부여할 페이지 개수
+	private int blockPageCount = 5; // 한블럭당 부여할 페이지 개수
 	private int pagePerRows ; // 한페이지당 보여줄 데이터의 개수
 	private int totalRows; // 전제 데이터 수 
 	private int nowBlock; // 현재 블럭 위치
@@ -22,7 +22,7 @@ public class PagingVO {
 	public void  dataInit(int nowPageNumber, int totalRows) {
 		this.nowPageNumber = nowPageNumber;
 		this.totalRows = totalRows;
-		this.pagePerRows = 3;
+		this.pagePerRows = 5;
 	}
 	
 
