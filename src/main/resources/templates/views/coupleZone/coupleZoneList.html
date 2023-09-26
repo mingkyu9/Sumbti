@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org"
-       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-       layout:decorate="~{layout/main_layout}">
-<th:block layout:fragment="css">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
+      layout:decorate="~{layout/main_layout}">
+<head>
+
+    <th:block layout:fragment="css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <style>
         @font-face {
@@ -104,7 +106,7 @@
             align-items: center;
         }
 
-        .modal-content {
+        #infoModal .modal-content {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
@@ -122,6 +124,41 @@
             right: 15px;
             cursor: pointer;
             font-size: 30px;
+        }
+
+        #messageModal .modal-dialog {
+            max-width: 400px;
+        }
+
+        #messageModal .modal-content {
+            padding: 20px;
+        }
+
+        #messageTextarea {
+            width: 100%;
+            max-width: 100%;
+            height: 250px;
+            resize: none;
+        }
+
+        #charCount {
+            color: red;
+            font-weight: bold;
+            display: none;
+        }
+
+        #messageTextarea.exceeded {
+            border: 2px solid red;
+            animation: shake 0.3s;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
         }
 
         .thumbnail{
@@ -172,10 +209,14 @@
             font-size: 25px;
         }
 
+
+
     </style>
 
 </th:block>
+</head>
 
+<body>
 <div layout:fragment="content">
     <section class="content">
         <div class="container">
@@ -212,22 +253,27 @@
                     <span>닉네임</span>
 
                     <div class="profile-image" style="display: flex; justify-content: center; align-items: center; margin-left:10px;">
-                        <img class="thumbnail img-responsive" th:src="@{/img/profileIcon/m-entp.png}" th:style="'max-width: 120px;'">
+                        <img class="thumbnail img-responsive" th:src="@{/img/profileIcon/f-infj.png}" th:style="'max-width: 120px;'">
                     </div>
 
                     <div class="likeArea">
                         <div class="heart" id="likeBtn"></div>
                         <span id="likeCount">35</span>
-                        <button type="button" class="btn btn-info" style="margin-left: 30px; font-size: 20px;">쪽지</button>
+                        <button type="button" class="btn btn-info" id="messageBtn" style="margin-left: 30px; font-size: 20px;">쪽지</button>
                     </div>
 
                 </div>
+
 
             </div>
         </div>
         <div>
             <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center" id="pageArea"></ul>
+                <ul class="pagination justify-content-center" id="pageArea">
+                    <li class="page-item" id="prevPage"><a class="page-link" href="#">이전</a></li>
+                    <!-- 페이지 번호는 여기에 동적으로 생성됩니다 -->
+                    <li class="page-item" id="nextPage"><a class="page-link" href="#">다음</a></li>
+                </ul>
             </nav>
         </div>
 
@@ -263,6 +309,29 @@
         </div>
     </div>
 
+    <!-- 쪽지 작성 모달 -->
+    <div class="modal" id="messageModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="font-family: 'GmarketSansBold', sans-serif">쪽지 보내기</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="messageTextarea" class="form-control" rows="4" placeholder="쪽지 내용을 입력하세요" maxlength="500" style="font-family: 'GmarketSansLight', sans-serif"></textarea>
+                    <div id="charCount">0/500 characters</div>
+                </div>
+                <div class="modal-footer" style="font-family: 'GmarketSansMedium', sans-serif">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary" id="sendMessageBtn">보내기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
 
         //하트 애니메이션
@@ -289,11 +358,11 @@
 
         //navtabs 페이지 이동 함수
         $(document).ready(function () {
-        // 검색 탭(nav-link) 클릭 이벤트 처리
-        $('.nav-link[href="#"]').on('click', function (e) {
-            e.preventDefault(); // 기본 링크 동작 방지
-            // 페이지 이동을 위해 JavaScript로 URL 변경
-            window.location.href = '/couple/select';
+            // 검색 탭(nav-link) 클릭 이벤트 처리
+            $('.nav-link[href="#"]').on('click', function (e) {
+                e.preventDefault(); // 기본 링크 동작 방지
+                // 페이지 이동을 위해 JavaScript로 URL 변경
+                window.location.href = '/couple/select';
             });
         });
 
@@ -341,6 +410,36 @@
             goToPage(currentPage);
         });
 
+        // 이전 페이지로 이동하는 함수
+        function goToPreviousPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                goToPage(currentPage);
+            }
+        }
+
+        // 다음 페이지로 이동하는 함수
+        function goToNextPage() {
+            const totalProfileCards = $('.profile-card').length;
+            const totalPages = Math.ceil(totalProfileCards / cardsPerPage);
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                goToPage(currentPage);
+            }
+        }
+
+        // 이전 및 다음 페이지 버튼에 클릭 이벤트를 연결합니다.
+        $(document).ready(function () {
+            $('#prevPage').click(goToPreviousPage);
+            $('#nextPage').click(goToNextPage);
+        });
+
+        // 페이지네이션 초기화
+        $(document).ready(function () {
+            initializePagination();
+            goToPage(currentPage);
+        });
+
         $('.thumbnail').on('click', function(e){
             // 클릭된 썸네일의 데이터 가져오기
             const title = $(this).find('a').text();
@@ -372,6 +471,62 @@
             }
         });
 
+        $(document).ready(function() {
+            $("#messageBtn").click(function() {
+                $("#messageModal").modal("show");
+            });
+        });
+
+        $(document).ready(function () {
+            $("#messageTextarea").on("input", function () {
+                const maxLength = 500;
+                const currentLength = $(this).val().length;
+                const charCountElement = $("#charCount");
+
+                charCountElement.text(currentLength + "/" + maxLength + " characters");
+
+                if (currentLength > maxLength) {
+                    charCountElement.show();
+                    $(this).addClass("exceeded");
+                } else {
+                    charCountElement.hide();
+                    $(this).removeClass("exceeded");
+                }
+            });
+
+            $("#messageBtn").click(function () {
+                $("#messageModal").modal("show");
+                $("#messageTextarea").val(""); // Clear textarea when opening modal
+                $("#charCount").hide();
+            });
+
+            $('#sendMessageBtn').on('click', function () {
+                const message = $('#messageTextarea').val(); // textarea content
+
+                // Check if message length is valid (less than or equal to 500 characters)
+                if (message.length > 500) {
+                    alert('메시지는 500자 이내로 작성해주세요.');
+                    return; // Don't send the message
+                }
+
+                // Your logic to send the message goes here
+
+                // Close the modal
+                $('#messageModal').modal('hide');
+            });
+        });
+
+        // 보내기 버튼 클릭 시 동작할 함수
+        $('#sendMessageBtn').on('click', function () {
+            const message = $('#messageTextarea').val(); // textarea에서 입력한 내용 가져오기
+
+            // 여기에 쪽지를 보내는 로직을 추가하세요
+
+            // 쪽지 보내기가 완료되면 모달 닫기
+            $('#messageModal').modal('hide');
+        });
+
     </script>
 </div>
+</body>
 </html>
