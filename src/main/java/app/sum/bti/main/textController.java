@@ -84,6 +84,51 @@ public class textController {
 
     }
 
+    @GetMapping("/comm/content")
+    public ModelAndView communityContent() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/communityZone/communityZoneContent");
+
+        return view;
+
+    }
+
+    @GetMapping("/post/write")
+    public ModelAndView postWrite() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/postBox/postBoxWrite");
+
+        return view;
+
+    }
+
+    @GetMapping("/post/detail")
+    public ModelAndView postDetail() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/postBox/postBoxDetail");
+
+        return view;
+
+    }
+
+    @GetMapping("/post/inbox/list")
+    public ModelAndView postInboxList() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/postBox/postInboxList");
+
+        return view;
+
+    }
+
+    @GetMapping("/post/sent/list")
+    public ModelAndView postSentList() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/postBox/postSentList");
+
+        return view;
+
+    }
+
 
     @GetMapping
     @ResponseBody
