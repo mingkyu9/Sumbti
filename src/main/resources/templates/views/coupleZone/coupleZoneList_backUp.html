@@ -194,26 +194,25 @@
                     <a class="nav-link active">추천</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/coupleZoneSelectedList">검색</a>
+                    <a class="nav-link" href="/couple/select">검색</a>
                 </li>
 
             </ul>
 
-            <!-- 유저 정보 그리는 부분 -->
             <div class="row imgboard"  id="profileArea">
                 <div class="col-lg-3  col-md-4  col-sm-6  col-xs-12 profile-card"
-                     style="font-size: 20px; text-align: center; font-family: 'GmarketSanslight', sans-serif; "  th:each="vo:${coupleList}">
+                     style="font-size: 20px; text-align: center; font-family: 'GmarketSanslight', sans-serif;">
 
-                    <!-- 자기 소개 표시 -->
-                    <span th:text="${vo.detailIntro}"> </span>
+                    <span >
+                        <a href="javascript:void(0)">노래하는</a>
+			        </span>
 
                     <br>
-                    <!-- 닉네임 표시-->
-                    <span th:text="${vo.userNick}"></span>
 
-                    <!-- 유저의 해당 캐릭터 표시 -->
+                    <span>닉네임</span>
+
                     <div class="profile-image" style="display: flex; justify-content: center; align-items: center; margin-left:10px;">
-                        <img class="thumbnail img-responsive" th:id ="${vo.userId}" th:src="@{${vo.images}}" th:style="'max-width: 120px;'">
+                        <img class="thumbnail img-responsive" th:src="@{/img/profileIcon/m-entp.png}" th:style="'max-width: 120px;'">
                     </div>
 
                     <div class="likeArea">
@@ -294,7 +293,7 @@
         $('.nav-link[href="#"]').on('click', function (e) {
             e.preventDefault(); // 기본 링크 동작 방지
             // 페이지 이동을 위해 JavaScript로 URL 변경
-            window.location.href = '/coupleZoneSelectedList';
+            window.location.href = '/couple/select';
             });
         });
 
@@ -342,40 +341,22 @@
             goToPage(currentPage);
         });
 
-
         $('.thumbnail').on('click', function(e){
-            // 클릭된 썸네일의 id 값(해당 유저아이디로 적용함) 가져오기(String 값)
-            const thumbnailId = $(this).attr('id');
+            // 클릭된 썸네일의 데이터 가져오기
+            const title = $(this).find('a').text();
+            const filePath = $(this).find('#origin').val();
+            const data1 = "값1"; // 원하는 데이터를 가져오세요
+            const data2 = "값2"; // 원하는 데이터를 가져오세요
 
-            // 이미지 엘리먼트의 src 속성 가져오기
-            const imgSrc = $(this).attr('src');
+            // 모달 내부 요소에 데이터 설정
+            $('#infoModal img').attr('src', filePath);
+            $('#infoModal .modal-title').text(title);
+            $('#infoModal table tr:nth-child(2) td:nth-child(1)').text(data1);
+            $('#infoModal table tr:nth-child(2) td:nth-child(2)').text(data2);
 
-
-            $.ajax({
-                type:'post',
-                url: '/showDetailData',
-                data: ({
-                    thumbnailId: thumbnailId
-                }),
-                dataType : 'json'
-            }).done(function(vo){
-                const data = vo.detailInfos[0];
-
-                // 모달 내부 요소에 데이터 설정
-                $('#infoModal img').attr('src', imgSrc);
-                $('#infoModal table tr:nth-child(1) th:nth-child(2)').text(data.detailIntro);
-                $('#infoModal table tr:nth-child(2) th:nth-child(2)').text(data.detailHobby);
-                $('#infoModal table tr:nth-child(3) th:nth-child(2)').text(data.detailFood);
-                $('#infoModal table tr:nth-child(4) th:nth-child(2)').text(data.detailPat);
-                // 모달 열기
-                $('#infoModal').modal('show');
-            }).fail(function(xhr, error, status) {
-                alert(error);
-            });
-            // 이곳에서 detailInfo 변수를 사용하지 않는 것이 중요합니다.
-            // AJAX 호출이 비동기적으로 이루어지므로 AJAX가 완료될 때까지 기다리지 않습니다.
+            // 모달 열기
+            $('#infoModal').modal('show');
         });
-
 
         function closeModal() {
             $('#infoModal').modal('hide');

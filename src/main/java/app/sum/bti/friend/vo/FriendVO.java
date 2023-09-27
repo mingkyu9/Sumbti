@@ -1,17 +1,14 @@
-package app.sum.bti.couple.vo;
+package app.sum.bti.friend.vo;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
-public class CoupleVO {
+public class FriendVO {
+
 
 
     @Data
-    public static class CoupleList{
+    public static class FriendList{
 
         private String userId;
         private String userMbti;
@@ -25,7 +22,7 @@ public class CoupleVO {
 
     }
     @Data
-    public static class DetailsInfo{
+    public static class FriendDetailInfo{
 
         private String userId;
         private String detailIntro;
@@ -34,6 +31,4 @@ public class CoupleVO {
         private String detailPat;
 
     }
-
-
 }

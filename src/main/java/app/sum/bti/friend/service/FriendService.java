@@ -1,7 +1,9 @@
-package app.sum.bti.couple.service;
+package app.sum.bti.friend.service;
 
 import app.sum.bti.couple.mapper.CoupleMapper;
 import app.sum.bti.couple.vo.CoupleVO;
+import app.sum.bti.friend.mapper.FriendMapper;
+import app.sum.bti.friend.vo.FriendVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,22 +17,22 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CoupleService {
+public class FriendService {
 
-    private final CoupleMapper mapper;
+    private final FriendMapper mapper;
 
 
-    public List<CoupleVO.CoupleList> getCoupleList() throws SQLException {
-        return mapper.getCoupleList();
+    public List<FriendVO.FriendList> getFriendList() throws SQLException {
+        return mapper.getFriendList();
     }
 
-    public List<CoupleVO.CoupleList> getCoupleListPick() throws SQLException {
-        return mapper.getCoupleList();
+    public List<FriendVO.FriendList> getFriendListPick() throws SQLException {
+        return mapper.getFriendList();
     }
 
-    public List<CoupleVO.CoupleList> getCoupleListSelect(List<String> selectedMBTI) throws SQLException {
-        List<CoupleVO.CoupleList> list = mapper.getCoupleListSelect();
-        List<CoupleVO.CoupleList> listTemp = new ArrayList<>();
+    public List<FriendVO.FriendList> getFriendSelectedList(List<String> selectedMBTI) throws SQLException {
+        List<FriendVO.FriendList> list = mapper.getFriendSelectedList();
+        List<FriendVO.FriendList> listTemp = new ArrayList<>();
         if (selectedMBTI == null) {
             return list;
         }
@@ -53,12 +55,14 @@ public class CoupleService {
         return listTemp;
     }
 
-    public int saveDetail(CoupleVO.DetailsInfo detailRequest) throws SQLException {
+
+
+    public int saveDetail(FriendVO.FriendDetailInfo detailRequest) throws SQLException {
         return  mapper.saveDetail(detailRequest);
     }
 
-    public List<CoupleVO.DetailsInfo> showDetailInfo(String userId) throws SQLException{
-            List<CoupleVO.DetailsInfo> detailsInfo = new ArrayList<>();
+    public List<FriendVO.FriendDetailInfo> showDetailInfo(String userId) throws SQLException{
+            List<FriendVO.FriendDetailInfo> detailsInfo = new ArrayList<>();
             Map<String, Object> param  = new HashMap<>();
                  param.put("userId", userId);
                  detailsInfo = mapper.showDetailInfo(param);

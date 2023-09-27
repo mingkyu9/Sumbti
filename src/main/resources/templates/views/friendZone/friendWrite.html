@@ -110,24 +110,26 @@
             </div>
             <div class="form">
                 <form  id="frm"v enctype="">
+                    <input type="hidden" id="myId" name="userId" th:value="${userId}">
+
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="friendTitle">소개글</label>
-                        <input type="text" class="form-control" id="friendTitle"  name="friendTitle" placeholder="간결하지만 확실한 소개를 해보세요! (최대 20자)" maxlength="20">
+                        <input type="text" class="form-control" id="friendTitle"  name="detailIntro" placeholder="간결하지만 확실한 소개를 해보세요! (최대 20자)" maxlength="20">
                         <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="friendHobby">취미</label>
-                        <input type="text" class="form-control" id="friendHobby"   name="friendHobby" placeholder="많은 취미를 공유해보세요! (최대 20자)" maxlength="20">
+                        <input type="text" class="form-control" id="friendHobby"   name="detailHobby" placeholder="많은 취미를 공유해보세요! (최대 20자)" maxlength="20">
                         <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="friendFood">좋아하는 음식</label>
-                        <input type="text" class="form-control" id="friendFood"   name="friendFood" placeholder="나의 sumBTI와 같이 먹고 싶은 음식은? (최대 20자)" maxlength="20">
+                        <input type="text" class="form-control" id="friendFood"   name="detailFood" placeholder="나의 sumBTI와 같이 먹고 싶은 음식은? (최대 20자)" maxlength="20">
                         <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="friendPet">반려동물</label>
-                        <input type="text" class="form-control" id="friendPet"   name="friendPet" placeholder="반려동물 유무 및 소개를 해보세요! (최대 20자)" maxlength="20">
+                        <input type="text" class="form-control" id="friendPet"   name="detailPat" placeholder="반려동물 유무 및 소개를 해보세요! (최대 20자)" maxlength="20">
                         <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
                     </div>
 
@@ -254,26 +256,25 @@
 
                 $.ajax(
                     {
-                        url: '/board/add',
+                        url: '/saveDetailsFriends',
                         type: 'post',
                         dataType : 'json',
-                        contentType: false,  //전송할 타입 제거
-                        processData : false, //ajax 전송 파라메터 없음
-                        enctype:'mutipart/form-data',
+                        contentType: false,
+                        processData : false,
                         data : formData
                     }
                 ).done(function(data){
                     if(data.resultCode === 200) {
-                        alert('글이 등록되었습니다.');
-                        location.href = '/board/list';    // 리스트로 가기
+                        alert('상세정보가 등록되었습니다.');
+                        location.href = '/friendZoneList';    // 리스트로 가기
                     }else {
-                        alert('글등록이 실패하였습니다');
+                        alert('상세정보 등록에 실패하였습니다.');
                         return false;
                     }
                 }).fail(function(xhr, error, status) {
                     alert(error);
                 });
-            }//endif
+            }
         }
     </script>
 </div>

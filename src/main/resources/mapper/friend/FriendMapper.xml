@@ -4,11 +4,10 @@
 
 
 <!-- CoupleZone Mapper -->
-<mapper namespace="app.sum.bti.couple.mapper.CoupleMapper">
+<mapper namespace="app.sum.bti.friend.mapper.FriendMapper">
 
-
-
-    <select id="getCoupleList"  resultType="coupleList">
+    <!-- Friends -->
+    <select id="getFriendList"  resultType="FriendList">
         select  u.user_id,
                 u.user_mbti,
                 u.user_gender,
@@ -21,33 +20,25 @@
             LEFT JOIN detail_info di ON u.user_id = di.user_id;
     </select>
 
-<!--    <select id="getCoupleList"  resultType="coupleList">-->
-<!--        select user_id,-->
-<!--        user_mbti,-->
-<!--        user_gender,-->
-<!--        user_nick,-->
-<!--        (select count(*) from like_list lk where lk.like_to  = u.user_id) as like_count-->
-<!--        from   user_info u-->
-<!--    </select>-->
 
-    <select id="getCoupleListSelect"  resultType="coupleList">
+    <select id="getFriendSelectedList"  resultType="friendList">
 
         select user_id,
                user_mbti,
                user_gender,
+               user_nick,
                love_mbti,
                hate_mbti,
-               user_nick
         from user_info
     </select>
 
 
     <insert id="saveDetail"  parameterType="detailsInfo">
             insert into detail_info (user_id, detail_intro, detail_hobby, detail_food, detail_pat)
-                             values( 'admin', #{detailIntro}, #{detailHobby}, #{detailFood}, #{detailPat})
+                             values( #{userId}, #{detailIntro}, #{detailHobby}, #{detailFood}, #{detailPat})
     </insert>
 
-    <select id="showDetailInfo" parameterType="map" resultType="detailsInfo">
+    <select id="showDetailInfo" parameterType="map" resultType="friend_detailInfo">
 
         select user_id, detail_intro, detail_hobby, detail_food, detail_pat
           from detail_info

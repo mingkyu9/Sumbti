@@ -1,0 +1,58 @@
+<!--exam-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="header">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#" id="logo">
+            <img th:src="@{/img/logo/mainLogo.png}" style="width: 130px;">
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
+                    <a class="nav-link" href="#" id="home">홈</a>
+                </li>
+                <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
+                    <a class="nav-link" href="#" id="myPage">마이 페이지</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" id="null">  </a>
+                </li>
+                <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
+                    <a class="nav-link" href="#" id="coupleZone"> 커플존 </a>
+                </li>
+                <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
+                    <a class="nav-link" href="#" id="friendZone"> 프렌드존 </a>
+                </li>
+                <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
+                    <a class="nav-link" href="#" id="communityZone"> 커뮤니티존 </a>
+                </li>
+
+            </ul>
+<!--            <form class="form-inline my-2 my-lg-0">&ndash;&gt;-->
+<!--                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">&ndash;&gt;-->
+<!--                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>&ndash;&gt;-->
+<!--            </form>-->
+        </div>
+    </nav>
+
+    <script>
+
+        function init(){
+            console.log('aaa');
+            console.log(location.pathname);
+        }
+
+
+        $(document).ready(function(){
+            init();
+        });
+
+    </script>
+</div>
+</html>
