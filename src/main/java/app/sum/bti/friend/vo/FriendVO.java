@@ -6,7 +6,7 @@ import lombok.Data;
 public class FriendVO {
 
 
-
+    // 화면에 표시할 유저 목록 필드
     @Data
     public static class FriendList{
 
@@ -21,6 +21,8 @@ public class FriendVO {
         private String images;
 
     }
+    
+    // 유저 상세정보 보기에 필요한 필드
     @Data
     public static class FriendDetailInfo{
 

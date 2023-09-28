@@ -22,10 +22,10 @@ public class CoupleVO {
         private String detailIntro;
         private int likeCount; //  현재 리스트 인물을 좋아요한 카운트
         private String images;
-
     }
+
     @Data
-    public static class DetailsInfo{
+    public static class CoupleDetailInfo{
 
         private String userId;
         private String detailIntro;

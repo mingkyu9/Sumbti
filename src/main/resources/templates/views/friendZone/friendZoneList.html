@@ -219,8 +219,8 @@
                     </div>
 
                     <div class="likeArea">
-                        <div class="heart" id="likeBtn"></div>
-                        <span id="likeCount">35</span>
+                        <div class="heart" th:id="|likeBtn_${vo.userId}|" th:onclick="likeBtnEvent([[${vo.userId}]]);"></div>
+                        <span th:id="|likeCount_${vo.userId}|">[[${vo.likeCount}]]</span>
                         <button type="button" class="btn btn-info" style="margin-left: 30px; font-size: 20px;">쪽지</button>
                     </div>
 
@@ -268,8 +268,39 @@
 
     <script>
 
-        //하트 애니메이션
-        document.addEventListener('DOMContentLoaded', function() {
+        function likeBtnEvent(userId) {
+            // 해당 버튼아이디의 하트버튼을 가져옴
+            const heartButton = document.getElementById('likeBtn_' + userId);
+            // 해당 카운트아이디의 카운트값을 가져옴
+            let likeCount = document.getElementById('likeCount_' + userId).innerText;
+            // likeCount = parseInt(likeCount, 10);
+            $.ajax({
+                type: 'post',
+                url: '/saveFriendLikeList',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    likeToUser: userId
+                }),
+                dataType: 'json'
+            }).done(function (data) {
+                // 코드값이 200일떄는 좋아요 카운트 업, 201 일때는 카운트 다운
+                if (data.resultCode === 200) {
+                    likeCount = likeCount + 1;
+                } else if (data.resultCode === 201) {
+                    likeCount = likeCount - 1;
+                }
+                // 조정된 카운트를 다시 해당카운트아이디 값에 삽입
+                document.getElementById('likeCount_' + userId).innerText = likeCount;
+
+            }).fail(function (xhr, error, status) {
+                alert(error);
+            });
+
+
+        }
+
+        // 하트 애니메이션
+        document.addEventListener('DOMContentLoaded', function () {
             const heartButton = document.getElementById('likeBtn');
 
             // 하트 클릭 이벤트 처리
@@ -279,27 +310,22 @@
                     heartButton.classList.remove('active'); // 일정 시간 후 애니메이션 비활성화
                 }, 1000); // 2초 후에 애니메이션 비활성화
             });
-        })
+        });
+
 
         // write 버튼 클릭 이벤트 처리
         document.addEventListener('DOMContentLoaded', function() {
             const writeBtn = document.getElementById('writeBtn');
             // 나중에 session에서 아이디 따오기
-            const myId = 'admin';
+            const myId = 'friendAdmin';
             writeBtn.addEventListener('click', function() {
                 window.location.href = '/friendWrite?userId=' + myId;
             });
         });
 
-        //navtabs 페이지 이동 함수
-        $(document).ready(function () {
-        // 검색 탭(nav-link) 클릭 이벤트 처리
-        $('.nav-link[href="#"]').on('click', function (e) {
-            e.preventDefault(); // 기본 링크 동작 방지
-            // 페이지 이동을 위해 JavaScript로 URL 변경
-            window.location.href = '/friendZoneList';
-            });
-        });
+
+
+
 
         // 페이지당 프로필 카드 개수
         const cardsPerPage = 10;
@@ -307,43 +333,10 @@
         // 현재 페이지 번호 초기화
         let currentPage = 0;
 
-        // 페이지 이동 함수
-        function goToPage(pageNumber) {
-            currentPage = pageNumber;
-            const startIndex = currentPage * cardsPerPage;
-            const endIndex = startIndex + cardsPerPage;
 
-            // 모든 프로필 카드 숨김
-            $('.profile-card').hide();
 
-            // 현재 페이지의 프로필 카드만 표시
-            $('.profile-card').slice(startIndex, endIndex).show();
-        }
 
-        // 페이지 이동 버튼 생성 및 초기화
-        function initializePagination() {
-            const totalProfileCards = $('.profile-card').length;
-            const totalPages = Math.ceil(totalProfileCards / cardsPerPage);
-            const pagination = $('#pageArea');
 
-            // Pagination 초기화
-            pagination.empty();
-
-            // Pagination 버튼 생성
-            for (let i = 1; i <= totalPages; i++) {
-                const pageButton = $('<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>');
-                pageButton.click(function () {
-                    goToPage(i - 1); // 페이지 번호가 0부터 시작하므로 1을 뺍니다.
-                });
-                pagination.append(pageButton);
-            }
-        }
-
-        // 페이지 로딩 시 Pagination 초기화
-        $(document).ready(function () {
-            initializePagination();
-            goToPage(currentPage);
-        });
 
         $('.thumbnail').on('click', function(e){
             // 클릭된 썸네일의 id 값(해당 유저아이디로 적용함) 가져오기(String 값)
@@ -390,6 +383,50 @@
             if ($(event.target).is('#infoModal')) {
                 closeModal();
             }
+        });
+
+        // 페이지 이동 함수
+        function goToPage(pageNumber) {
+            currentPage = pageNumber;
+            const startIndex = currentPage * cardsPerPage;
+            const endIndex = startIndex + cardsPerPage;
+
+            // 모든 프로필 카드 숨김
+            $('.profile-card').hide();
+
+            // 현재 페이지의 프로필 카드만 표시
+            $('.profile-card').slice(startIndex, endIndex).show();
+        }
+
+        // 페이지 이동 버튼 생성 및 초기화
+        function initializePagination() {
+            const totalProfileCards = $('.profile-card').length;
+            const totalPages = Math.ceil(totalProfileCards / cardsPerPage);
+            const pagination = $('#pageArea');
+
+            // Pagination 초기화
+            pagination.empty();
+
+            // Pagination 버튼 생성
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = $('<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>');
+                pageButton.click(function () {
+                    goToPage(i - 1); // 페이지 번호가 0부터 시작하므로 1을 뺍니다.
+                });
+                pagination.append(pageButton);
+            }
+        }
+
+        //navtabs 페이지 이동 함수
+        $(document).ready(function () {
+            // 검색 탭(nav-link) 클릭 이벤트 처리
+            $('.nav-link[href="#"]').on('click', function (e) {
+                e.preventDefault(); // 기본 링크 동작 방지
+                // 페이지 이동을 위해 JavaScript로 URL 변경
+                window.location.href = '/friendZoneList';
+            });
+            initializePagination();
+            goToPage(currentPage);
         });
 
     </script>

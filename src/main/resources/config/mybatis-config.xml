@@ -9,9 +9,9 @@
   <typeAliases>
      <typeAlias type="java.util.Map" alias="map" />
      <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleList" alias="coupleList"/>
-     <typeAlias type="app.sum.bti.couple.vo.CoupleVO$DetailsInfo" alias="detailsInfo"/>
-      <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendList" alias="friendList"/>
-      <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendDetailInfo" alias="friend_detailInfo"/>
+     <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleDetailInfo" alias="coupleDetailInfo"/>
+     <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendList" alias="friendList"/>
+     <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendDetailInfo" alias="friendDetailInfo"/>
   </typeAliases>
 
 </configuration>

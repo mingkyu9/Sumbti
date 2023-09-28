@@ -1,62 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
-
-<!-- CoupleZone Mapper -->
 <mapper namespace="app.sum.bti.friend.mapper.FriendMapper">
 
-    <!-- Friends -->
-    <select id="getFriendList"  resultType="FriendList">
-        select  u.user_id,
+    <!-- FriendZone 유저목록 가져오기-->
+    <select id="getFriendList"  parameterType="map" resultType="FriendList">
+        SELECT  u.user_id,
                 u.user_mbti,
                 u.user_gender,
                 u.user_nick,
                 u.love_mbti,
                 u.hate_mbti,
-               (select count(*) from like_list lk WHERE lk.like_to = u.user_id) as like_count,
+               (SELECT COUNT(*) FROM like_list lk WHERE lk.like_to = u.user_id) AS like_count,
                 di.detail_intro
-        from user_info u
-            LEFT JOIN detail_info di ON u.user_id = di.user_id;
+        FROM    user_info u
+             LEFT JOIN detail_info di ON u.user_id = di.user_id
+        where u.user_id != #{userId};
     </select>
 
 
-    <select id="getFriendSelectedList"  resultType="friendList">
-
-        select user_id,
-               user_mbti,
-               user_gender,
-               user_nick,
-               love_mbti,
-               hate_mbti,
-        from user_info
-    </select>
-
-
-    <insert id="saveDetail"  parameterType="detailsInfo">
+    <insert id="saveDetail"  parameterType="friendDetailInfo">
             insert into detail_info (user_id, detail_intro, detail_hobby, detail_food, detail_pat)
                              values( #{userId}, #{detailIntro}, #{detailHobby}, #{detailFood}, #{detailPat})
     </insert>
 
-    <select id="showDetailInfo" parameterType="map" resultType="friend_detailInfo">
+    <select id="showDetailInfo" parameterType="map" resultType="friendDetailInfo">
 
         select user_id, detail_intro, detail_hobby, detail_food, detail_pat
           from detail_info
             where user_id = #{userId}
     </select>
 
-<!--    &lt;!&ndash; 밑에 3개는 like_list관련 &ndash;&gt;-->
-<!--    <select id="showDetailInfod" parameterType="">-->
 
 
-<!--    </select>-->
-<!--    <insert id="saveLikeList"  parameterType="map">-->
-<!--        insert into like_list (like_from, like_to)-->
-<!--                        values(#{connect user}, #{likeToUser})-->
-<!--    </insert>-->
+    <!-- 접속유저가 버튼유저를 좋아하고 있는지 확인 0이면 없고, 1이면 있음-->
+    <select id="FriendCheckExistList" parameterType="map" resultType="int">
+        select count(*)
+          from like_list
+            where like_from = #{userId} and like_to = #{userTo}
+    </select>
 
-<!--    <delete id="deleteLikeList" parameterType="">-->
 
+    <insert id="FriendAddLikeList"  parameterType="map">
+        insert into like_list (like_from, like_to)
+                        values(#{userId}, #{userTo})
+    </insert>
 
-<!--    </delete>-->
+    <delete id="FriendDeleteLikeList" parameterType="map">
+        delete from like_list where like_from = #{userId} and like_to = #{userTo}
+    </delete>
+
 </mapper>
