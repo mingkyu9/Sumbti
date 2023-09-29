@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout/main_layout}">
+
+<th:block layout:fragment="css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <style>
+
+    @font-face {
+      font-family: 'GmarketSansMedium';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'GmarketSansLight';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'GmarketSansBold';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    #postBoxLogo {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    #postBoxLogo img {
+      max-width: 500px;
+    }
+
+    .form {
+      border-top: 1px solid rgb(98, 98, 98);
+      margin-top : 10px;
+      padding:30px;
+      border-radius: 5px;
+    }
+
+    .form-group  input {
+      width: 100%;
+      margin-left: 0px;
+      margin-top: 15px;
+      font-size: 25px;
+    }
+
+    /* 글자 수 초과 시 테두리와 애니메이션 설정 */
+    .form-group input.invalid-input {
+      border-color: red;
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      10%, 90% { transform: translateX(-5px); }
+      20%, 80% { transform: translateX(5px); }
+      30%, 50%, 70% { transform: translateX(-5px); }
+      40%, 60% { transform: translateX(5px); }
+      100% { transform: translateX(0); }
+    }
+
+    .form-group input.invalid-textarea {
+      border-color: red;
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      10%, 90% { transform: translateX(-5px); }
+      20%, 80% { transform: translateX(5px); }
+      30%, 50%, 70% { transform: translateX(-5px); }
+      40%, 60% { transform: translateX(5px); }
+      100% { transform: translateX(0); }
+    }
+
+    /* 글자 수 초과 시 안내 메시지 스타일 */
+    .char-limit-message {
+      font-size: 18px;
+      color: red;
+      display: none;
+      margin-top: 5px;
+    }
+
+    .form-group input:invalid + .char-limit-message {
+      display: block;
+    }
+
+    .form-group  textarea{
+      resize: none;
+      outline: none;
+      width: 100%;
+      margin-top: 15px;
+      font-size: 25px; /* 원하는 폰트 크기로 설정 */
+      vertical-align: top;
+      white-space: normal;
+      overflow-y: auto;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="textarea"] {
+      width: 100%;
+      margin-left: 0px;
+      margin-top: 15px;
+      vertical-align: top; /* 세로 위로 정렬 */
+    }
+
+    .form-group textarea[type="textarea"] {
+      white-space: normal; /* 자동 줄 바꿈 활성화 */
+    }
+
+    .btn-group {
+      height: 80px;
+      width: 90px;
+      margin-top: 67px;
+      font-family: 'GmarketSansMedium', sans-serif;
+      font-size: 20px;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    .btn-area {
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+      text-align: right;
+      padding-right : 30px;
+      font-family: 'GmarketSansLight', sans-serif;
+    }
+
+    .nav-item {
+      font-family: 'GmarketSansBold', sans-serif;
+      font-size: 25px;
+    }
+
+  </style>
+</th:block>
+<!-- main_layout 에 속할 페이지 이기때문에 내용만 있으면 된다 -->
+<div layout:fragment="content">
+  <div class="container">
+    <div class="contents">
+      <div id="postBoxLogo">
+        <img th:src="@{/img/logo/postBox.png}">
+      </div>
+      <div class="form">
+        <form  id="frm" enctype="">
+          <div class="row">
+            <div class="col">
+              <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+                <label for="postPerson">받는 사람</label>
+                <input type="text" class="form-control" id="postPerson"  name="postPerson"
+                       placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px; width: 500px;">
+                <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="btn-group">
+                <div class="dropdown">
+                  <button type="button" class="btn btn-outline-warning" style="font-size: 50px;">
+                    +
+                  </button>
+                  <div class="dropdown-content">
+                    <a href="#">항목 1</a>
+                    <a href="#">항목 2</a>
+                    <a href="#">항목 3</a>
+                    <!-- 원하는 항목들을 추가하세요 -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+            <label for="postTitle">제목</label>
+            <input type="text" class="form-control" id="postTitle"  name="postTitle"
+                   placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px;">
+            <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
+          </div>
+          <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+            <label for="postContents">내용</label>
+            <textarea type="text" class="form-control" id="postContents"   name="postContents"
+                      maxlength="500" style="height: 500px; overflow-y: auto;"></textarea>
+            <div class="char-limit-message" id="charLimitMessage">최대 500자까지만 작성 가능합니다.</div>
+          </div>
+          <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
+        </form>
+      </div>
+      <div class="btn-area" style="height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">
+        <button type="button" class="btn btn-primary btn-lg" id="sendBtn"  onclick="send();">보내기</button>
+        <button type="button" class="btn btn-secondary btn-lg" id="listBtn">취소</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    // 입력 필드 글자 수 체크
+    const postTitle = document.getElementById('postTitle');
+    const postContents = document.getElementById('postContents');
+
+    postTitle.addEventListener('input', function() {
+      const inputValue = this.value;
+      const charLimit = 30;
+
+      if (inputValue.length > charLimit) {
+        postTitle.classList.add('invalid-input'); // 클래스 추가
+        charLimitMessage.textContent = '최대 30자까지만 작성 가능합니다.';
+      } else {
+        postTitle.classList.remove('invalid-input'); // 클래스 제거
+        charLimitMessage.textContent = '';
+      }
+    });
+
+    postContents.addEventListener('input', function() {
+      const inputValue = this.value;
+      const charLimit = 500;
+
+      if (inputValue.length > charLimit) {
+        postContents.classList.add('invalid-textarea'); // 클래스 추가
+        charLimitMessage.textContent = '최대 500자까지만 작성 가능합니다.';
+      } else {
+        postContents.classList.remove('invalid-textarea'); // 클래스 제거
+        charLimitMessage.textContent = '';
+      }
+    });
+
+    function validated() {
+      const postTitle = $('#postTitle');
+      const postContents = $('#postContents');
+
+      if($.trim( postTitle.val() ).length === 0 ) {
+        alert('제목을 입력하십시오.');
+        postTitle.focus();
+        return false;
+      }
+
+      if($.trim( postContents.val() ).length === 0 ) {
+        alert('내용을 입력하십시오.');
+        postContents.focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    // 취소 버튼 클릭 이벤트 처리
+    document.addEventListener('DOMContentLoaded', function() {
+      const listBtn = document.getElementById('listBtn');
+
+      listBtn.addEventListener('click', function() {
+        window.location.href = '/post/inbox/list';
+      });
+    });
+
+    function save() {
+
+      if(validated()) {
+
+        // ajax 로 파일을 포함한 데이터를 전송하기 위해서는 form 객체를 생성
+        const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
+        //form 데이터 만들기
+        const formData = new FormData(formObj);
+
+        $.ajax(
+                {
+                  url: '/board/add',
+                  type: 'post',
+                  dataType : 'json',
+                  contentType: false,  //전송할 타입 제거
+                  processData : false, //ajax 전송 파라메터 없음
+                  enctype:'mutipart/form-data',
+                  data : formData
+                }
+        ).done(function(data){
+          if(data.resultCode === 200) {
+            alert('글이 등록되었습니다.');
+            location.href = '/board/list';    // 리스트로 가기
+          }else {
+            alert('글등록이 실패하였습니다');
+            return false;
+          }
+        }).fail(function(xhr, error, status) {
+          alert(error);
+        });
+      }//endif
+    }
+  </script>
+</div>
+</html>

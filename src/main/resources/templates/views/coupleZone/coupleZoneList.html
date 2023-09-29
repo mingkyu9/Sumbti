@@ -194,30 +194,31 @@
                     <a class="nav-link active">추천</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/couple/select">검색</a>
+                    <a class="nav-link" href="/coupleZoneSelectedList">검색</a>
                 </li>
 
             </ul>
 
+            <!-- 유저 정보 그리는 부분 -->
             <div class="row imgboard"  id="profileArea">
                 <div class="col-lg-3  col-md-4  col-sm-6  col-xs-12 profile-card"
-                     style="font-size: 20px; text-align: center; font-family: 'GmarketSanslight', sans-serif;">
+                     style="font-size: 20px; text-align: center; font-family: 'GmarketSanslight', sans-serif; "  th:each="vo:${coupleList}">
 
-                    <span >
-                        <a href="javascript:void(0)">노래하는</a>
-			        </span>
+                    <!-- 자기 소개 표시 -->
+                    <span th:text="${vo.detailIntro}"> </span>
 
                     <br>
+                    <!-- 닉네임 표시-->
+                    <span th:text="${vo.userNick}"></span>
 
-                    <span>닉네임</span>
-
+                    <!-- 유저의 해당 캐릭터 표시 -->
                     <div class="profile-image" style="display: flex; justify-content: center; align-items: center; margin-left:10px;">
-                        <img class="thumbnail img-responsive" th:src="@{/img/profileIcon/m-entp.png}" th:style="'max-width: 120px;'">
+                        <img class="thumbnail img-responsive" th:id ="${vo.userId}" th:src="@{${vo.images}}" th:style="'max-width: 120px;'">
                     </div>
 
                     <div class="likeArea">
-                        <div class="heart" id="likeBtn"></div>
-                        <span id="likeCount">35</span>
+                        <div class="heart" th:id="|likeBtn_${vo.userId}|" th:onclick="likeBtnEvent([[${vo.userId}]]);"></div>
+                        <span th:id="|likeCount_${vo.userId}|">[[${vo.likeCount}]]</span>
                         <button type="button" class="btn btn-info" style="margin-left: 30px; font-size: 20px;">쪽지</button>
                     </div>
 
@@ -265,25 +266,62 @@
 
     <script>
 
-        //하트 애니메이션
-        document.addEventListener('DOMContentLoaded', function() {
-            const heartButton = document.getElementById('likeBtn');
 
-            // 하트 클릭 이벤트 처리
-            heartButton.addEventListener('click', () => {
-                heartButton.classList.add('active'); // 애니메이션 활성화
-                setTimeout(() => {
-                    heartButton.classList.remove('active'); // 일정 시간 후 애니메이션 비활성화
-                }, 1000); // 2초 후에 애니메이션 비활성화
+        function likeBtnEvent(userId) {
+            // 해당 버튼아이디의 하트버튼을 가져옴
+            const heartButton = document.getElementById('likeBtn_'+userId);
+            let likeCount = document.getElementById('likeCount_'+userId).innerText;
+
+            //하트 애니메이션
+            document.addEventListener('DOMContentLoaded', function() {
+                const heartButton = document.getElementById('likeBtn');
+
+                // 하트 클릭 이벤트 처리
+                heartButton.addEventListener('click', () => {
+                    heartButton.classList.add('active'); // 애니메이션 활성화
+                    setTimeout(() => {
+                        heartButton.classList.remove('active'); // 일정 시간 후 애니메이션 비활성화
+                    }, 1000); // 2초 후에 애니메이션 비활성화
+                });
             });
-        })
+
+
+            // // 눌렀을때 좋아요 목록에 추가되며 하트옆에 숫자 다시쓰기 (ajax로 처리해서 그 부분만 바꿔? 모달처럼? )
+            // // 그 부분만 새로고침이 되나?
+            $.ajax({
+                type:'post',
+                url: '/saveCoupleLikeList',
+                contentType:'application/json',
+                data: JSON.stringify({
+                    likeToUser: userId
+                }),
+                dataType : 'json'
+            }).done(function(data){
+                if(data.resultCode === 200) {
+                    likeCount = likeCount + 1;
+                }else if(data.resultCode === 201) {
+                    likeCount = likeCount - 1;
+                }
+
+                document.getElementById('likeCount_'+userId).textContent  = likeCount;
+
+            }).fail(function(xhr, error, status) {
+                alert(error);
+            });
+
+        }
+
+
+
+
+
 
         // write 버튼 클릭 이벤트 처리
         document.addEventListener('DOMContentLoaded', function() {
             const writeBtn = document.getElementById('writeBtn');
 
             writeBtn.addEventListener('click', function() {
-                window.location.href = '/couple/write';
+                window.location.href = '/saveDetails';
             });
         });
 
@@ -293,7 +331,7 @@
         $('.nav-link[href="#"]').on('click', function (e) {
             e.preventDefault(); // 기본 링크 동작 방지
             // 페이지 이동을 위해 JavaScript로 URL 변경
-            window.location.href = '/couple/select';
+            window.location.href = '/coupleZoneSelectedList';
             });
         });
 
@@ -341,22 +379,40 @@
             goToPage(currentPage);
         });
 
+
         $('.thumbnail').on('click', function(e){
-            // 클릭된 썸네일의 데이터 가져오기
-            const title = $(this).find('a').text();
-            const filePath = $(this).find('#origin').val();
-            const data1 = "값1"; // 원하는 데이터를 가져오세요
-            const data2 = "값2"; // 원하는 데이터를 가져오세요
+            // 클릭된 썸네일의 id 값(해당 유저아이디로 적용함) 가져오기(String 값)
+            const thumbnailId = $(this).attr('id');
 
-            // 모달 내부 요소에 데이터 설정
-            $('#infoModal img').attr('src', filePath);
-            $('#infoModal .modal-title').text(title);
-            $('#infoModal table tr:nth-child(2) td:nth-child(1)').text(data1);
-            $('#infoModal table tr:nth-child(2) td:nth-child(2)').text(data2);
+            // 이미지 엘리먼트의 src 속성 가져오기
+            const imgSrc = $(this).attr('src');
 
-            // 모달 열기
-            $('#infoModal').modal('show');
+
+            $.ajax({
+                type:'post',
+                url: '/showDetailData',
+                data: ({
+                    thumbnailId: thumbnailId
+                }),
+                dataType : 'json'
+            }).done(function(vo){
+                const data = vo.detailInfos[0];
+
+                // 모달 내부 요소에 데이터 설정
+                $('#infoModal img').attr('src', imgSrc);
+                $('#infoModal table tr:nth-child(1) th:nth-child(2)').text(data.detailIntro);
+                $('#infoModal table tr:nth-child(2) th:nth-child(2)').text(data.detailHobby);
+                $('#infoModal table tr:nth-child(3) th:nth-child(2)').text(data.detailFood);
+                $('#infoModal table tr:nth-child(4) th:nth-child(2)').text(data.detailPat);
+                // 모달 열기
+                $('#infoModal').modal('show');
+            }).fail(function(xhr, error, status) {
+                alert(error);
+            });
+            // 이곳에서 detailInfo 변수를 사용하지 않는 것이 중요합니다.
+            // AJAX 호출이 비동기적으로 이루어지므로 AJAX가 완료될 때까지 기다리지 않습니다.
         });
+
 
         function closeModal() {
             $('#infoModal').modal('hide');

@@ -1,17 +1,14 @@
-package app.sum.bti.couple.vo;
+package app.sum.bti.friend.vo;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
-public class CoupleVO {
+public class FriendVO {
 
 
+    // 화면에 표시할 유저 목록 필드
     @Data
-    public static class CoupleList{
+    public static class FriendList{
 
         private String userId;
         private String userMbti;
@@ -22,10 +19,12 @@ public class CoupleVO {
         private String detailIntro;
         private int likeCount; //  현재 리스트 인물을 좋아요한 카운트
         private String images;
-    }
 
+    }
+    
+    // 유저 상세정보 보기에 필요한 필드
     @Data
-    public static class CoupleDetailInfo{
+    public static class FriendDetailInfo{
 
         private String userId;
         private String detailIntro;
@@ -34,6 +33,4 @@ public class CoupleVO {
         private String detailPat;
 
     }
-
-
 }

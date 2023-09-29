@@ -27,11 +27,11 @@
             font-style: normal;
         }
 
-        #coupleZoneLogo {
+        #friendZoneLogo {
             text-align: left;
         }
 
-        #coupleZoneLogo img {
+        #friendZoneLogo img {
             max-width: 500px;
         }
 
@@ -94,42 +94,44 @@
             font-family: 'GmarketSansLight', sans-serif
         }
 
+        .nav-item {
+            font-family: 'GmarketSansBold', sans-serif;
+            font-size: 25px;
+        }
+
     </style>
 </th:block>
 <!-- main_layout 에 속할 페이지 이기때문에 내용만 있으면 된다 -->
 <div layout:fragment="content">
     <div class="container">
         <div class="contents">
-            <div id="coupleZoneLogo">
-                <img th:src="@{/img/logo/coupleZone.png}">
+            <div id="friendZoneLogo">
+                <img th:src="@{/img/logo/friendZone.png}">
             </div>
             <div class="form">
-                <form  id="frm" enctype="">
+                <form  id="frm"v enctype="">
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                        <label for="coupleTitle">소개글</label>
-                        <input type="text" class="form-control" id="coupleTitle"  name="detailIntro" placeholder="간결하지만 확실한 소개를 해보세요! (최대 20자)" maxlength="20">
-                        <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
-                    </div>
-
-                    <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                        <label for="coupleHobby">취미</label>
-                        <input type="text" class="form-control" id="coupleHobby"   name="detailHobby" placeholder="많은 취미를 공유해보세요! (최대 20자)" maxlength="20">
+                        <label for="friendTitle">소개글</label>
+                        <input type="text" class="form-control" id="friendTitle"  name="friendTitle" placeholder="간결하지만 확실한 소개를 해보세요! (최대 20자)" maxlength="20">
                         <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                        <label for="coupleFood">좋아하는 음식</label>
-                        <input type="text" class="form-control" id="coupleFood"   name="detailFood" placeholder="나의 sumBTI와 같이 먹고 싶은 음식은? (최대 20자)" maxlength="20">
+                        <label for="friendHobby">취미</label>
+                        <input type="text" class="form-control" id="friendHobby"   name="friendHobby" placeholder="많은 취미를 공유해보세요! (최대 20자)" maxlength="20">
                         <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                        <label for="couplePet">반려동물</label>
-                        <input type="text" class="form-control" id="couplePet"   name="detailPat" placeholder="반려동물 유무 및 소개를 해보세요! (최대 20자)" maxlength="20">
+                        <label for="friendFood">좋아하는 음식</label>
+                        <input type="text" class="form-control" id="friendFood"   name="friendFood" placeholder="나의 sumBTI와 같이 먹고 싶은 음식은? (최대 20자)" maxlength="20">
+                        <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
+                    </div>
+                    <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+                        <label for="friendPet">반려동물</label>
+                        <input type="text" class="form-control" id="friendPet"   name="friendPet" placeholder="반려동물 유무 및 소개를 해보세요! (최대 20자)" maxlength="20">
                         <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
                     </div>
 
                     <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
-                    <input type="hidden" id="userId" name="userId"  value='admin'>
-
                 </form>
             </div>
             <div class="btn-area" style="height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">
@@ -141,91 +143,91 @@
     <script>
 
         // 입력 필드 글자 수 체크
-        const coupleTitle = document.getElementById('coupleTitle');
-        const coupleHobby = document.getElementById('coupleHobby');
-        const coupleFood = document.getElementById('coupleFood');
-        const couplePet = document.getElementById('couplePet');
+        const friendTitle = document.getElementById('friendTitle');
+        const friendHobby = document.getElementById('friendHobby');
+        const friendFood = document.getElementById('friendFood');
+        const friendPet = document.getElementById('friendPet');
         const charLimitMessage = document.querySelector('.char-limit-message');
 
-        coupleTitle.addEventListener('input', function() {
+        friendTitle.addEventListener('input', function() {
             const inputValue = this.value;
             const charLimit = 20;
 
             if (inputValue.length > charLimit) {
-                coupleTitle.classList.add('invalid-input'); // 클래스 추가
+                friendTitle.classList.add('invalid-input'); // 클래스 추가
                 charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
             } else {
-                coupleTitle.classList.remove('invalid-input'); // 클래스 제거
+                friendTitle.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';
             }
         });
 
-        coupleHobby.addEventListener('input', function() {
+        friendHobby.addEventListener('input', function() {
             const inputValue = this.value;
             const charLimit = 20;
 
             if (inputValue.length > charLimit) {
-                coupleHobby.classList.add('invalid-input'); // 클래스 추가
+                friendHobby.classList.add('invalid-input'); // 클래스 추가
                 charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
             } else {
-                coupleHobby.classList.remove('invalid-input'); // 클래스 제거
+                friendHobby.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';
             }
         });
 
-        coupleFood.addEventListener('input', function() {
+        friendFood.addEventListener('input', function() {
             const inputValue = this.value;
             const charLimit = 20;
 
             if (inputValue.length > charLimit) {
-                coupleFood.classList.add('invalid-input'); // 클래스 추가
+                friendFood.classList.add('invalid-input'); // 클래스 추가
                 charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
             } else {
-                coupleFood.classList.remove('invalid-input'); // 클래스 제거
+                friendFood.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';
             }
         });
 
-        couplePet.addEventListener('input', function() {
+        friendPet.addEventListener('input', function() {
             const inputValue = this.value;
             const charLimit = 20;
 
             if (inputValue.length > charLimit) {
-                couplePet.classList.add('invalid-input'); // 클래스 추가
+                friendPet.classList.add('invalid-input'); // 클래스 추가
                 charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
             } else {
-                couplePet.classList.remove('invalid-input'); // 클래스 제거
+                friendPet.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';
             }
         });
 
         function validated() {
-            const coupleTitle = $('#coupleTitle');
-            const coupleHobby = $('#coupleHobby');
-            const coupleFood = $('#coupleFood');
-            const couplePet = $('#couplePet');
+            const friendTitle = $('#friendTitle');
+            const friendHobby = $('#friendHobby');
+            const friendFood = $('#friendFood');
+            const friendPet = $('#friendPet');
 
-            if($.trim( coupleTitle.val() ).length === 0 ) {
+            if($.trim( friendTitle.val() ).length === 0 ) {
                 alert('소개글을 입력하십시오.');
-                coupleTitle.focus();
+                friendTitle.focus();
                 return false;
             }
 
-            if($.trim( coupleHobby.val() ).length === 0 ) {
+            if($.trim( friendHobby.val() ).length === 0 ) {
                 alert('취미를 입력하십시오.');
-                coupleHobby.focus();
+                friendHobby.focus();
                 return false;
             }
 
-            if($.trim( coupleFood.val() ).length === 0 ) {
+            if($.trim( friendFood.val() ).length === 0 ) {
                 alert('좋아하는 음식을 입력하십시오.');
-                coupleFood.focus();
+                friendFood.focus();
                 return false;
             }
 
-            if($.trim( couplePet.val() ).length === 0 ) {
+            if($.trim( friendPet.val() ).length === 0 ) {
                 alert('반려동물 정보를 입력하십시오.');
-                couplePet.focus();
+                friendPet.focus();
                 return false;
             }
             return true;
@@ -237,40 +239,41 @@
             const listBtn = document.getElementById('listBtn');
 
             listBtn.addEventListener('click', function() {
-                window.location.href = '/couple/recommand';
+                window.location.href = '/friend/recommand';
             });
         });
 
-        // 저장버튼 클릭시 동작 함수
         function save() {
 
             if(validated()) {
 
-                const formObj = $('#frm')[0];
+                // ajax 로 파일을 포함한 데이터를 전송하기 위해서는 form 객체를 생성
+                const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
                 //form 데이터 만들기
                 const formData = new FormData(formObj);
 
                 $.ajax(
                     {
-                        url: '/saveDetails',
+                        url: '/board/add',
                         type: 'post',
                         dataType : 'json',
-                        contentType: false,
-                        processData : false,
+                        contentType: false,  //전송할 타입 제거
+                        processData : false, //ajax 전송 파라메터 없음
+                        enctype:'mutipart/form-data',
                         data : formData
                     }
                 ).done(function(data){
                     if(data.resultCode === 200) {
-                        alert('상세정보가 등록되었습니다.');
-                        location.href = '/zone';    // 리스트로 가기
+                        alert('글이 등록되었습니다.');
+                        location.href = '/board/list';    // 리스트로 가기
                     }else {
-                        alert('상세정보 등록에 실패하였습니다.');
+                        alert('글등록이 실패하였습니다');
                         return false;
                     }
                 }).fail(function(xhr, error, status) {
                     alert(error);
                 });
-            }
+            }//endif
         }
     </script>
 </div>
