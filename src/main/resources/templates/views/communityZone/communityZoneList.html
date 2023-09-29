@@ -159,14 +159,12 @@
                     <button type="button" class="btn btn-primary" id="writeBtn" >글 쓰기</button>
                 </div>
             </div>
-
-            <div class="category">
-                <a href="#">전체보기</a>
-                <a href="#">일상</a>
-                <a href="#">같이해요</a>
-                <a href="#">고민상담</a>
+            <div class="category" id="categoryDiv">
+                <a href="#" data-category="">전체보기</a>
+                <a href="#" data-category="DAILY">일상</a>
+                <a href="#" data-category="TOGETHER">같이해요</a>
+                <a href="#" data-category="CONSULT">고민상담</a>
             </div>
-
             <div class="contentsArea">
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -181,6 +179,7 @@
                         <th>닉네임</th>
                         <th>mbti</th>
                         <th>날짜</th>
+                        <th>좋아요 수</th>
                         </thead>
                         <tbody id="tableBody">
                         <tr th:each="vo : ${data.list}">
@@ -189,10 +188,10 @@
                                     <span th:text="${vo.boardTitle}"></span>
                                 </a>
                             </td>
-
                             <td class="nickName">[[${vo.userId} ]]</td>
                             <td class="mbti">[[${vo.boardMbti} ]]</td>
                             <td class="date">[[${vo.boardTime} ]]</td>
+                            <td class="">[[${vo.boardLike} ]]</td>
                         </tr>
                         </tbody>
                     </table>
@@ -222,6 +221,23 @@
 
     </script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var categoryDiv = document.getElementById('categoryDiv');
+
+            // <div> 내부의 클릭 이벤트 처리
+            categoryDiv.addEventListener('click', function(event) {
+                event.preventDefault(); // 링크의 기본 동작을 막음
+
+                // 클릭된 요소가 <a> 태그인 경우에만 처리
+                if (event.target.tagName === 'A') {
+                    var selectedCategory = event.target.getAttribute('data-category'); // 선택된 카테고리 가져오기
+                    var nowPageNumber = document.getElementById('nowPageNumber').value; // 현재 페이지 번호 가져오기
+                    var url = '/comm/list?nowPageNumber=' + nowPageNumber + '&categoryId=' +selectedCategory ;
+                    window.location.href = url; // 새로운 URL로 이동
+                }
+            });
+        });
+
 
 
         //하트 애니메이션

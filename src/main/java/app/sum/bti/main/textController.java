@@ -1,5 +1,4 @@
 package app.sum.bti.main;
-
 import app.sum.bti.community.service.BoardService;
 import app.sum.bti.community.vo.BoardVO;
 import lombok.RequiredArgsConstructor;
@@ -95,6 +94,7 @@ public class textController {
         BoardVO.Response response = null;
         Map<String, Object> param = new HashMap<>();
         param.put("nowPageNumber",  nowPageNumber);
+        param.put("categoryId",  categoryId);
 
         try {
 

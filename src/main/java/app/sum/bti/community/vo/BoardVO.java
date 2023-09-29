@@ -14,7 +14,7 @@ public class BoardVO {
 
 	@Data
 	@Builder  // 빌더패턴 등록 annotation
-	@AllArgsConstructor  // 모든 맴버변수를 파라메터로 가지는 생성자 만들기 
+	@AllArgsConstructor  // 모든 맴버변수를 파라메터로 가지는 생성자 만들기
 	@NoArgsConstructor //기본생생자 만들기
 	public static class Response{
 		private List<BoardList> list;
@@ -42,6 +42,7 @@ public class BoardVO {
 
 		private int boardNum;
 		private String boardTitle;
+		private String boardMbti;
 		private String userId;
 		private int boardLike;
 		private String boardTime;
@@ -58,7 +59,7 @@ public class BoardVO {
 		private String boardContents;
 		//private MultipartFile[] attachFile;
 		//java 8 이후부터 사용가능
-		// Date 보다 정확한 표현 
+		// Date 보다 정확한 표현
 		private LocalDateTime updateDate;
 
 	}

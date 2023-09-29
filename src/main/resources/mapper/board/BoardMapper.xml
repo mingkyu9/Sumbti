@@ -23,9 +23,9 @@
         board_like,
         board_time
         from board
-        <!--        <if test="categoryId !=null or categoryId != '' ">-->
-        <!--            where category_id = #{categoryId}-->
-        <!--        </if>-->
+        <if test='categoryId != null and categoryId != ""'>
+            where category_id = #{categoryId}
+        </if>
         order by board_num desc
         limit #{start}, #{end}
     </select>
