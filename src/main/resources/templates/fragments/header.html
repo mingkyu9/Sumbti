@@ -1,7 +1,10 @@
 <!--exam-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
 <div th:fragment="header">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
@@ -15,7 +18,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
-                    <a class="nav-link disabled" href="#" id="home">홈</a>
+                    <a class="nav-link" href="/main" id="home" onclick="goToMainPage()">홈</a>
                 </li>
                 <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
                     <a class="nav-link disabled" href="#" id="myPage">마이 페이지</a>
@@ -45,6 +48,11 @@
     </nav>
 
     <script>
+
+        // MainPage로 이동하는 함수 정의
+        function goToMainPage() {
+            window.location.href = '/main'; // 이동할 페이지 URL을 설정
+        }
 
         // PostBox로 이동하는 함수 정의
         function goToPostBox() {
@@ -78,4 +86,5 @@
 
     </script>
 </div>
+</body>
 </html>

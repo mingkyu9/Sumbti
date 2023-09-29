@@ -334,6 +334,28 @@
 
     <script>
 
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const heartButton = document.getElementById('likeBtn');
+            let isActive = false; // 하트의 활성화 상태를 나타내는 변수
+
+            // 하트 클릭 이벤트 처리
+            heartButton.addEventListener('click', () => {
+                if (!isActive) {
+                    heartButton.classList.add('active'); // 애니메이션 활성화
+
+                    // 애니메이션을 비활성화 및 하트를 숨기는 타이머 설정
+                    setTimeout(() => {
+                        heartButton.classList.remove('active'); // 애니메이션 비활성화
+                        heartButton.style.display = 'none'; // 하트 숨김
+                    }, 1000); // 1초(1000 밀리초) 후에 실행
+
+                    isActive = true; // 상태를 활성화로 설정
+                }
+            });
+        });
+
+
         //하트 애니메이션
         document.addEventListener('DOMContentLoaded', function() {
             const heartButton = document.getElementById('likeBtn');
@@ -345,7 +367,7 @@
                     heartButton.classList.remove('active'); // 일정 시간 후 애니메이션 비활성화
                 }, 1000); // 2초 후에 애니메이션 비활성화
             });
-        })
+        });
 
         // write 버튼 클릭 이벤트 처리
         document.addEventListener('DOMContentLoaded', function() {
