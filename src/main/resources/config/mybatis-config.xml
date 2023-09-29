@@ -15,7 +15,6 @@
         <typeAlias type="app.sum.bti.community.vo.BoardVO$UpdateRequest" alias="boardUpdate"/>
         <typeAlias type="app.sum.bti.community.vo.BoardVO$Request"  alias="boardCreate"/>
         <typeAlias type="app.sum.bti.community.vo.BoardFileVO"  alias="fileVO"/>
-        <typeAlias type="app.sum.bti.mypage.vo.LikeVO$LikeList" alias="likeList"/>
      <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleList" alias="coupleList"/>
      <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleDetailInfo" alias="coupleDetailInfo"/>
      <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendList" alias="friendList"/>

@@ -26,11 +26,7 @@ public class BoardService {
 	private final BoardMapper mapper;
 	private final PagingVO pageVO;
 
-	@Value("${server.stored.file.path}")
-	private String filePath;
 
-	@Value("${server.editor.img.path}")
-	private String editorPath;
 
 	/**
 	 * 게시글 리스트 가져오기
@@ -72,8 +68,7 @@ public class BoardService {
 	}
 
 	public BoardVO.Detail getBoardDetail(int boardNum) throws Exception {
-		//조회수 증가
-		mapper.updateBoardCount(boardNum);
+
 		return mapper.getBoardDetail(boardNum);
 	}
 	@Transactional

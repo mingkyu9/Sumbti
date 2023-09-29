@@ -52,8 +52,7 @@ public interface BoardMapper {
 	 * @return
 	 * @throws SQLException
 	 */
-	public int updateBoardCount(@Param("boardNum") int boardNum ) throws SQLException;
-	
+
 
 	
 	/**

@@ -55,7 +55,7 @@ public class BoardVO {
 		private int boardNum;
 		private String boardTitle;
 		private String boardContents;
-		private MultipartFile[] attachFile;
+		//private MultipartFile[] attachFile;
 		//java 8 이후부터 사용가능
 		// Date 보다 정확한 표현 
 		private LocalDateTime updateDate;		

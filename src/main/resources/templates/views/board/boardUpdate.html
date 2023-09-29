@@ -61,7 +61,7 @@
 								          name="boardContents" rows="6">[[${detail.boardContents}]]</textarea>
 								  </div>
 								  <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
-								   <input type="hidden" id="boardId" name="boardId"  th:value="${detail.boardId}">
+								   <input type="hidden" id="boardNum" name="boardNum"  th:value="${detail.boardNum}">
 								   <input type="hidden" id="fileCount" th:value="${fileCount}">
 						   </form>
 			      </div>
@@ -139,7 +139,7 @@
 		 }
 		 
 		 function cancel() {
-			 location.href  ='/board/detail/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardId=' + $('#boardId').val() ;
+			 location.href  ='/board/detail/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardNum=' + $('#boardNum').val() ;
 		 }
 		 
 	 </script>

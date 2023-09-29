@@ -29,32 +29,26 @@
 
   
   <insert id="writeBoard" parameterType="boardCreate" useGeneratedKeys="true" keyProperty="boardNum">
- 			   insert into board(board_title, board_contents, board_owner)
-                       	    values(#{boardTitle}, #{boardContents},  #{boardOwner} )
+ 			   insert into board(board_title, board_contents, user_id)
+                       	    values(#{boardTitle}, #{boardContents},  #{userId} )
   </insert>
 
 
-  
-<select  id="getFileInfo" parameterType="map"    resultType="fileVO"> 
-		   
-		     select   file_id,
-		                   file_path,
-					       origin_file_name,
-					       stored_file_name
-		    from   board_file_info 
-		    where file_id =  #{fileId}
-    
-    </select>
+
     <select id="getBoardDetail"  parameterType="map"   resultMap="detailBoard">
-        select  b.board_num,
-                b.board_title,
-                b.user_id,
-                b.board_like,
-                b.board_contents,
-                date_format(b.update_date, '%Y-%m-%d %H:%i:%s') as update_date
-        where b.board_num = #{boardNum}
-        from b.board
+        select  board_num,
+                board_title,
+                user_id,
+                board_like,
+                board_contents,
+                
+                date_format(board_time, '%Y-%m-%d %H:%i:%s') as board_time
+        from board
+        where board_num = #{boardNum}
     </select>
+    <delete id="deleteBoard"  parameterType="map">
+        delete from  board  where board_num  = #{boardNum}
+    </delete>
     <update id="updateBoard"   parameterType="boardUpdate">
         update board
         <set>
@@ -65,10 +59,18 @@
                 board_contents = #{boardContents},
             </if>
             <if test="updateDate  neq null ">
-                update_date = #{updateDate},
+                board_time = #{updateDate},
             </if>
         </set>
-        where board_num =  #{board_num}
+        where board_num =  #{boardNum}
+
+    </update>
+
+    <update id="updateBoardLike" parameterType="map">
+
+        update  file_board
+        set board_like = board_like + 1
+        where board_num = #{boardNum}
 
     </update>
 </mapper>

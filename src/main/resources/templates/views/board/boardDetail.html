@@ -57,7 +57,7 @@
 			           <h3>게시글 보기 </h3>
 		          </div>
 		     <section class="main-area">
-				 <input type="hidden" id="boardId" name="boardId"  th:value="${detail.boardId}">
+				 <input type="hidden" id="boardNum" name="boardNum"  th:value="${detail.boardNum}">
 				  <input type="hidden" id="nowPageNumber" name="nowPageNumber"   th:value="${nowPageNumber}">
 			   <table class="b-table">
 				    <colgroup>
@@ -74,26 +74,12 @@
 						 <tr style="height: 10%;">
 						      <th>글쓴이</th>
 						     <td>
-								<span>[[ ${detail.boardOwner} ]]</span>
+								<span>[[ ${detail.userId} ]]</span>
 						     </td>
 						   </tr>
 							 <tr style="height: 10%;">
-						      <th>조회 수 </th>
-						     <td>
-								<span>[[ ${detail.boardCount} ]]</span>
-						     </td>
 						   </tr>
-						   	 <tr style="height: 10%;">
-						      <th>첨부파일 </th>
-						     <td>
-								 <a  th:each="file : ${detail.files}"  href="javascript:void(0)"  
-								       th:onclick="fileDown([[ ${file.fileId} ]])"  th:style="${detail.files != null  ||  detail.files.size > 0  ? 'display:block' :  'display:none' }">
-									     <span>[[ ${file.originFileName} ]]</span>
-								 </a>
-								  <span   th:style="${detail.files == null  ||  detail.files.size == 0 ? 'display:block' :  'display:none' }">
-									        없음
-								 </span>
-						     </td>
+
 						   </tr>
 						     <tr>
 						      <th>내용 </th>
@@ -127,14 +113,14 @@
 			  const isConfirm = confirm('정말 삭제하시겠습니까?');
 			  
 			  if(isConfirm) {
-				    location.href = '/board/del/' + $('#boardId').val();
+				    location.href = '/board/del/' + $('#boardNum').val();
 			  }
 			  
 		  }		  
 		 
 		 
 		 function mdofiy() {
-			 location.href  ='/board/modify/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardId=' + $('#boardId').val() ;
+			 location.href  ='/board/modify/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardNum=' + $('#boardNum').val() ;
 		 }
 		 
 		  
