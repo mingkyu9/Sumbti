@@ -153,11 +153,10 @@
             <div id="communityZoneLogo">
                 <img th:src="@{/img/logo/communityZone.png}">
             </div>
-            <input type="hidden"  id="nowPageNumber"  name ="nowPageNumber"  value="0">
-
+            <input type="hidden"  id="nowPageNumber"  name ="nowPageNumber"th:value="${data.nowPageNumber}">
             <div class="row" style="margin-top: 15px; justify-content: flex-end; font-family: 'GmarketSansLight', sans-serif;">
                 <div class="col-md-6" style="text-align: right; margin-bottom:20px;">
-                    <button type="button" class="btn btn-primary" id="writeBtn">글 쓰기</button>
+                    <button type="button" class="btn btn-primary" id="writeBtn" >글 쓰기</button>
                 </div>
             </div>
 
@@ -184,89 +183,16 @@
                         <th>날짜</th>
                         </thead>
                         <tbody id="tableBody">
-                        <tr>
-                            <td class="title"><a href="#">일이삼사오륙칠팔구십일이삼사오륙칠팔구십</a></td>
-                            <td class="nickName">일이삼사오육칠</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
-                        </tr>
-                        <tr>
-                            <td class="title"><a href="#">게시글 제목 1</a></td>
-                            <td class="nickName">작성자 1</td>
-                            <td class="mbti">ENTP</td>
-                            <td class="date">23.09.21</td>
+                        <tr th:each="vo : ${data.list}">
+                            <td class="title">
+                                <a href="javascript:void(0);" th:onclick="'goDetail(' + ${vo.boardNum} + ');'">
+                                    <span th:text="${vo.boardTitle}"></span>
+                                </a>
+                            </td>
+
+                            <td class="nickName">[[${vo.userId} ]]</td>
+                            <td class="mbti">[[${vo.boardMbti} ]]</td>
+                            <td class="date">[[${vo.boardTime} ]]</td>
                         </tr>
                         </tbody>
                     </table>
@@ -280,10 +206,23 @@
     </section>
 
     <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center" id="pageArea" style="margin-top: 200px;"></ul>
+        <ul class="pagination justify-content-center" id="pageArea" th:utext="${data.pageHTML}" style="margin-top: 200px;"></ul>
     </nav>
 
+
     <script>
+        function goDetail(boardNum) {
+            const nowPageNumber = $('#nowPageNumber').val();
+            location.href ='/comm/content?nowPageNumber='+ nowPageNumber + "&boardNum=" + boardNum;
+        }
+
+        function movePage(nowPageNumber) {
+            location.href ="/comm/list?nowPageNumber="+ nowPageNumber  ;
+        }
+
+    </script>
+    <script>
+
 
         //하트 애니메이션
         document.addEventListener('DOMContentLoaded', function() {
@@ -303,7 +242,7 @@
             const writeBtn = document.getElementById('writeBtn');
 
             writeBtn.addEventListener('click', function() {
-                window.location.href = '/comm/write';
+                location.href = '/comm/write?nowPageNumber' + $('#nowPageNumber').val();
             });
         });
 
@@ -318,14 +257,14 @@
         // 테이블 셀의 텍스트 처리
 
         document.addEventListener('DOMContentLoaded', function () {
-            const titleCells = document.querySelectorAll('.title'); // 글제목 셀
+            //const titleCells = document.querySelectorAll('.title'); // 글제목 셀
             const nickNameCells = document.querySelectorAll('.nickName'); // 닉네임 셀
-
-            titleCells.forEach(function (cell) {
-                const originalText = cell.innerText;
-                const truncatedText = truncateText(originalText, 12); // 12자 이상인 경우 "..." 추가
-                cell.innerText = truncatedText;
-            });
+            //
+            // titleCells.forEach(function (cell) {
+            //     const originalText = cell.innerText;
+            //     const truncatedText = truncateText(originalText, 12); // 12자 이상인 경우 "..." 추가
+            //     cell.innerText = truncatedText;
+            // });
 
             nickNameCells.forEach(function (cell) {
                 const originalText = cell.innerText;
@@ -340,45 +279,43 @@
         // 현재 페이지 번호 초기화
         let currentPage = 0;
 
-        // 페이지 이동 함수
-        function goToPage(pageNumber) {
-            currentPage = pageNumber;
-            const startIndex = currentPage * rowsPerPage;
-            const endIndex = startIndex + rowsPerPage;
+        // // 페이지 이동 함수
+        // function goToPage(pageNumber) {
+        //     currentPage = pageNumber;
+        //     const startIndex = currentPage * rowsPerPage;
+        //     const endIndex = startIndex + rowsPerPage;
+        //
+        //     // 모든 행 숨김
+        //     $('tbody tr').hide();
+        //
+        //     // 현재 페이지의 행만 표시
+        //     $('tbody tr').slice(startIndex, endIndex).show();
+        // }
 
-            // 모든 행 숨김
-            $('tbody tr').hide();
-
-            // 현재 페이지의 행만 표시
-            $('tbody tr').slice(startIndex, endIndex).show();
-        }
-
-        // 페이지 이동 버튼 생성 및 초기화
-        function initializePagination() {
-            const totalRows = $('tbody tr').length;
-            const totalPages = Math.ceil(totalRows / rowsPerPage);
-            const pagination = $('#pageArea');
-
-            // Pagination 초기화
-            pagination.empty();
-
-            // Pagination 버튼 생성
-            for (let i = 1; i <= totalPages; i++) {
-                const pageButton = $('<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>');
-                pageButton.click(function () {
-                    goToPage(i - 1); // 페이지 번호가 0부터 시작하므로 1을 뺍니다.
-                });
-                pagination.append(pageButton);
-            }
-        }
-
-        // 페이지 로딩 시 Pagination 초기화 및 첫 페이지 표시
-        $(document).ready(function () {
-            initializePagination();
-            goToPage(currentPage);
-        });
-
-
+        // // 페이지 이동 버튼 생성 및 초기화
+        // function initializePagination() {
+        //     const totalRows = $('tbody tr').length;
+        //     const totalPages = Math.ceil(totalRows / rowsPerPage);
+        //     const pagination = $('#pageArea');
+        //
+        //     // Pagination 초기화
+        //     pagination.empty();
+        //
+        //     // Pagination 버튼 생성
+        //     for (let i = 1; i <= totalPages; i++) {
+        //         const pageButton = $('<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>');
+        //         pageButton.click(function () {
+        //             goToPage(i - 1); // 페이지 번호가 0부터 시작하므로 1을 뺍니다.
+        //         });
+        //         pagination.append(pageButton);
+        //     }
+        // }
+        //
+        // // 페이지 로딩 시 Pagination 초기화 및 첫 페이지 표시
+        // $(document).ready(function () {
+        //     initializePagination();
+        //     goToPage(currentPage);
+        // });
 
     </script>
 </div>

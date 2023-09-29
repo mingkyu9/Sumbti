@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org"
-       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-       layout:decorate="~{layout/main_layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
 <th:block layout:fragment="css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <style>
         @font-face {
             font-family: 'GmarketSansMedium';
@@ -44,7 +45,7 @@
 
         .title {
             height: 70%;
-            margin:10px;
+            margin: 10px;
             font-family: 'GmarketSansMedium', sans-serif;
             font-size: 40px
         }
@@ -99,7 +100,7 @@
         }
 
         .heart {
-            height:20px;
+            height: 20px;
             width: 20px;
             background-color: #f20044;
             position: relative;
@@ -125,9 +126,9 @@
         }
 
         .heart:before {
-            content:'';
+            content: '';
             position: absolute;
-            height:20px;
+            height: 20px;
             width: 20px;
             background-color: #f20044;
             right: -3%;
@@ -137,9 +138,9 @@
         }
 
         .heart:after {
-            content:'';
+            content: '';
             position: absolute;
-            height:20px;
+            height: 20px;
             width: 20px;
             background-color: #f20044;
             right: -52%;
@@ -163,7 +164,7 @@
             <div id="communityZoneLogo">
                 <img th:src="@{/img/logo/communityZone.png}">
             </div>
-            <input type="hidden"  id="nowPageNumber"  name ="nowPageNumber"  value="0">
+            <input type="hidden" id="nowPageNumber" name="nowPageNumber" value="0">
             <div class="titleArea">
                 <div class="title">
                     <span>일이삼사오륙칠팔구십일이삼사오륙칠팔구십</span>
@@ -182,6 +183,8 @@
         </div>
         <div class="btn-area">
             <button type="button" class="btn btn-secondary btn-lg" id="listBtn">목록</button>
+            <button type="button" class="btn btn-danger btn-lg" id="saveBtn">삭제</button>
+            <button type="button" class="btn btn-primary btn-lg" id="cancelBtn">수정</button>
         </div>
 
     </section>
@@ -189,7 +192,7 @@
     <script>
 
         //하트 애니메이션
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const heartButton = document.getElementById('likeBtn');
 
             // 하트 클릭 이벤트 처리
@@ -201,10 +204,10 @@
             });
         })
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const listBtn = document.getElementById('listBtn');
 
-            listBtn.addEventListener('click', function() {
+            listBtn.addEventListener('click', function () {
                 window.location.href = '/comm/list';
             });
         });

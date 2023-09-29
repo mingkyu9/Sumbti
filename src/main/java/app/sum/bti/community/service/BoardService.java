@@ -38,6 +38,7 @@ public class BoardService {
 	public BoardVO.Response getBoardList(Map<String, Object> param) throws Exception {
 		int totalSize = 0;
 		int nowPageNumber = (int) param.get("nowPageNumber");
+		String categoryId= (String) param.get("categoryId");
 		totalSize = mapper.getBoardTotal(param);
 		List<BoardVO.BoardList> boardList = new ArrayList<>();
 		pageVO.dataInit(nowPageNumber, totalSize);

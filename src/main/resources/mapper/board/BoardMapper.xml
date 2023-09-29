@@ -2,12 +2,12 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="app.sum.bti.community.mapper.BoardMapper">
 
-<resultMap type="boardDetail"    id="detailBoard">
-<result property="boardTitle" column="board_title" />
-<result property="userId" column="board_owner" />
-<result property="boardContents" column="board_contents" />
+    <resultMap type="boardDetail"    id="detailBoard">
+        <result property="boardTitle" column="board_title" />
+        <result property="userId" column="board_owner" />
+        <result property="boardContents" column="board_contents" />
 
-</resultMap>
+    </resultMap>
 
     <select id="getBoardTotal" parameterType="map" resultType="int">
         select count(board_num) as cnt
@@ -16,22 +16,26 @@
 
     <select id="getBoardList"  parameterType="map"   resultType="boardList">
         select
-                board_num,
-                board_title,
-                user_id,
-                board_like,
-                board_time
+        board_num,
+        board_title,
+        user_id,
+        board_mbti,
+        board_like,
+        board_time
         from board
+        <!--        <if test="categoryId !=null or categoryId != '' ">-->
+        <!--            where category_id = #{categoryId}-->
+        <!--        </if>-->
         order by board_num desc
         limit #{start}, #{end}
     </select>
-  
 
-  
-  <insert id="writeBoard" parameterType="boardCreate" useGeneratedKeys="true" keyProperty="boardNum">
- 			   insert into board(board_title, board_contents, user_id)
-                       	    values(#{boardTitle}, #{boardContents},  #{userId} )
-  </insert>
+
+
+    <insert id="writeBoard" parameterType="boardCreate" useGeneratedKeys="true" keyProperty="boardNum">
+        insert into board(board_title, board_contents, user_id)
+        values(#{boardTitle}, #{boardContents},  #{userId} )
+    </insert>
 
 
 
@@ -41,7 +45,7 @@
                 user_id,
                 board_like,
                 board_contents,
-                
+
                 date_format(board_time, '%Y-%m-%d %H:%i:%s') as board_time
         from board
         where board_num = #{boardNum}

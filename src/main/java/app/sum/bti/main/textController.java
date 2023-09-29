@@ -1,5 +1,9 @@
 package app.sum.bti.main;
 
+import app.sum.bti.community.service.BoardService;
+import app.sum.bti.community.vo.BoardVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,8 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Controller
+@RequiredArgsConstructor
+@Slf4j
 public class textController {
+
+    private final BoardService boardService;
 
     @GetMapping("/couple/recommand")
     public ModelAndView coupleList() {
@@ -67,8 +76,10 @@ public class textController {
     }
 
     @GetMapping("/comm/write")
-    public ModelAndView communityWrite() {
+    public ModelAndView communityWrite(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber) {
         ModelAndView view = new ModelAndView();
+
+        view.addObject("nowPageNumber", nowPageNumber);
         view.setViewName("views/communityZone/communityZoneWrite");
 
         return view;
@@ -76,18 +87,45 @@ public class textController {
     }
 
     @GetMapping("/comm/list")
-    public ModelAndView communityList() {
+    public ModelAndView communityList(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber,
+                                      @RequestParam(value="categoryId",required = false, defaultValue ="")  String categoryId) {
         ModelAndView view = new ModelAndView();
         view.setViewName("views/communityZone/communityZoneList");
+
+        BoardVO.Response response = null;
+        Map<String, Object> param = new HashMap<>();
+        param.put("nowPageNumber",  nowPageNumber);
+
+        try {
+
+            response  = boardService.getBoardList(param);
+            view.addObject("data", response);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return view;
 
     }
 
     @GetMapping("/comm/content")
-    public ModelAndView communityContent() {
+    public ModelAndView communityContent(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber,
+                                         @RequestParam("boardNum") int boardNum) {
         ModelAndView view = new ModelAndView();
+        view.addObject("nowPageNumber", nowPageNumber);
+        view.addObject("boardNum", boardNum);
         view.setViewName("views/communityZone/communityZoneContent");
+
+
+        try {
+            //게시글 상세정보 가져오기
+            BoardVO.Detail detail = boardService.getBoardDetail(boardNum);
+            view.addObject("detail", detail);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return view;
 
