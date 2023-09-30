@@ -1,30 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
+
+<!-- CoupleZone Mapper -->
 <mapper namespace="app.sum.bti.couple.mapper.CoupleMapper">
 
-    <select id="getCoupleList"  resultType="coupleList">
 
 
-        select user_id,
-        user_mbti,
-        user_gender,
-        user_nick,
-        (select count(*) from like_list lk where lk.like_to  = u.user_id) as like_count
+    <select id="getCoupleList"  parameterType="map" resultType="coupleList">
+        select  u.user_id,
+                u.user_mbti,
+                u.user_gender,
+                u.user_nick,
+                u.love_mbti,
+                u.hate_mbti,
+               (select count(*) from like_list lk WHERE lk.like_to = u.user_id) as like_count,
+                di.detail_intro
         from user_info u
+              LEFT JOIN detail_info di ON u.user_id = di.user_id
+        WHERE
+              u.user_gender != (SELECT user_gender FROM user_info WHERE user_id = #{userId})
     </select>
 
-    <select id="getCoupleListSelect"  resultType="coupleList">
+<!--    <select id="getCoupleList"  resultType="coupleList">-->
+<!--        select user_id,-->
+<!--        user_mbti,-->
+<!--        user_gender,-->
+<!--        user_nick,-->
+<!--        (select count(*) from like_list lk where lk.like_to  = u.user_id) as like_count-->
+<!--        from   user_info u-->
+<!--    </select>-->
 
-        select user_id,
-        user_mbti,
-        user_gender,
-        love_mbti,
-        hate_mbti,
-        user_nick
-        from user_info
+
+    <insert id="saveDetail"  parameterType="coupleDetailInfo">
+            insert into detail_info (user_id, detail_intro, detail_hobby, detail_food, detail_pat)
+                             values( 'admin', #{detailIntro}, #{detailHobby}, #{detailFood}, #{detailPat})
+    </insert>
+
+    <select id="showDetailInfo" parameterType="map" resultType="coupleDetailInfo">
+
+        select user_id, detail_intro, detail_hobby, detail_food, detail_pat
+          from detail_info
+            where user_id = #{userId}
     </select>
 
 
+    <!-- 접속유저가 버튼유저를 좋아하고 있는지 확인 0이면 없고, 1이면 있음-->
+    <select id="CoupleCheckExistList" parameterType="map" resultType="int">
+        select count(*)
+        from like_list
+        where like_from = #{userId} and like_to = #{userTo}
+    </select>
 
+
+    <insert id="coupleAddLikeList"  parameterType="map">
+        insert into like_list (like_from, like_to)
+        values(#{userId}, #{userTo})
+    </insert>
+
+    <delete id="coupleDeleteLikeList" parameterType="map">
+        delete from like_list where like_from = #{userId} and like_to = #{userTo}
+    </delete>
 </mapper>
