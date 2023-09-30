@@ -387,6 +387,7 @@
 
             writeBtn.addEventListener('click', function() {
                 window.location.href = '/saveDetails';
+                window.location.href = '/saveDetails';
             });
         });
 
@@ -445,6 +446,42 @@
                 }
             });
         });
+
+
+        function setModalEvent() {
+
+            $('.thumbnail').on('click', function(e){
+                // id 값 가져오기(String 값)
+                const thumbnailId = $(this).attr('id');
+
+                // 이미지 엘리먼트의 src 속성 가져오기
+                const imgSrc = $(this).attr('src');
+                $.ajax({
+                    type:'post',
+                    url: '/showDetailData',
+                    data: ({
+                        thumbnailId: thumbnailId
+                    }),
+                    dataType : 'json'
+                }).done(function(vo){
+                    const data = vo.detailInfos[0];
+                    // 모달 내부 요소에 데이터 설정
+                    $('#infoModal img').attr('src', imgSrc);
+                    $('#infoModal .modal-title').text(data.detailIntro);
+                    $('#infoModal table tr:nth-child(2) th:nth-child(2)').text(data.detailHobby);
+                    $('#infoModal table tr:nth-child(3) th:nth-child(2)').text(data.detailFood);
+                    $('#infoModal table tr:nth-child(4) th:nth-child(2)').text(data.detailPat);
+                    // 모달 열기
+                    $('#infoModal').modal('show');
+                }).fail(function(xhr, error, status) {
+                    alert(error);
+                });
+                // 이곳에서 detailInfo 변수를 사용하지 않는 것이 중요합니다.
+                // AJAX 호출이 비동기적으로 이루어지므로 AJAX가 완료될 때까지 기다리지 않습니다.
+            });
+        }
+
+
 
         function likeBtnEvent(userId) {
             // 해당 버튼아이디의 하트버튼을 가져옴
@@ -506,7 +543,12 @@
         });
 
 
+
+
+
+        // '제외 하고 검색' 버튼 클릭시 메서드
         function pickUser() {
+            // 체크박스에 체크된 MBTI 가져오기
             const selectedMBTI = $("input[name='chooseMBTI']:checked").map(function(){
                 return this.value;
             }).get();
@@ -640,6 +682,7 @@
 
             initializePagination();
             goToPage(currentPage);
+            setModalEvent();
             setModalEvent();
         });
 
