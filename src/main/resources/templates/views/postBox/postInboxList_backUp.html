@@ -227,8 +227,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="list" th:each="vo:${postList}">
-                    <table class="table" id="postArea">
+                <div class="list">
+                    <table class="table" >
                         <thead>
                         <tr>
                             <th style="width: 20%;">사진</th>
@@ -239,20 +239,17 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <th><img th:src="@{${vo.images}}" id="profileIcon"></th>
+                            <th><img th:src="@{/img/profileIcon/f-enfj.png}" id="profileIcon"></th>
                             <td class="truncate-title">
-                                <a href="/your-link-here">[[${vo.postTitle}]]</a>
+                                <a href="/your-link-here">일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십</a>
                             </td>
-                            <td class="truncate-nickname">[[${vo.userNick}]]</td>
-                            <td class="truncate-zone">[[${vo.postZone}]]</td>
+                            <td class="truncate-nickname">일이삼사오륙칠</td>
+                            <td class="truncate-zone">커플</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <th style="width: 20%;">[[${vo.image}]]</th>
-
-
 
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center" id="pageArea"></ul>

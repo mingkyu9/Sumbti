@@ -2,16 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="app.sum.bti.post.mapper.PostMapper">
 
-    <select id="getMessageList" parameterType="map" resultType="postList">
+    <select id="getPostList"  parameterType="map" resultType="postList">
 
-        select *
-        from post_box,
-        post_num,
-        post_title,
-        post_contents,
-        post_time,
-        user_id
+        select post_num,
+               post_title,
+               post_time,
+               post_sender,
+               post_receiver,
+               post_zone,
+               u.user_nick,
+               u.user_gender,
+               u.user_mbti
+        from  post_box as p
+            LEFT JOIN user_info as u ON p.post_sender = u.user_id
+        where p.post_receiver = 'test10';
+                               <!-- ${#userId} -->
     </select>
+
 
 
 
