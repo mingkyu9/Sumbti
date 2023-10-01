@@ -1,4 +1,4 @@
-package app.sum.bti.message.mapper;
+package app.sum.bti.post.mapper;
 
 import app.sum.bti.message.vo.MessageVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -8,9 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Mapper
-public interface MessageMapper {
+public interface PostMapper {
 
- List<MessageVO> getMessageList(@Param("userName") String userName) throws SQLException;
-
-
+    List<MessageVO> getMessageList(@Param("userName") String userName) throws SQLException;
 }

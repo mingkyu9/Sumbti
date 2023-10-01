@@ -1,10 +1,12 @@
-package app.sum.bti.message.controller;
+package app.sum.bti.post.controller;
 
 import app.sum.bti.message.service.MessageService;
 import app.sum.bti.message.vo.MessageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @Controller
-public class MessageController {
+public class PostController {
 
     @Autowired
     private MessageService messageService;
@@ -54,8 +55,5 @@ public class MessageController {
 
 
     //메세지 전송하기
-
-
-
 
 }

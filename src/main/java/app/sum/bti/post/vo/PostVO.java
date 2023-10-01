@@ -1,9 +1,9 @@
-package app.sum.bti.message.vo;
+package app.sum.bti.post.vo;
 
 import lombok.Data;
 
 @Data
-public class MessageVO {
+public class PostVO {
 
     private String num;
     private int sendNick;
@@ -11,5 +11,4 @@ public class MessageVO {
     private String content;
     private String sendTime;
     private String id;
-
 }
