@@ -19,8 +19,20 @@
                                <!-- ${#userId} -->
     </select>
 
+    <select id="getPostDetail" parameterType="map" resultType="postDetail">
 
+        select post_num,
+               post_title,
+               post_sender,
+               post_time,
+               post_contents,
+               u.user_nick,
+               u.user_mbti
+        from  post_box as p
+            LEFT JOIN user_info as u ON p.post_sender = u.user_id
+        where p.post_num = #{postNum};
 
+    </select>
 
 
 </mapper>

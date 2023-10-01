@@ -14,6 +14,8 @@
      <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendDetailInfo" alias="friendDetailInfo"/>
       <!--쪽지함 -->
       <typeAlias type="app.sum.bti.post.vo.PostVO$PostList" alias="postList"/>
+      <typeAlias type="app.sum.bti.post.vo.PostVO$PostDetail" alias="postDetail"/>
+
   </typeAliases>
 
 

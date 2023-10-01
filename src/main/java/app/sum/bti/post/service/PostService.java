@@ -18,4 +18,11 @@ public class PostService {
     public List<PostVO.PostList> getPostList(Map<String,Object> userId) throws Exception{
         return mapper.getPostList(userId);
     }
+
+
+
+    public PostVO.PostDetail getPostDetail(Map<String,Object> postNum) throws  Exception{
+        return  mapper.getPostDetail(postNum);
+    }
+
 }

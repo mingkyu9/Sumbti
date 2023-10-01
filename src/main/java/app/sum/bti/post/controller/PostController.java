@@ -1,19 +1,13 @@
 package app.sum.bti.post.controller;
 
-import app.sum.bti.couple.vo.CoupleVO;
 import app.sum.bti.post.service.PostService;
 import app.sum.bti.post.vo.PostVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +40,24 @@ public class PostController {
             view.setViewName("views/postBox/postInboxList");
             return view;
         }
+
+
+    // 디테일 화면
+    @GetMapping("/postDetail")
+    public ModelAndView DetailPostBox(@RequestParam (value = "postNum") int postNum) {
+        ModelAndView view  = new ModelAndView();
+        Map<String,Object> param = new HashMap<String,Object>();
+        param.put("postNum",postNum);
+        try {
+            PostVO.PostDetail postDetail = postService.getPostDetail(param);
+
+            view.addObject("postDetail",postDetail);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        view.setViewName("views/postBox/postBoxDetail");
+        return view;
+    }
 
 
 

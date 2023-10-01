@@ -7,7 +7,7 @@ public class PostVO {
 
     @Data
     public static class PostList {
-        private String postNum;
+        private int  postNum;
         private String postTitle;
         private String postTime;
         private String postSender;
@@ -18,5 +18,19 @@ public class PostVO {
         private String userMbti;
         private String images;
     }
+
+    @Data
+    public static class PostDetail {
+        private int  postNum;
+        private String postTitle;
+        private String postTime;
+        private String userNick;
+        private String userMbti;
+        private String postContents;
+        private String postSender;
+    }
+
+
+
 
 }
