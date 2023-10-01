@@ -20,19 +20,10 @@ public class MessageService {
         return mapper.getMessageList(userName);
     }
 
-    public ArrayList<MessageVO> roomContentlist(MessageVO vo) {
-
-        ArrayList<MessageVO> cList = new ArrayList<>();
 
 
-        return cList;
-    }
 
 
-    public int messageSendInlist(MessageVO vo) {
-        int flag = 0;
-        return flag;
 
-    }
 
 }
