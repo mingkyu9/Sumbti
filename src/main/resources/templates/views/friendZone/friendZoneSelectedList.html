@@ -105,7 +105,7 @@
             align-items: center;
         }
 
-        .modal-content {
+        #infoModal .modal-content {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
@@ -119,9 +119,45 @@
 
         .close {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 5px;
+            right: 15px;
             cursor: pointer;
+            font-size: 30px;
+        }
+
+        #messageModal .modal-dialog {
+            max-width: 400px;
+        }
+
+        #messageModal .modal-content {
+            padding: 20px;
+        }
+
+        #messageTextarea {
+            width: 100%;
+            max-width: 100%;
+            height: 250px;
+            resize: none;
+        }
+
+        #charCount {
+            color: red;
+            font-weight: bold;
+            display: none;
+        }
+
+        #messageTextarea.exceeded {
+            border: 2px solid red;
+            animation: shake 0.3s;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
         }
 
         .thumbnail{
@@ -318,8 +354,123 @@
         </div>
     </div>
 
+    <!-- 쪽지 작성 모달 -->
+    <div class="modal" id="messageModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="font-family: 'GmarketSansBold', sans-serif">쪽지 보내기</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="messageTextarea" class="form-control" rows="4" placeholder="쪽지 내용을 입력하세요" maxlength="500" style="font-family: 'GmarketSansLight', sans-serif"></textarea>
+                    <div id="charCount">0/500 characters</div>
+                </div>
+                <div class="modal-footer" style="font-family: 'GmarketSansMedium', sans-serif">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary" id="sendMessageBtn">보내기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
 
+        // 페이지당 프로필 카드 개수
+        const cardsPerPage = 10;
+
+        // 현재 페이지 번호 초기화
+        let currentPage = 0;
+
+        // write 버튼 클릭 이벤트 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            const heartButton = document.getElementById('likeBtn');
+            let isActive = false; // 하트의 활성화 상태를 나타내는 변수
+            const writeBtn = document.getElementById('writeBtn');
+            // 나중에 session에서 아이디 따오기
+            const myId = 'FriendSelectedAdmin';
+            writeBtn.addEventListener('click', function() {
+                window.location.href = '/friendWrite?userId=' + myId;
+            });
+        });
+
+        function setModalEvent() {
+
+            $('.thumbnail').on('click', function(e){
+                // id 값 가져오기(String 값)
+                const thumbnailId = $(this).attr('id');
+                // 이미지 엘리먼트의 src 속성 가져오기
+                const imgSrc = $(this).attr('src');
+
+                $.ajax({
+                    type:'post',
+                    url: '/showDetailFriendData',
+                    data: ({
+                        thumbnailId: thumbnailId
+                    }),
+                    dataType : 'json'
+                }).done(function(vo){
+                    const data = vo.detailInfos[0];
+                    // 모달 내부 요소에 데이터 설정
+                    $('#infoModal img').attr('src', imgSrc);
+                    $('#infoModal table tr:nth-child(1) th:nth-child(2)').text(data.detailIntro);
+                    $('#infoModal table tr:nth-child(2) th:nth-child(2)').text(data.detailHobby);
+                    $('#infoModal table tr:nth-child(3) th:nth-child(2)').text(data.detailFood);
+                    $('#infoModal table tr:nth-child(4) th:nth-child(2)').text(data.detailPat);
+                    // 모달 열기
+                    $('#infoModal').modal('show');
+                }).fail(function(xhr, error, status) {
+                    alert(error);
+                });
+                // 이곳에서 detailInfo 변수를 사용하지 않는 것이 중요합니다.
+                // AJAX 호출이 비동기적으로 이루어지므로 AJAX가 완료될 때까지 기다리지 않습니다.
+            });
+        }
+
+
+        //좋아요 버튼 이벤트
+        function likeBtnEvent(userId) {
+            // 해당 버튼아이디의 하트버튼을 가져옴
+            const heartButton = document.getElementById('likeBtn_'+userId);
+            let likeCount = document.getElementById('likeCount_'+userId).innerText;
+
+            // 하트 클릭 이벤트 처리
+            heartButton.addEventListener('click', () => {
+                if (!isActive) {
+                    heartButton.classList.add('active'); // 애니메이션 활성화
+
+                    // 애니메이션을 비활성화 및 하트를 숨기는 타이머 설정
+                    setTimeout(() => {
+                        heartButton.classList.remove('active'); // 애니메이션 비활성화
+                        heartButton.style.display = 'none'; // 하트 숨김
+                    }, 1000); // 1초(1000 밀리초) 후에 실행
+
+                    isActive = true; // 상태를 활성화로 설정
+                }
+            });
+
+
+            // // 눌렀을때 좋아요 목록에 추가되며 하트옆에 숫자 다시쓰기 (ajax로 처리해서 그 부분만 바꿔? 모달처럼? )
+            // // 그 부분만 새로고침이 되나?
+            $.ajax({
+                type:'post',
+                url: '/saveFriendLikeList',
+                contentType:'application/json',
+                data: JSON.stringify({
+                    likeToUser: userId
+                }),
+                dataType : 'json'
+            }).done(function(data){
+                if(data.resultCode === 200) {
+                    likeCount = likeCount + 1;
+                }else if(data.resultCode === 201) {
+                    likeCount = likeCount - 1;
+                }
+        });
+
+        //하트 애니메이션
         // 페이지당 프로필 카드 개수
         const cardsPerPage = 10;
 
@@ -382,26 +533,6 @@
                 setTimeout(() => {
                     heartButton.classList.remove('active'); // 일정 시간 후 애니메이션 비활성화
                 }, 1000); // 2초 후에 애니메이션 비활성화
-            });
-
-
-            // // 눌렀을때 좋아요 목록에 추가되며 하트옆에 숫자 다시쓰기 (ajax로 처리해서 그 부분만 바꿔? 모달처럼? )
-            // // 그 부분만 새로고침이 되나?
-            $.ajax({
-                type:'post',
-                url: '/saveFriendLikeList',
-                contentType:'application/json',
-                data: JSON.stringify({
-                    likeToUser: userId
-                }),
-                dataType : 'json'
-            }).done(function(data){
-                if(data.resultCode === 200) {
-                    likeCount = likeCount + 1;
-                }else if(data.resultCode === 201) {
-                    likeCount = likeCount - 1;
-                }
-
                 document.getElementById('likeCount_'+userId).textContent  = likeCount;
 
             }).fail(function(xhr, error, status) {
@@ -427,6 +558,30 @@
                 if ($(event.target).is('#infoModal')) {
                     closeModal();
                 }
+            });
+
+
+            // // 눌렀을때 좋아요 목록에 추가되며 하트옆에 숫자 다시쓰기 (ajax로 처리해서 그 부분만 바꿔? 모달처럼? )
+            // // 그 부분만 새로고침이 되나?
+            $.ajax({
+                type:'post',
+                url: '/saveFriendLikeList',
+                contentType:'application/json',
+                data: JSON.stringify({
+                    likeToUser: userId
+                }),
+                dataType : 'json'
+            }).done(function(data){
+                if(data.resultCode === 200) {
+                    likeCount = likeCount + 1;
+                }else if(data.resultCode === 201) {
+                    likeCount = likeCount - 1;
+                }
+
+                document.getElementById('likeCount_'+userId).textContent  = likeCount;
+
+            }).fail(function(xhr, error, status) {
+                alert(error);
             });
 
 
@@ -515,9 +670,120 @@
             template = template.replaceAll('@@likeBtn@@', likeBtnId);
             template = template.replaceAll('@@likeCountId@@', likeCountId);
             template = template.replaceAll('@@postBtn@@', postId);
+        }
+            function sendPost(userId) {
+
+            }
+
+
+            // 모달 닫기 함수
+            function closeModal() {
+                $('#infoModal').modal('hide');
+            }
+
+            // 닫기 버튼 클릭 이벤트 처리
+            $('#closeModalBtn').on('click', closeModal);
+
+            // 모달 외부를 클릭하면 모달 닫기
+            $('#infoModal').on('click', function (event) {
+                if ($(event.target).is('#infoModal')) {
+                    closeModal();
+                }
+            });
+
+
+            // '제외 하고 검색' 버튼 클릭시 메서드
+            function pickUser() {
+                // 체크박스에 체크된 MBTI 가져오기
+                const selectedMBTI = $("input[name='chooseMBTI']:checked").map(function () {
+                    return this.value;
+                }).get();
+
+                console.log(selectedMBTI);
+
+                // 체크된 MBTI 를 포함하지 않는 유저리스트 받아오기 ajax 처리
+                $.ajax({
+                    type: 'post',
+                    url: '/selectFriend',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        selectedMBTI: selectedMBTI,
+                        userID: $('#userId').val()
+                    }),
+                    dataType: 'json'
+                }).done(function (data) {
+                    // 받아온 리스트 데이터를 makeProfile() 메서드로 전달
+                    makeProfile(data.friendList);
+
+
+                }).fail(function (xhr, error, status) {
+                    alert(error);
+                });
+            }
+
+
+            function makeProfile(friendList) {
+                // 유저 프로필 그리는 div영역을 id 값으로 가져오기
+                const profileArea = $('#profileArea');
+                // 영역 비우기
+                profileArea.empty();
+
+                //반복으로 리스트의 데이터를 템플릿(그려질화면)(유저하나)에 하나씩 전달?)
+                $.each(friendList, function (index, obj) {
+                    const template = getTemplates(obj);
+                    // 템플릿(그려질화면)을  그려질 div 영역에 전달
+                    profileArea.append(template);
+                    setModalEvent();
+                    initializePagination();
+                    goToPage(currentPage);
+                    // console.log("Added template to profileArea:", template);
+                })
+            }
+
+            // 필터처리된 데이터를 가지고 화면을 그릴 메서드
+        function  getTemplates(vo){
+            // 버튼아이디를 다르게 해야하므로 뒤에 유저아이디를 추가해서 버튼이름 다르게하기
+            const likeBtnId = "likeBtn_" + vo.userId;
+            const postId = "postBtn_"  + vo.userId;
+            const likeCountId = "likeCount_"  + vo.userId;
+            return template;
+        }
+
+
+            let template = `
+                        <div class="col-lg-3  col-md-4  col-sm-6  col-xs-12 profile-card"
+                     style="font-size: 20px; text-align: center; font-family: 'GmarketSanslight', sans-serif;" id="vo">
+                    <span >
+                        <a href="javascript:void(0)">@@title@@</a>
+                   </span>
+                    <br>
+                    <span>@@nickName@@</span>
+                    <div class="profile-image" style="display: flex; justify-content: center; align-items: center; margin-left:10px;">
+                        <img class="thumbnail img-responsive" id ="@@userId@@" src="@@imageUrl@@"  style="max-width: 120px;">
+                    </div>
+                    <div class="likeArea">
+                        <div class="heart" id="@@likeBtn@@" onclick="likeBtnEvent('@@userId@@');"></div>
+                        <span id="@@likeCountId@@">@@likCount@@</span>
+                        <button type="button" class="btn btn-info" id="@@postBtn@@" style="margin-left: 30px; font-size: 20px;">쪽지</button>
+                    </div>
+                </div>`;
+
+
+            // 값을 치환 한다
+            template = template.replaceAll('@@userId@@', vo.userId);
+            template = template.replaceAll('@@title@@', vo.detailIntro);
+            template = template.replaceAll('@@nickName@@',  vo.userNick);
+            template = template.replaceAll('@@imageUrl@@', vo.images);
+            template = template.replaceAll('@@likCount@@', vo.likeCount);
+
+            template = template.replaceAll('@@likeBtn@@', likeBtnId);
+            template = template.replaceAll('@@likeCountId@@', likeCountId);
+            template = template.replaceAll('@@postBtn@@', postId);
 
             return template;
         }
+
+
 
 
 

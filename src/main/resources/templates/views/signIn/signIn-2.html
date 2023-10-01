@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout/main_layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
+
+        @font-face {
+            font-family: 'GmarketSansMedium';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansLight';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansBold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #signInLogo {
+            text-align: center;
+            font-family: 'GmarketSansBold', sans-serif;
+            margin-top: 35px;
+            margin-bottom: 35px;
+        }
+
+        .form {
+            border-top: 1px solid rgb(98, 98, 98);
+            margin-top : 10px;
+            padding:30px;
+            padding-top: 60px;
+            border-radius: 5px;
+        }
+
+        .imgArea {
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .center-input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Add styles specific to the custom-name-input class */
+        .custom-name-input {
+            text-align: center;
+        }
+
+        /* 성별 옵션 컨테이너의 스타일 */
+        .gender-options {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .gender-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px; /* 원하는 크기로 조절하세요. */
+            background-color: #f0f0f0; /* 회색 배경색 추가 */
+            border-radius: 15px; /* border-radius 추가 */
+            cursor: pointer;
+            transition: all 0.3s ease-in-out; /* 애니메이션 효과를 위한 트랜지션 추가 */
+        }
+
+        /* 체크 박스의 스타일 */
+        .gender-checkbox {
+            display: none; /* 실제 체크 박스를 숨김 */
+        }
+
+        /* 라벨(이미지 포함)의 스타일 */
+        .gender-option label {
+            cursor: pointer;
+            border: 2px solid transparent; /* 초기에는 테두리가 없음 */
+            transition: border-color 0.3s ease-in-out;
+            width: 180px; /* 선택 시 크기 조정 (원하는 크기로 조절하세요) */
+            height: 180px; /* 선택 시 크기 조정 (원하는 크기로 조절하세요) */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 체크 박스가 선택되면 라벨의 테두리 색상을 변경 */
+        .gender-checkbox:checked + label {
+            border-color: #456173; /* 선택되면 테두리 색상 추가 */
+            border-radius: 15px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
+            width: 180px; /* 선택 시 크기 조정 (원하는 크기로 조절하세요) */
+            height: 180px; /* 선택 시 크기 조정 (원하는 크기로 조절하세요) */
+        }
+
+        .mbtiChk .form-check-input {
+            transform: scale(1.5); /* 원하는 크기로 조절 (예: 1.5는 1.5배 크게) */
+            margin-right: 10px;
+        }
+
+        .mbtiChk .form-check-label {
+            margin-right:10px;
+            font-family: 'GmarketSansMedium', sans-serif;
+        }
+
+        .form-group  input {
+            width: 500px;
+            height: 60px;
+            margin-left: -9px;
+            margin-top: 15px;
+            font-size: 20px;
+        }
+
+        .form-group  textarea{
+            resize: none;
+            outline: none;
+            width: 100%;
+
+        }
+
+        .btn-area {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: right;
+            padding-right : 30px;
+            margin-bottom: 65px;
+            font-family: 'GmarketSansLight', sans-serif
+        }
+
+        .nav-item {
+            font-family: 'GmarketSansBold', sans-serif;
+            font-size: 25px;
+        }
+
+    </style>
+</th:block>
+<!-- main_layout 에 속할 페이지 이기때문에 내용만 있으면 된다 -->
+<div layout:fragment="content">
+    <div class="container">
+        <div class="contents">
+            <div id="signInLogo">
+                <h2 style="font-size: 60px;">회원가입</h2>
+            </div>
+            <div class="form">
+                <form  id="frm"v enctype="">
+                    <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+                        <label for="profilePicture">프로필을 설정하세요.</label>
+                        <input type="file" class="form-control" id="profilePicture" name="profilePicture" style="display: none;"><br>
+                        <div class="imgArea">
+                            <img th:src="@{/img/profileIcon/add-photo.png}" alt="Profile Picture" id="profilePicturePreview" style="cursor: pointer; max-width: 150px;">
+                        </div>
+                        <div class="center-input">
+                            <input type="text" class="form-control custom-name-input" id="nameInput"   name="nameInput" placeholder="닉네임을 입력하세요." maxlength="20">
+                        </div>
+                    </div>
+                    <label for="genderSelection" style="margin-left:10px; margin-bottom: 30px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">성별을 선택하세요.</label>
+                    <input type="hidden" id="genderSelection" name="genderSelection"> <!-- Hidden input to store the selected gender -->
+                    <div class="gender-options" style="margin-bottom: 50px;">
+                        <div class="gender-option">
+                            <input type="checkbox" id="femaleCheckbox" class="gender-checkbox" value="male">
+                            <label for="femaleCheckbox"><img th:src="@{/img/profileIcon/female.png}" alt="female" style="width: 150px;"></label>
+                        </div>
+                        <div class="gender-option">
+                            <input type="checkbox" id="maleCheckbox" class="gender-checkbox" value="female">
+                            <label for="maleCheckbox"><img th:src="@{/img/profileIcon/male.png}" alt="male" style="width: 150px;"></label>
+                        </div>
+                    </div>
+
+                    <label style="margin-left:10px; margin-bottom: 5px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">선호하는 MBTI를 선택하세요.😘</label>
+                    <label style="margin-left:10px; margin-bottom: 50px; font-size:20px; color:blue; font-family: 'GmarketSansLight', sans-serif;">*선택하지 않으셔도 됩니다.</label>
+                    <div class="mbtiChk text-center" style="margin-bottom: 80px;">
+
+                        <div class="form-check form-check-inline" >
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="chooseMBTI"  value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">E</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="chooseMBTI" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">I</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox3">N</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox4">S</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox5">F</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox6">T</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox7">J</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox8" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox8">P</label>
+                        </div>
+                    </div>
+
+                    <label style="margin-left:10px; margin-bottom: 5px;font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">불호하는 MBTI를 선택하세요.🤬</label>
+                    <label style="margin-left:10px; margin-bottom: 50px; font-size:20px; color:blue; font-family: 'GmarketSansLight', sans-serif;">*선택하지 않으셔도 됩니다.</label>
+                    <div class="mbtiChk text-center" style="margin-bottom: 80px;">
+
+                        <div class="form-check form-check-inline" >
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="chooseMBTI"  value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">E</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="chooseMBTI" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">I</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox3">N</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox4">S</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox5">F</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox6">T</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox7">J</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox8" name="chooseMBTI" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox8">P</label>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
+                </form>
+            </div>
+            <div class="btn-area" style="display: flex; justify-content: space-between;">
+                <button type="button" class="btn btn-outline-secondary" id="preBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">< 이전</button>
+                <button type="button" class="btn btn-outline-secondary" id="nextBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">가입 완료</button>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        //프로필 사진 업로드
+        $(document).ready(function () {
+            // When the profile picture image is clicked, trigger the file input click event
+            $('#profilePicturePreview').click(function () {
+                $('#profilePicture').click();
+            });
+
+            // When a file is selected, update the image preview
+            $('#profilePicture').change(function () {
+                const fileInput = this;
+                const previewImage = $('#profilePicturePreview')[0];
+
+                if (fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        // Set the image source to the selected file's data URL
+                        previewImage.src = e.target.result;
+                    };
+
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            });
+        });
+
+        // 체크 박스 선택 처리를 담당하는 JavaScript
+        const femaleCheckbox = document.getElementById('femaleCheckbox');
+        const maleCheckbox = document.getElementById('maleCheckbox');
+        const genderInput = document.getElementById('genderInput');
+
+        femaleCheckbox.addEventListener('change', function () {
+            if (femaleCheckbox.checked) {
+                maleCheckbox.checked = false; // 다른 체크 박스 선택 해제
+                genderInput.value = '여성'; // 선택된 성별을 숨겨진 입력란에 저장
+            } else {
+                genderInput.value = ''; // 선택이 해제된 경우 숨겨진 입력 초기화
+            }
+        });
+
+        maleCheckbox.addEventListener('change', function () {
+            if (maleCheckbox.checked) {
+                femaleCheckbox.checked = false; // 다른 체크 박스 선택 해제
+                genderInput.value = '남성'; // 선택된 성별을 숨겨진 입력란에 저장
+            } else {
+                genderInput.value = ''; // 선택이 해제된 경우 숨겨진 입력 초기화
+            }
+        });
+
+        //이름을 입력해야
+        function validated() {
+            const nameInput = $('#nameInput');
+
+            if($.trim( nameInput.val() ).length === 0 ) {
+                nameInput.focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        // 이전 버튼 클릭 이벤트 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            const preBtn = document.getElementById('preBtn');
+
+            preBtn.addEventListener('click', function() {
+                window.location.href = '/signin/first';
+            });
+        });
+
+        function save() {
+            // 프로필 사진이 선택되었는지 확인
+            const profilePictureInput = $('#profilePicture');
+            const profilePicturePreview = $('#profilePicturePreview');
+            const nameInput = $('#nameInput');
+
+            if (!profilePictureInput[0].files.length) {
+                alert('프로필 사진을 올려주세요.');
+                return;
+            }
+
+            if ($.trim(nameInput.val()).length === 0) {
+                alert('닉네임을 입력하세요.');
+                nameInput.focus();
+                return;
+            }
+
+            // 선택한 성별 확인
+            const femaleCheckbox = document.getElementById('femaleCheckbox');
+            const maleCheckbox = document.getElementById('maleCheckbox');
+
+            if (!femaleCheckbox.checked && !maleCheckbox.checked) {
+                alert('성별을 선택해주세요.');
+                return;
+            }
+
+            // ajax로 데이터 전송
+            const formObj = $('#frm')[0];
+            const formData = new FormData(formObj);
+
+            $.ajax({
+                url: '/board/add',
+                type: 'post',
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                enctype: 'mutipart/form-data',
+                data: formData
+            }).done(function (data) {
+                if (data.resultCode === 200) {
+                    alert('회원가입이 등록되었습니다.');
+                    location.href = '/board/list';
+                } else {
+                    alert('회원가입이 실패하였습니다');
+                    return false;
+                }
+            }).fail(function (xhr, error, status) {
+                alert(error);
+            });
+        }
+    </script>
+</div>
+</html>

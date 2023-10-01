@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout/main_layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
+
+        @font-face {
+            font-family: 'GmarketSansMedium';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansLight';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansBold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #signInLogo {
+            text-align: center;
+            font-family: 'GmarketSansBold', sans-serif;
+            margin-top: 35px;
+            margin-bottom: 35px;
+        }
+
+
+        .form {
+            border-top: 1px solid rgb(98, 98, 98);
+            margin-top : 10px;
+            padding:30px;
+            padding-top: 60px;
+            border-radius: 5px;
+        }
+
+        .form-group  input {
+            width: 500px;
+            height: 60px;
+            margin-left: 0px;
+
+            margin-top: 15px;
+            font-size: 20px;
+        }
+
+        .form-group input:invalid + .char-limit-message {
+            display: block;
+        }
+
+        #emailInput {
+            width: 430px;
+        }
+
+        #authenticationButton {
+            margin-left: 21px;
+            height: 60px;
+            margin-top: 15px;
+        }
+
+        .form-group  textarea{
+            resize: none;
+            outline: none;
+            width: 100%;
+
+        }
+
+        .btn-area {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: right;
+            padding-right : 30px;
+            margin-bottom: 65px;
+            font-family: 'GmarketSansLight', sans-serif
+        }
+
+        .nav-item {
+            font-family: 'GmarketSansBold', sans-serif;
+            font-size: 25px;
+        }
+
+    </style>
+</th:block>
+<!-- main_layout 에 속할 페이지 이기때문에 내용만 있으면 된다 -->
+<div layout:fragment="content">
+    <div class="container">
+        <div class="contents">
+            <div id="signInLogo">
+                <h2 style="font-size: 60px;">회원가입</h2>
+            </div>
+            <div class="form">
+                <form  id="frm"v enctype="">
+                    <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+                        <label for="idInput">아이디 입력</label>
+                        <input type="text" class="form-control" id="idInput"  name="idInput" maxlength="20">
+                        <div style="font-family: 'GmarketSansLight', sans-serif; font-size: 20px; margin-top: 15px;">영어, 숫자 포함 6자 이상</div>
+                    </div>
+                    <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+                        <label for="passwdInput">비밀번호 입력</label>
+                        <input type="text" class="form-control" id="passwdInput"   name="passwdInput" maxlength="20">
+                        <div style="font-family: 'GmarketSansLight', sans-serif; font-size: 20px; margin-top: 15px;">영어, 숫자, 특수문자 포함 8자 이상</div>
+                    </div>
+                    <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+                        <label for="passwdConfirm">비밀번호 확인</label>
+                        <input type="text" class="form-control" id="passwdConfirm"   name="passwdConfirm" maxlength="20">
+                        <div class="password-match-message" style="display: none; color: blue; font-size: 20px; margin-top: 15px;">일치합니다.</div>
+                        <div class="password-not-match-message" style="display: none; color: red; font-size: 20px; margin-top: 15px;">일치하지 않습니다.</div>
+                    </div>
+                    <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+                        <label for="emailInput">이메일 입력</label>
+                        <div class="input-group-append">
+                            <input type="text" class="form-control" id="emailInput"   name="emailInput" maxlength="20">
+                            <button class="btn btn-info" type="button" id="authenticationButton">인증</button>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+                        <label for="locationInput">지역 입력</label>
+                        <input type="text" class="form-control" id="locationInput"   name="locationInput" maxlength="20">
+                    </div>
+                    <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+                        <label for="jobInput">직업 입력</label>
+                        <input type="text" class="form-control" id="jobInput"   name="jobInput" maxlength="20">
+                    </div>
+
+                    <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
+                </form>
+            </div>
+            <div class="btn-area">
+                <button type="button" class="btn btn-outline-secondary" id="nextBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">다음 ></button>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(document).ready(function() {
+            // 페이지 로드 시 실행할 초기화 함수
+            function initializePage() {
+                // 모든 입력 필드를 비활성화
+                $('#passwdInput').prop('disabled', true);
+                $('#passwdConfirm').prop('disabled', true);
+                $('#emailInput').prop('disabled', true);
+                $('#locationInput').prop('disabled', true);
+                $('#jobInput').prop('disabled', true);
+            }
+
+            // 초기화 함수 호출
+            initializePage();
+
+            // 각 입력 필드에 대한 상태를 저장할 변수
+            let idValidated = false;
+            let passwdValidated = false;
+            let emailValidated = false;
+            let locationValidated = false;
+            let jobValidated = false;
+
+            // 아이디 입력 필드의 조건 검사 함수
+            function validateId() {
+                const idInput = $('#idInput');
+                const idValue = idInput.val();
+
+                // 아이디 조건을 검사
+                if (/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/.test(idValue)) {
+                    idValidated = true;
+                    // 아이디 조건을 만족하면 다음 입력 필드 활성화
+                    $('#passwdInput').prop('disabled', false);
+                } else {
+                    idValidated = false;
+                    // 아이디 조건을 만족하지 않으면 다음 입력 필드 비활성화
+                    $('#passwdInput').prop('disabled', true);
+                    $('#passwdConfirm').prop('disabled', true);
+                    $('#emailInput').prop('disabled', true);
+                }
+            }
+
+            // 비밀번호 입력 필드의 조건 검사 함수
+            function validatePassword() {
+                const passwdInput = $('#passwdInput');
+                const passwdValue = passwdInput.val();
+
+                // 비밀번호 조건을 검사
+                if (/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(passwdValue)) {
+                    passwdValidated = true;
+                    // 비밀번호 조건을 만족하면 다음 입력 필드 활성화
+                    $('#passwdConfirm').prop('disabled', false);
+                } else {
+                    passwdValidated = false;
+                    // 비밀번호 조건을 만족하지 않으면 다음 입력 필드 비활성화
+                    $('#emailInput').prop('disabled', true);
+                    $('#passwdConfirm').prop('disabled', true);
+                }
+            }
+
+            function validatePasswordConfirm() {
+                const passwdInput = $('#passwdInput').val();
+                const passwdConfirmInput = $('#passwdConfirm').val();
+                const passwordMatchMessage = $('.password-match-message');
+                const passwordNotMatchMessage = $('.password-not-match-message');
+
+                // 입력된 비밀번호와 비밀번호 확인 값이 일치하는지 검사
+                if (passwdInput === passwdConfirmInput) {
+                    passwordMatchMessage.show();
+                    passwordNotMatchMessage.hide();
+                    // 비밀번호가 일치하면 다음 입력 필드 활성화
+                    $('#emailInput').prop('disabled', false);
+                } else {
+                    passwordMatchMessage.hide();
+                    passwordNotMatchMessage.show();
+                    // 비밀번호가 일치하지 않으면 다음 입력 필드 비활성화
+                    $('#emailInput').prop('disabled', true);
+                    $('#locationInput').prop('disabled', true);
+                    $('#jobInput').prop('disabled', true);
+                }
+            }
+
+            // 비밀번호 확인(input id: passwdConfirm)에 대한 이벤트 리스너 추가
+            $('#passwdConfirm').on('input', validatePasswordConfirm);
+
+
+            // 이메일 입력 필드의 조건 검사 함수
+            function validateEmail() {
+                const emailInput = $('#emailInput');
+                const emailValue = emailInput.val();
+
+                // 이메일 조건을 검사
+                if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailValue)) {
+                    emailValidated = true;
+                    // 이메일 조건을 만족하면 다음 입력 필드 활성화
+                    $('#locationInput').prop('disabled', false);
+
+                } else {
+                    emailValidated = false;
+                    // 이메일 조건을 만족하지 않으면 다음 입력 필드 비활성화
+                    $('#jobInput').prop('disabled', true);
+
+                }
+            }
+
+            function validateLocation() {
+                const locationInput = $('#locationInput');
+                const locationValue = locationInput.val();
+
+                // 지역 조건을 검사
+                if (/^.+$/.test(locationValue)) {
+                    locationValidated = true;
+                    $('#jobInput').prop('disabled', false);
+
+                } else {
+                    locationValidated = false;
+                    // 지역 조건을 만족하지 않으면 다음 입력 필드 비활성화
+                    $('#jobInput').prop('disabled', true);
+                }
+            }
+
+            // 각 입력 필드에 대한 이벤트 리스너 추가
+            $('#idInput').on('input', validateId);
+            $('#passwdInput').on('input', validatePassword);
+            $('#emailInput').on('input', validateEmail);
+            $('#locationInput').on('input', validateLocation);
+            $('#jobInput').on('input', validateJob);
+
+        });
+
+        // 다음 버튼 클릭 이벤트 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            const nextBtn = document.getElementById('nextBtn');
+
+            nextBtn.addEventListener('click', function() {
+                if (validated()) {
+                    window.location.href = '/signin/second';
+                } else {
+                    alert('모두 입력해야 다음 페이지로 이동할 수 있습니다.');
+                }
+            });
+        });
+
+        function validated() {
+            const idInput = $('#idInput');
+
+            if($.trim( idInput.val() ).length === 0 ) {
+                idInput.focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        function save() {
+
+            if(validated()) {
+
+                // ajax 로 파일을 포함한 데이터를 전송하기 위해서는 form 객체를 생성
+                const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
+                //form 데이터 만들기
+                const formData = new FormData(formObj);
+
+                $.ajax(
+                    {
+                        url: '/board/add',
+                        type: 'post',
+                        dataType : 'json',
+                        contentType: false,  //전송할 타입 제거
+                        processData : false, //ajax 전송 파라메터 없음
+                        enctype:'mutipart/form-data',
+                        data : formData
+                    }
+                ).done(function(data){
+                    if(data.resultCode === 200) {
+                        alert('글이 등록되었습니다.');
+                        location.href = '/board/list';    // 리스트로 가기
+                    }else {
+                        alert('글등록이 실패하였습니다');
+                        return false;
+                    }
+                }).fail(function(xhr, error, status) {
+                    alert(error);
+                });
+            }//endif
+        }
+    </script>
+</div>
+</html>
