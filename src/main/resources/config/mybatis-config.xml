@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-    <settings>
-        <setting name="mapUnderscoreToCamelCase" value="true"/>
-    </settings>
+  <settings>
+     <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
 
 
     <typeAliases>
@@ -18,7 +18,14 @@
      <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleDetailInfo" alias="coupleDetailInfo"/>
      <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendList" alias="friendList"/>
      <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendDetailInfo" alias="friendDetailInfo"/>
+      <!--쪽지함 -->
+      <typeAlias type="app.sum.bti.post.vo.PostVO$PostList" alias="postList"/>
+      <typeAlias type="app.sum.bti.post.vo.PostVO$PostDetail" alias="postDetail"/>
+
   </typeAliases>
+
+
+
 
 
 </configuration>

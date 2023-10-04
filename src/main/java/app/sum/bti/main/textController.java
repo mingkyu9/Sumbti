@@ -114,6 +114,42 @@ public class textController {
 
     }
 
+    @GetMapping("/main")
+    public ModelAndView main() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/mainPage/mainPage");
+
+        return view;
+
+    }
+
+    @GetMapping("/signin/first")
+    public ModelAndView signInFirst() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/signIn/signIn-1");
+
+        return view;
+
+    }
+
+    @GetMapping("/signin/second")
+    public ModelAndView signInSecond() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/signIn/signIn-2");
+
+        return view;
+
+    }
+
+    @GetMapping("/login")
+    public ModelAndView login() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/logIn/logInPage");
+
+        return view;
+
+    }
+
 
     @GetMapping
     @ResponseBody

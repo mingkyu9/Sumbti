@@ -151,3 +151,4 @@ logs
 .project
 .classpath
 .settings
+/.idea/

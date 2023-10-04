@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout/main_layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
+
+        @font-face {
+            font-family: 'GmarketSansMedium';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansLight';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansBold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .nav-item {
+            font-family: 'GmarketSansBold', sans-serif;
+            font-size: 25px;
+        }
+
+        #sumBTILogo {
+            text-align: left;
+        }
+
+        #sumBTILogo img {
+            max-width: 280px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .areaTitle {
+            font-family: 'GmarketSansBold', sans-serif;
+            font-size: 30px;
+            border-top: 1px solid;
+            padding-top: 23px;
+        }
+
+        .columnArea {
+            width: 100%;
+            height: 380px;
+            border-bottom: 1px solid;
+            overflow-x: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .columnContent {
+            width: 500px;
+            height: 300px;
+            margin-right: 15px;
+            margin-left: 15px;
+            /*border: 1px solid #1f1e1e; !* 1px 두께의 검은색 테두리 *!*/
+            border-radius: 10px; /* 둥근 모서리 */
+            box-shadow: 2px 2px 15px rgb(122, 94, 122); /* 그림자 스타일 */
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-body {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #modalText {
+            margin-top: 20px;
+            font-family: 'GmarketSansLight', sans-serif;
+            font-size: 20px;
+        }
+
+        #infoModal .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 450px;
+            font-size: 15px;
+        }
+
+        .close {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 30px;
+        }
+
+        #rankArea {
+            width: 100%;
+            height: 370px;
+            padding-bottom: 15px;
+            padding-top: 35px;
+            border-bottom: 1px solid;
+        }
+
+        .table.rankTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table.rankTable, .table.rankTable th, .table.rankTable td {
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .table.rankTable th, .table.rankTable td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        .table.rankTable thead {
+            background-color: #f2f2f2;
+            font-family: 'GmarketSansMedium', sans-serif;
+            font-size: 25px;
+        }
+
+        .table.rankTable tbody {
+            font-family: 'GmarketSansLight', sans-serif;
+            font-size: 20px;
+        }
+
+        /* 홀수 행 배경색 설정 */
+        .table.rankTable tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        /* 짝수 행 배경색 설정 */
+        .table.rankTable tbody tr:nth-child(even) {
+            background-color: #e6e6e6;
+        }
+
+
+
+    </style>
+
+</th:block>
+
+<div layout:fragment="content">
+    <section class="content">
+        <div class="container">
+            <div id="sumBTILogo">
+                <img th:src="@{/img/logo/sumBTI.png}">
+            </div>
+            <div class="areaTitle">MBTI 소식✨</div>
+            <div class="columnArea">
+                <div class="columnContent">
+                    <table class="table">
+                        <tr style="height: 60px; font-family: 'GmarketSansMedium', sans-serif; font-size: 25px;">
+                            <td colspan="2" style="text-align: center; border: none;">리더들의 MBTI는?</td>
+                        </tr>
+                        <tr style="height: 170px;">
+                            <td colspan="2" style="text-align: center; border: none;">
+                                <a href="#">
+                                    <img class="thumbnail1 img-responsive" th:src="@{/img/column/column_thumb_1.jpg}" style="min-height: 170px;">
+                                </a>
+                            </td>
+                        </tr>
+                        <tr style="height: 45px; font-family: 'GmarketSansLight', sans-serif; font-size: 20px;">
+                            <td style="width: 40%; text-align: center; border: none;">by. pado</td>
+                            <td style="width: 60%; text-align: center; border: none;">23.08.02</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="columnContent">
+                    <table class="table">
+                        <tr style="height: 60px; font-family: 'GmarketSansMedium', sans-serif; font-size: 25px;">
+                            <td colspan="2" style="text-align: center; border: none;">찾아라! 최고 궁합 MBTI</td>
+                        </tr>
+                        <tr style="height: 170px;">
+                            <td colspan="2" style="text-align: center; border: none;">
+                                <a href="#">
+                                    <img class="thumbnail2 img-responsive" th:src="@{/img/column/column_thumb_2.jpg}" style="min-height: 170px;">
+                                </a>
+                            </td>
+                        </tr>
+                        <tr style="height: 45px; font-family: 'GmarketSansLight', sans-serif; font-size: 20px;">
+                            <td style="width: 40%; text-align: center; border: none;">by. pado</td>
+                            <td style="width: 60%; text-align: center; border: none;">22.07.15</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal fade" id="colModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <!-- 모달 헤더 -->
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- 모달 바디 -->
+                        <div class="modal-body">
+                            <img id="modalImage" th:src="@{/img/column/column_thumb_1.jpg}" alt="Image">
+                            <div id="modalText">
+                                리더들은 다양한 MBTI(Personality Type Indicator) 유형을 가지고 있으며, 이 다양성이 스타트업 생태계에 창의적인 아이디어와 다양한 관점을 제공합니다. 이 칼럼에서는 몇 가지 리더들의 일반적인 MBTI 유형과 그 유형에 따른 특징을 살펴보겠습니다.<br><br>
+                                [MBTI 유형: ENTP (개방적인 흥미 있는 토론자)]<br><br>
+
+                                대표적 사례: 스티브 잡스 (Apple의 공동창업자)
+                                특징: ENTP 유형은 창의적이고 아이디어가 넘쳐납니다. 그들은 스타트업을 시작하고 혁신적인 제품과 서비스를 만들기에 이상적인 유형입니다. 또한 리더십 스킬을 지니고 있어 팀을 효과적으로 이끌 수 있습니다.<br><br>
+
+
+                                [MBTI 유형: INTJ (전략가)]<br><br>
+
+                                대표적 사례: 일론 머스크 (SpaceX, Tesla의 CEO)
+                                특징: INTJ 유형은 분석적이고 논리적입니다. 그들은 비전을 가지고 있고 목표를 달성하기 위해 열정을 투입합니다. 스타트업에서는 전략을 세우고 비즈니스 모델을 개발하는 데 능숙합니다.<br><br>
+
+
+                                [MBTI 유형: ENFP (영감을 주는 중재자)]<br><br>
+
+                                대표적 사례: 미쉘 피퍼 (Airbnb의 공동창업자)
+                                특징: ENFP 유형은 친화력이 있고 다양한 아이디어를 구상합니다. 그들은 스타트업 문화에서 팀의 영감을 주며 사용자 중심의 디자인을 중요하게 생각합니다.<br><br>
+
+
+                                [MBTI 유형: ENTJ (대표적인 통솔자)]<br><br>
+
+                                대표적 사례: 제프 베조스 (Amazon의 CEO)
+                                특징: ENTJ 유형은 목표 달성을 위해 끈질기고 조직적입니다. 그들은 스타트업을 효율적으로 운영하고 성장시키는데 능숙하며 결단력이 있습니다.<br><br>
+
+
+                                리더들의 MBTI 유형은 다양하며, 이 다양성이 스타트업 성공에 기여할 수 있습니다. MBTI 유형은 개인의 성격과 성향을 나타내는 도구일 뿐이며, 스타트업을 성공시키기 위해서는 역량, 열정, 팀워크 등 다양한 요소가 결합되어야 합니다. 다양한 유형의 사람들이 협력하여 스타트업 생태계를 더욱 다양하고 번영하게 만들 수 있습니다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="colModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <!-- 모달 헤더 -->
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- 모달 바디 -->
+                        <div class="modal-body">
+                            <img id="modalImage" th:src="@{/img/column/column_thumb_2.jpg}" alt="Image">
+                            <div id="modalText">
+                                MBTI(Personality Type Indicator)는 우리의 성격과 행동 양식을 이해하는 데 도움을 주는 유용한 도구입니다. 이번 칼럼에서는 연애와 친구관계에서 가장 적합한 MBTI 궁합을 탐구해보겠습니다. MBTI를 통해 더 나은 연애와 친구 관계를 형성할 수 있는 방법을 알아보세요!<br><br>
+
+                                1. ENFP와 INTJ: "불꽃같은 열정과 논리의 조화"<br><br>
+
+                                ENFP(영감을 주는 중재자): 열정적이고 창의적인 ENFP는 관계를 즐기며 새로운 아이디어를 제시합니다.<br>
+                                INTJ(전략가): 논리적이고 분석적인 INTJ는 목표를 달성하기 위해 계획을 세우고 노력합니다.<br>
+                                궁합: ENFP는 INTJ의 논리적인 사고를 존중하면서도 새로운 경험과 아이디어를 제공해 삶을 더 풍요롭게 만듭니다.<br><br>
+                                2. ISTP와 ESTJ: "현실적인 협력과 효율성"<br><br>
+
+                                ISTP(호기심 많은 조사가): 미래를 생각하며 계획을 세우는 것을 좋아하지 않고 현재를 즐깁니다.<br>
+                                ESTJ(관리자): 조직적이고 목표 중심적인 ESTJ는 계획과 실행에 능숙합니다.<br>
+                                궁합: ISTP는 ESTJ의 현실적인 접근 방식을 받아들이면서 자유로운 스타일을 즐기며 효율적인 협력이 가능합니다.<br><br>
+                                3. INFJ와 ENFJ: "감정적인 연결과 지지"<br><br>
+
+                                INFJ(영감을 주는 사명감 있는 구원자): 다른 사람의 감정을 이해하고 지지해주는 INFJ는 신뢰와 연결을 중요시합니다.<br>
+                                ENFJ(친절한 사회운동가): 타인의 감정을 공감하며 도움을 주는 ENFJ는 친절하고 활발합니다.<br>
+                                궁합: 두 유형은 감정적인 연결과 지지를 중요하게 생각하여 서로를 더 풍부하게 만들어줍니다.<br><br>
+                                4. ISTJ와 ESTP: "현실적인 협력과 실행력"<br><br>
+
+                                ISTJ(성실한 검토가): 신뢰할 수 있고 조직적인 ISTJ는 목표를 달성하기 위해 노력합니다.<br>
+                                ESTP(모험가): 적응력이 뛰어나며 리더십과 실행력을 가진 ESTP는 새로운 경험을 즐깁니다.<br>
+                                궁합: 두 유형은 현실적인 목표 달성을 위해 효과적으로 협력할 수 있습니다.<br><br>
+
+                                MBTI는 우리의 성격과 선호도를 이해하는 데 유용한 도구입니다. 하지만 MBTI 유형은 모든 것을 결정짓는 것은 아닙니다. 연애와 친구 관계에서 중요한 것은 상호 이해, 커뮤니케이션, 서로를 지지하는 것입니다. MBTI를 통해 더 나은 관계를 형성하고 유지하는 데 도움이 되길 바랍니다. 여러분의 MBTI를 확인하고, 다른 사람의 MBTI도 이해하며 즐거운 관계를 즐겨보세요!
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="areaTitle">커플존 좋아요 랭킹💕</div>
+            <div class="coupleRankArea" id="rankArea">
+                <table class="table rankTable">
+                    <thead>
+                    <tr>
+                        <th width="10%">순위</th>
+                        <th width="35%">MBTI</th>
+                        <th width="35%">닉네임</th>
+                        <th width="20%">하트 수</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>ENFP</td>
+                        <td>User1</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>INTJ</td>
+                        <td>User2</td>
+                        <td>85</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>INFJ</td>
+                        <td>User3</td>
+                        <td>72</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>ESTP</td>
+                        <td>User4</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>ISTP</td>
+                        <td>User5</td>
+                        <td>55</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="areaTitle">프렌드존 좋아요 랭킹🧑‍🤝‍🧑</div>
+            <div class="friendRankArea" id="rankArea">
+                <table class="table rankTable">
+                    <thead>
+                    <tr>
+                        <th width="10%">순위</th>
+                        <th width="35%">MBTI</th>
+                        <th width="35%">닉네임</th>
+                        <th width="20%">하트 수</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>ENFP</td>
+                        <td>User1</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>INTJ</td>
+                        <td>User2</td>
+                        <td>85</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>INFJ</td>
+                        <td>User3</td>
+                        <td>72</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>ESTP</td>
+                        <td>User4</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>ISTP</td>
+                        <td>User5</td>
+                        <td>55</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <input type="hidden"  id="nowPageNumber"  name ="nowPageNumber"  value="0">
+        </div>
+    </section>
+
+    <script>
+        $('.thumbnail1').on('click', function(e){
+            // 클릭된 썸네일의 데이터 가져오기
+            const title = $(this).find('a').text();
+            const filePath = $(this).find('#origin').val();
+            const data1 = "값1"; // 원하는 데이터를 가져오세요
+            const data2 = "값2"; // 원하는 데이터를 가져오세요
+
+            // 모달 내부 요소에 데이터 설정
+            $('#colModal1 img').attr('src', filePath);
+            $('#colModal1 .modal-title').text(title);
+            $('#colModal1 table tr:nth-child(2) td:nth-child(1)').text(data1);
+            $('#colModal1 table tr:nth-child(2) td:nth-child(2)').text(data2);
+
+            // 모달 열기
+            $('#colModal1').modal('show');
+        });
+
+        // 모달 닫기 함수
+        function closeModal() {
+            $('#colModal1').modal('hide');
+        }
+
+        // 닫기 버튼 클릭 이벤트 처리
+        $('#closeModalBtn').on('click', closeModal);
+
+        // 모달 외부를 클릭하면 모달 닫기
+        $('#colModal1').on('click', function(event) {
+            if ($(event.target).is('#colModal1')) {
+                closeModal();
+            }
+        });
+
+        $('.thumbnail2').on('click', function(e){
+            // 클릭된 썸네일의 데이터 가져오기
+            const title = $(this).find('a').text();
+            const filePath = $(this).find('#origin').val();
+            const data1 = "값1"; // 원하는 데이터를 가져오세요
+            const data2 = "값2"; // 원하는 데이터를 가져오세요
+
+            // 모달 내부 요소에 데이터 설정
+            $('#colModal2 img').attr('src', filePath);
+            $('#colModal2 .modal-title').text(title);
+            $('#colModal2 table tr:nth-child(2) td:nth-child(1)').text(data1);
+            $('#colModal2 table tr:nth-child(2) td:nth-child(2)').text(data2);
+
+            // 모달 열기
+            $('#colModal2').modal('show');
+        });
+
+        // 모달 닫기 함수
+        function closeModal() {
+            $('#colModal2').modal('hide');
+        }
+
+        // 닫기 버튼 클릭 이벤트 처리
+        $('#closeModalBtn').on('click', closeModal);
+
+        // 모달 외부를 클릭하면 모달 닫기
+        $('#colModal2').on('click', function(event) {
+            if ($(event.target).is('#colModal2')) {
+                closeModal();
+            }
+        });
+        
+
+    </script>
+</div>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout/main_layout}">
+
+<div layout:fragment="content">
+    <div class="container">
+        <section class="content" id="msg">
+
+        </section>
+        <div id="pageArea">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+              </ul>
+            </nav>
+        </div>
+    </div>
+    <script>
+
+
+        function  getMessageList(numPageNum) {
+
+            $.ajax(
+                {
+                 url : '/message/list/data',
+                 type :'get',
+                 dataType :'json',
+                 data : {nowPageNumber : numPageNum}
+
+            }).done(function(data){
+                console.log(data.list);
+                makeProfile(data.list)
+
+            }).fail(function (xhr, status, error){
+                alert(status);
+            });
+
+        }
+
+        $(document).ready(function (){
+            getMessageList(0);
+        });
+
+    </script>
+</div>
+</html>
+
