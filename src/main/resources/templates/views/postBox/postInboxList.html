@@ -241,7 +241,8 @@
                         <tr>
                             <th><img th:src="@{${vo.images}}" id="profileIcon"></th>
                             <td class="truncate-title">
-                                <a href="/your-link-here">[[${vo.postTitle}]]</a>
+                                <a href="/detail?postNum="+[[${vo.postNum}]]>[[${vo.postTitle}]]</a>
+                                <a href="/your-link-here?postNum="+[[${vo.postNum}]]>[[${vo.postNum}]]</a>
                             </td>
                             <td class="truncate-nickname">[[${vo.userNick}]]</td>
                             <td class="truncate-zone">[[${vo.postZone}]]</td>
