@@ -11,5 +11,9 @@ import java.util.Map;
 @Mapper
 public interface PostMapper {
 
+   //메세지 리스트 가져오기
    public List<PostVO.PostList> getPostList(Map<String,Object> userId) throws SQLException;
+   
+   //디테일 정보 가져오기
+   public PostVO.PostDetail getPostDetail(Map<String, Object> postNum) throws  SQLException;
 }
