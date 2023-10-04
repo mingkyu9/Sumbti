@@ -227,7 +227,7 @@
 
             <div class="row" style="margin-top: 15px; justify-content: flex-end; font-family: 'GmarketSansLight', sans-serif;">
                 <div class="col-md-6" style="text-align: right; margin-bottom:20px;">
-                    <button type="button" class="btn btn-primary" id="writeBtn">글 쓰기</button>
+                    <button type="button" class="btn btn-primary" id="writeBtn">상세정보 입력</button>
                 </div>
             </div>
             <ul class="nav nav-tabs nav-fill">
@@ -442,12 +442,12 @@
 
             });
         }
-                // write 버튼 클릭 이벤트 처리
+                // 상세정보 입력 버튼 클릭 이벤트 처리
                 document.addEventListener('DOMContentLoaded', function () {
                     const writeBtn = document.getElementById('writeBtn');
 
                     writeBtn.addEventListener('click', function () {
-                        window.location.href = '/saveDetails';
+                        window.location.href = '/DetailInformation';
                     });
                 });
 

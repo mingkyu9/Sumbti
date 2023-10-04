@@ -181,7 +181,7 @@
               <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                 <label for="postPerson">받는 사람</label>
                 <input type="text" class="form-control" id="postPerson"  name="postPerson"
-                       placeholder="닉네임을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px; width: 500px;">
+                       placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px; width: 500px;">
                 <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
               </div>
             </div>
@@ -296,11 +296,12 @@
 
         $.ajax(
                 {
-                  url: '/sendPost',
+                  url: '/board/add',
                   type: 'post',
                   dataType : 'json',
                   contentType: false,  //전송할 타입 제거
                   processData : false, //ajax 전송 파라메터 없음
+                  enctype:'mutipart/form-data',
                   data : formData
                 }
         ).done(function(data){
