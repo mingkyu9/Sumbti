@@ -21,13 +21,15 @@ public class BoardController {
 	private final BoardService service;
 
 	@GetMapping("/list")
-	public ModelAndView  getBoardList(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber) {
+	public ModelAndView  getBoardList(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber,
+									  @RequestParam(value="categoryId", defaultValue ="")  String categoryId) {
 		ModelAndView view = new ModelAndView();
 		view.setViewName("views/communityZone/communityZoneList");
 		
 		BoardVO.Response response = null;
 		Map<String, Object> param = new HashMap<>();
 		param.put("nowPageNumber",  nowPageNumber);
+		param.put("categoryId",  categoryId);
 		
 		try {
 			

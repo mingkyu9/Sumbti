@@ -12,6 +12,9 @@
     <select id="getBoardTotal" parameterType="map" resultType="int">
         select count(board_num) as cnt
         from board
+        <if test='categoryId != null and categoryId != ""'>
+            where category_id = #{categoryId}
+        </if>
     </select>
 
     <select id="getBoardList"  parameterType="map"   resultType="boardList">
