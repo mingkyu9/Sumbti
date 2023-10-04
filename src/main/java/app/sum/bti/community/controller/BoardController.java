@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/comm")
 @RequiredArgsConstructor
 @Slf4j
 public class BoardController {
@@ -23,7 +23,7 @@ public class BoardController {
 	@GetMapping("/list")
 	public ModelAndView  getBoardList(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber) {
 		ModelAndView view = new ModelAndView();
-		view.setViewName("views/board/boardList");
+		view.setViewName("views/communityZone/communityZoneList");
 		
 		BoardVO.Response response = null;
 		Map<String, Object> param = new HashMap<>();
@@ -42,18 +42,18 @@ public class BoardController {
 		
 		return view;
 	}
-	
+
+	//
 	@GetMapping("/add/view")
 	public ModelAndView  boardWriteForm(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber) {
-	
+
 		ModelAndView view = new ModelAndView();
-		
+
 		view.addObject("nowPageNumber", nowPageNumber);
-		view.setViewName("views/board/boardWriteNote");
-			
+		view.setViewName("views/communityZone/communityZoneWrite");
+
 		return view;
 	}
-
 	@PostMapping("/add")
 	@ResponseBody
 	public Map<String, Object> writeBoard(@ModelAttribute BoardVO.Request boardRequest) {
@@ -77,8 +77,8 @@ public class BoardController {
 
 	}
 
-
-	@GetMapping("/detail/view")
+	//누나가 단 만들어주면 수정
+	@GetMapping("/content")
 	public ModelAndView  boardDetailView(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber,
 										 @RequestParam("boardNum") int boardNum) {
 
@@ -86,7 +86,7 @@ public class BoardController {
 
 		view.addObject("nowPageNumber", nowPageNumber);
 		view.addObject("boardNum", boardNum);
-		view.setViewName("views/board/boardDetail");
+		view.setViewName("views/communityZone/communityZoneContent");
 
 		try {
 
@@ -105,7 +105,7 @@ public class BoardController {
 	@GetMapping("/del/{boardNum}")
 	public ModelAndView deleteBoard(@PathVariable("boardNum") int boardNum) {
 		ModelAndView view = new ModelAndView();
-		view.setViewName("redirect:/board/list?nowPageNumber=0");
+		view.setViewName("redirect:/comm/list?nowPageNumber=0");
 		try {
 
 			service.deleteBoard(boardNum);
@@ -117,7 +117,7 @@ public class BoardController {
 		return view;
 	}
 
-
+	//수정하기
 	@GetMapping("/modify/view")
 	public ModelAndView  boardModifylView(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber,
 										  @RequestParam("boardNum") int boardNum) {
@@ -166,7 +166,4 @@ public class BoardController {
 		return resultMap;
 
 	}
-
-
-	
 }

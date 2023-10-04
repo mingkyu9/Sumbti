@@ -175,6 +175,7 @@
                             <col width="18%" />
                         </colgroup>
                         <thead>
+                        <th>글번호</th>
                         <th>글제목</th>
                         <th>닉네임</th>
                         <th>mbti</th>
@@ -183,7 +184,8 @@
                         </thead>
                         <tbody id="tableBody">
                         <tr th:each="vo : ${data.list}">
-                            <td class="title">
+                            <td class="nickName">[[${vo.boardNum} ]]</td>
+                            <td>
                                 <a href="javascript:void(0);" th:onclick="'goDetail(' + ${vo.boardNum} + ');'">
                                     <span th:text="${vo.boardTitle}"></span>
                                 </a>
@@ -217,6 +219,9 @@
 
         function movePage(nowPageNumber) {
             location.href ="/comm/list?nowPageNumber="+ nowPageNumber  ;
+        }
+        function writerBoard() {
+            location.href ='/comm/add/view?nowPageNumber=' + $('#nowPageNumber').val();
         }
 
     </script>
@@ -258,7 +263,7 @@
             const writeBtn = document.getElementById('writeBtn');
 
             writeBtn.addEventListener('click', function() {
-                location.href = '/comm/write?nowPageNumber' + $('#nowPageNumber').val();
+                location.href = '/comm/add/view?nowPageNumber=' + $('#nowPageNumber').val();
             });
         });
 

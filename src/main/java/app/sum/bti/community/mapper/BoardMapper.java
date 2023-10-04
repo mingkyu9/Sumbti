@@ -1,6 +1,5 @@
 package app.sum.bti.community.mapper;
 
-import app.sum.bti.community.vo.BoardFileVO;
 import app.sum.bti.community.vo.BoardVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

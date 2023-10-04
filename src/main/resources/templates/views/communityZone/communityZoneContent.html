@@ -164,7 +164,7 @@
             <div id="communityZoneLogo">
                 <img th:src="@{/img/logo/communityZone.png}">
             </div>
-            <input type="hidden" id="nowPageNumber" name="nowPageNumber" value="0">
+            <input type="hidden" id="nowPageNumber" name="nowPageNumber" th:value="*{detail.boardNum}">
             <div class="titleArea">
                 <div class="title">
                     <span>일이삼사오륙칠팔구십일이삼사오륙칠팔구십</span>
@@ -182,14 +182,31 @@
             <span id="likeCount">35</span>
         </div>
         <div class="btn-area">
-            <button type="button" class="btn btn-secondary btn-lg" id="listBtn">목록</button>
-            <button type="button" class="btn btn-danger btn-lg" id="saveBtn">삭제</button>
-            <button type="button" class="btn btn-primary btn-lg" id="cancelBtn">수정</button>
+            <button type="button" class="btn btn-secondary btn-lg" id="listBtn" onclick="goList();">목록</button>
+            <button type="button" class="btn btn-danger btn-lg" id="saveBtn" onclick="del();">삭제</button>
+            <button type="button" class="btn btn-primary btn-lg" id="cancelBtn" onclick="mdofiy();" >글 수정</button>
         </div>
 
     </section>
 
     <script>
+        function mdofiy() {
+            location.href  ='/comm/modify/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardNum=' + $('#boardNum').val() ;
+        }
+        function del() {
+            const isConfirm = confirm('정말 삭제하시겠습니까?');
+
+            if(isConfirm) {
+                location.href = '/comm/del/' + $('#boardNum').val();
+            }
+
+        }
+        function goList(){
+            location.href = '/comm/list?nowPageNumber=' + $('#nowPageNumber').val();
+        }
+
+
+
 
         //하트 애니메이션
         document.addEventListener('DOMContentLoaded', function () {

@@ -91,8 +91,7 @@ public class BoardService {
 	}
 	@Transactional
 	public void deleteBoard(int boardNum) throws Exception {
-		BoardVO.Detail detail = mapper.getBoardDetail(boardNum);
-
+//		BoardVO.Detail detail = mapper.getBoardDetail(boardNum);
 		mapper.deleteBoard(boardNum);
 	}
 }

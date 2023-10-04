@@ -352,36 +352,38 @@
 
     function save() {
 
-        if(validated()) {
+        if (validated()) {
 
             // ajax 로 파일을 포함한 데이터를 전송하기 위해서는 form 객체를 생성
             const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
             //form 데이터 만들기
             const formData = new FormData(formObj);
-
             $.ajax(
                 {
-                    url: '/board/add',
+                    url: '/comm/add',
                     type: 'post',
-                    dataType : 'json',
+                    dataType: 'json',
                     contentType: false,  //전송할 타입 제거
-                    processData : false, //ajax 전송 파라메터 없음
-                    enctype:'mutipart/form-data',
-                    data : formData
+                    processData: false, //ajax 전송 파라메터 없음
+                    data: formData
                 }
-            ).done(function(data){
-                if(data.resultCode === 200) {
+            ).done(function (data) {
+                if (data.resultCode === 200) {
                     alert('글이 등록되었습니다.');
-                    location.href = '/board/list';    // 리스트로 가기
-                }else {
+                    location.href = '/comm/list';    // 리스트로 가기
+                } else {
                     alert('글등록이 실패하였습니다');
                     return false;
                 }
-            }).fail(function(xhr, error, status) {
+            }).fail(function (xhr, error, status) {
                 alert(error);
             });
         }//endif
     }
+        function goList(){
+            location.href = '/comm/list?nowPageNumber=' + $('#nowPageNumber').val();
+
+         }
 </script>
 </div>
 </html>
