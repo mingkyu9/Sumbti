@@ -165,6 +165,15 @@ public class textController {
 
     }
 
+    @GetMapping("/select")
+    public ModelAndView selectMbti() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/selectMbti/selectPage2");
+
+        return view;
+
+    }
+
     @GetMapping("/login")
     public ModelAndView login() {
         ModelAndView view = new ModelAndView();

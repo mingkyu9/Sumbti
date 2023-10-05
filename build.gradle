@@ -49,6 +49,8 @@ dependencies {
 
 	implementation 'org.json:json:20230227'
 
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
 tasks.named('test') {
