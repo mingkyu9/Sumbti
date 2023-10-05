@@ -17,6 +17,7 @@
       <!--쪽지함 -->
       <typeAlias type="app.sum.bti.post.vo.PostVO$PostList" alias="postList"/>
       <typeAlias type="app.sum.bti.post.vo.PostVO$PostDetail" alias="postDetail"/>
+      <typeAlias type="app.sum.bti.post.vo.PostVO$SendPost" alias="sendPost"/>
 
       <!--로그인-->
       <typeAlias type="app.sum.bti.login.vo.LoginVO$LoginInfo" alias="loginInfo"/>

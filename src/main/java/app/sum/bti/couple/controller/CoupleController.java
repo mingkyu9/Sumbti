@@ -132,14 +132,18 @@ public class CoupleController {
     // 좋아요 목록에 추가
     @PostMapping("/saveCoupleLikeList")
     @ResponseBody
-    public Map<String, Object> saveLikeList(@RequestParam(value="userId", defaultValue = "test1") String userId,
-                                            @RequestParam(value="userTo", defaultValue = "test10") String userTo){
-
+    public Map<String, Object> saveLikeList(@RequestParam(value="likeToUser") String userTo,
+                                            HttpSession session) {
 
         Map<String, Object> resultMap = new HashMap<>();
+        // 세션에 저장되어있는 정보 가져오기
+        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
+
+        // 로그인유저 id와 좋아요버튼유저의 id를 파라미터로 전달
         Map<String, Object> param = new HashMap<>();
-        param.put("userId", userId);
+        param.put("userId", login.getUserId());
         param.put("userTo", userTo);
+
         try {
             int result = coupleService.checkExistList(param);
 
@@ -163,7 +167,7 @@ public class CoupleController {
 
     //상세정보 입력화면
     @GetMapping("/DetailInformation")
-    public ModelAndView saveDetailInfo(HttpSession session){
+    public ModelAndView saveDetailInfo(){
         ModelAndView view  = new ModelAndView();
         view.setViewName("views/coupleZone/coupleWrite");
 
@@ -179,7 +183,6 @@ public class CoupleController {
         LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
         // 파라미터로 전달할 객체의 userId 속성에 값 추가.
         detailRequest.setUserId(login.getUserId());
-
 
         try {
             int result = coupleService.saveDetail(detailRequest);

@@ -18,13 +18,13 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
-                    <a class="nav-link" href="/main" id="home" onclick="goToMainPage()">홈</a>
+                    <a class="nav-link" href="/mainView" id="home" onclick="goToMainPage()">홈</a>
                 </li>
                 <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
                     <a class="nav-link disabled" href="#" id="myPage">마이 페이지</a>
                 </li>
                 <li class="nav-item active" style="font-family: 'GmarketSansMedium', sans-serif;">
-                    <a class="nav-link" href="/post/inbox/list" id="postBox" onclick="goToPostBox()">쪽지함</a>
+                    <a class="nav-link" href="/postBoxList" id="postBox" onclick="goToPostBox()">쪽지함</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" id="null">  </a>
@@ -51,12 +51,12 @@
 
         // MainPage로 이동하는 함수 정의
         function goToMainPage() {
-            window.location.href = '/main'; // 이동할 페이지 URL을 설정
+            window.location.href = '/mainView'; // 이동할 페이지 URL을 설정
         }
 
         // PostBox로 이동하는 함수 정의
         function goToPostBox() {
-            window.location.href = '/post/inbox/list'; // 이동할 페이지 URL을 설정
+            window.location.href = '/postBoxList'; // 이동할 페이지 URL을 설정
         }
 
         // Couple Zone로 이동하는 함수 정의

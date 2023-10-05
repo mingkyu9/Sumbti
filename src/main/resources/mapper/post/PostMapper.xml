@@ -34,6 +34,11 @@
 
     </select>
 
-
+    <!-- 쪽지보내기 -->
+    <insert id="postSend" parameterType="sendPost">
+        insert into post_box (post_title, post_contents, post_sender, post_receiver)
+             values(#{postTitle}, #{postContents}, #{postSender},
+                  (select user_id from user_info where user_nick = #{postReceiver}))
+    </insert>
 
 </mapper>

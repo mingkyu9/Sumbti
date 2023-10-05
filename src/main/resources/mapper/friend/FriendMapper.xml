@@ -3,32 +3,45 @@
 
 <mapper namespace="app.sum.bti.friend.mapper.FriendMapper">
 
-    <!-- FriendZone 유저목록 가져오기-->
+    <!-- FriendZone 상세정보 등록한 유저목록 가져오기 -->
     <select id="getFriendList"  parameterType="map" resultType="FriendList">
+
         SELECT  u.user_id,
                 u.user_mbti,
                 u.user_gender,
                 u.user_nick,
                 u.love_mbti,
                 u.hate_mbti,
-               (SELECT COUNT(*) FROM like_list lk WHERE lk.like_to = u.user_id) AS like_count,
+               (select count(*) from like_list_friend lk WHERE lk.friend_like_to = u.user_id) as like_count,
                 di.detail_intro
-        FROM    user_info u
-             LEFT JOIN detail_info di ON u.user_id = di.user_id
-        where u.user_id != #{userId};
+        FROM user_info u
+            LEFT JOIN detail_info_friend di ON u.user_id = di.user_id
+        WHERE
+            u.user_gender != (SELECT user_gender FROM user_info WHERE user_id = #{userId})
+        AND
+            u.user_id IN (SELECT user_id FROM detail_info_friend);
+
     </select>
 
 
+    <!-- 상세정보 저장하기 -->
     <insert id="saveDetail"  parameterType="friendDetailInfo">
-            insert into detail_info (user_id, detail_intro, detail_hobby, detail_food, detail_pat)
-                             values( #{userId}, #{detailIntro}, #{detailHobby}, #{detailFood}, #{detailPat})
+            insert into detail_info_friend ( user_id, detail_intro, detail_hobby, detail_food, detail_pat)
+                                     values( #{userId}, #{detailIntro}, #{detailHobby}, #{detailFood}, #{detailPat})
     </insert>
 
+
+    <!-- 썸네일 정보 가져오기 -->
     <select id="showDetailInfo" parameterType="map" resultType="friendDetailInfo">
 
-        select user_id, detail_intro, detail_hobby, detail_food, detail_pat
-          from detail_info
-            where user_id = #{userId}
+        select user_id,
+               detail_intro,
+               detail_hobby,
+               detail_food,
+               detail_pat
+        from   detail_info_friend
+        where  user_id = #{userId}
+
     </select>
 
 
@@ -36,18 +49,18 @@
     <!-- 접속유저가 버튼유저를 좋아하고 있는지 확인 0이면 없고, 1이면 있음-->
     <select id="FriendCheckExistList" parameterType="map" resultType="int">
         select count(*)
-          from like_list
-            where like_from = #{userId} and like_to = #{userTo}
+          from like_list_friend
+            where friend_like_from = #{userId} and friend_like_to = #{userTo}
     </select>
 
 
     <insert id="FriendAddLikeList"  parameterType="map">
-        insert into like_list (like_from, like_to)
+        insert into like_list_friend (friend_like_from, friend_like_to)
                         values(#{userId}, #{userTo})
     </insert>
 
     <delete id="FriendDeleteLikeList" parameterType="map">
-        delete from like_list where like_from = #{userId} and like_to = #{userTo}
+        delete from like_list_friend where friend_like_from = #{userId} and friend_like_to = #{userTo}
     </delete>
 
 </mapper>
