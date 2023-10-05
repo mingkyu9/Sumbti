@@ -201,15 +201,15 @@
                 </div>
                 <form id = "form" action = "<%=rootPath%>/login" method = "POST">
                     <div class = "int-area">
-                        <input type = "text" name = "userId" id = "id" autocomplete = "off" required>
+                        <input type = "text" name = "id" id = "id" autocomplete = "off" required>
                         <label for ="id">USERNAME</label>
                     </div>
                     <div class = "int-area">
-                        <input type = "password" name = "userPw" id = "pw" autocomplete = "off" required>
+                        <input type = "password" name = "pw" id = "pw" autocomplete = "off" required>
                         <label for ="pw">PASSWORD</label>
                     </div>
                     <div class = "btn-area">
-                        <button type = "button" id = "login" value="LOGIN"/>
+                        <button type = "submit" id = "login">LOGIN</button>
                     </div>
                     <div class = "caption">
                         <a href = "/signin/first">회원가입하기</a>
@@ -223,8 +223,8 @@
     <script>
         function initEvt()  {
             $('#login').on('click', function(event){
-                const id = '#id';
-                const pw = '#pw';
+                var id = '#id';
+                var pw = '#pw';
 
 
                 if($(id).val() == '')  {
@@ -240,32 +240,7 @@
                         $('label').removeClass('warning');
                     },1500);
                 }else  {
-                    // 넘길 데이터
-                    const param = {
-                        userId : $(id).val(),
-                        userPw : $(pw).val()
-                    };
-
-                    $.ajax({
-
-                        url : '/checkLogin',
-                        type: 'post',
-                        dataType: 'json',
-                        data: param
-
-                    }).done(function(result){
-
-                        if(result.resultCode == '200'){
-
-                            alert('로그인 성공');
-                            //페이지 이동
-                            location.href='/mainView';
-                        }else{
-                            alert('로그인 실패\n 아이디 비밀번호를 확인해주세요');
-                        }
-                    }).fail(function(xhr,error,status){
-                        alert('로그인 실패\n 관리자에게 문의 해주세요');
-                    });
+                    $('#frm').submit();
                 }
             });
         }

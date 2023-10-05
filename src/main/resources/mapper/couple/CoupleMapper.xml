@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
-
-<!-- CoupleZone Mapper -->
 <mapper namespace="app.sum.bti.couple.mapper.CoupleMapper">
 
-
-
+    <!-- 커플 상세정보 등록한 유저목록 가져오기 -->
     <select id="getCoupleList"  parameterType="map" resultType="coupleList">
         select  u.user_id,
                 u.user_mbti,
@@ -15,12 +11,14 @@
                 u.user_nick,
                 u.love_mbti,
                 u.hate_mbti,
-               (select count(*) from like_list lk WHERE lk.like_to = u.user_id) as like_count,
+               (select count(*) from like_list_couple lk WHERE lk.couple_like_to = u.user_id) as like_count,
                 di.detail_intro
         from user_info u
-              LEFT JOIN detail_info di ON u.user_id = di.user_id
+              LEFT JOIN detail_info_couple di ON u.user_id = di.user_id
         WHERE
               u.user_gender != (SELECT user_gender FROM user_info WHERE user_id = #{userId})
+        AND
+              u.user_id IN (SELECT user_id FROM detail_info_couple);
     </select>
 
 <!--    <select id="getCoupleList"  resultType="coupleList">-->
@@ -32,10 +30,10 @@
 <!--        from   user_info u-->
 <!--    </select>-->
 
-
+    <!-- 커플 상세정보 저장-->
     <insert id="saveDetail"  parameterType="coupleDetailInfo">
-            insert into detail_info (user_id, detail_intro, detail_hobby, detail_food, detail_pat)
-                             values( 'admin', #{detailIntro}, #{detailHobby}, #{detailFood}, #{detailPat})
+            insert into detail_info_couple (user_id, detail_intro, detail_hobby, detail_food, detail_pat)
+                             values( #{userId}, #{detailIntro}, #{detailHobby}, #{detailFood}, #{detailPat})
     </insert>
 
     <select id="showDetailInfo" parameterType="map" resultType="coupleDetailInfo">

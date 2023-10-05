@@ -8,13 +8,19 @@
 
   <typeAliases>
      <typeAlias type="java.util.Map" alias="map" />
+      <!--커플/프렌드존 -->
      <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleList" alias="coupleList"/>
      <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleDetailInfo" alias="coupleDetailInfo"/>
      <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendList" alias="friendList"/>
      <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendDetailInfo" alias="friendDetailInfo"/>
+
       <!--쪽지함 -->
       <typeAlias type="app.sum.bti.post.vo.PostVO$PostList" alias="postList"/>
       <typeAlias type="app.sum.bti.post.vo.PostVO$PostDetail" alias="postDetail"/>
+
+      <!--로그인-->
+      <typeAlias type="app.sum.bti.login.vo.LoginVO$LoginInfo" alias="loginInfo"/>
+      <typeAlias type="app.sum.bti.login.vo.LoginVO$LoginUserInfo" alias="loginUserInfo"/>
 
   </typeAliases>
 
