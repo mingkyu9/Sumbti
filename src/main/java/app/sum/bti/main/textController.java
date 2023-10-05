@@ -75,6 +75,15 @@ public class textController {
 
     }
 
+    @GetMapping("/comm/modify")
+    public ModelAndView communityModify() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/communityZone/communityZoneModify");
+
+        return view;
+
+    }
+
     @GetMapping("/comm/list")
     public ModelAndView communityList() {
         ModelAndView view = new ModelAndView();

@@ -123,6 +123,7 @@
       font-size: 20px;
     }
 
+
     .dropdown {
       position: relative;
       display: inline-block;
@@ -135,6 +136,8 @@
       min-width: 160px;
       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
       z-index: 1;
+      max-height: 200px;
+      overflow-y: auto;
     }
 
     .dropdown:hover .dropdown-content {
@@ -181,21 +184,50 @@
               <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                 <label for="postPerson">받는 사람</label>
                 <input type="text" class="form-control" id="postPerson"  name="postPerson"
-                       placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px; width: 500px;">
+                       placeholder="닉네임을 입력하세요." maxlength="30" style="height: 80px; width: 300px;">
                 <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
               </div>
             </div>
             <div class="col">
               <div class="btn-group">
                 <div class="dropdown">
-                  <button type="button" class="btn btn-outline-warning" style="font-size: 50px;">
-                    +
+                  <button type="button" class="btn btn-outline-danger" style="font-size: 28px; height: 100%; width: 135px">
+                    커플존
                   </button>
                   <div class="dropdown-content">
                     <a href="#">항목 1</a>
                     <a href="#">항목 2</a>
                     <a href="#">항목 3</a>
-                    <!-- 원하는 항목들을 추가하세요 -->
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="btn-group">
+                <div class="dropdown">
+                  <button type="button" class="btn btn-outline-success" style="font-size: 28px; height: 100%; width: 150px;">
+                    프렌드존
+                  </button>
+                  <div class="dropdown-content">
+                    <a href="#">항목 1</a>
+                    <a href="#">항목 2</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+                    <a href="#">항목 3</a>
+
                   </div>
                 </div>
               </div>
@@ -211,7 +243,7 @@
           <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
             <label for="postContents">내용</label>
             <textarea type="text" class="form-control" id="postContents"   name="postContents"
-                      maxlength="500" style="height: 500px; overflow-y: auto;"></textarea>
+                      maxlength="500" style="height: 500px; overflow-y: auto;" placeholder="내용을 입력하세요."></textarea>
             <div class="char-limit-message" id="charLimitMessage">최대 500자까지만 작성 가능합니다.</div>
           </div>
           <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
