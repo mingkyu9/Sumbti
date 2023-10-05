@@ -260,7 +260,8 @@
                     <div class="likeArea">
                         <div class="heart" th:id="|likeBtn_${vo.userId}|" th:onclick="likeBtnEvent([[${vo.userId}]]);"></div>
                         <span th:id="|likeCount_${vo.userId}|">[[${vo.likeCount}]]</span>
-                        <button type="button" class="btn btn-info" style="margin-left: 30px; font-size: 20px;">쪽지</button>
+                        <button type="button" class="btn btn-info" th:id="|postBtn_${vo.userId}|" th:onclick="sendPost([[${vo.userNick}]]);"
+                                style="margin-left: 30px; font-size: 20px;">쪽지</button>
                     </div>
 
                 </div>
@@ -319,10 +320,14 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <textarea id="messageTextarea" class="form-control" rows="4" placeholder="쪽지 내용을 입력하세요" maxlength="500" style="font-family: 'GmarketSansLight', sans-serif"></textarea>
-                    <div id="charCount">0/500 characters</div>
-                </div>
+                <form id="frm">
+                    <input type="hidden" id="postReceiver" name="postReceiver" value="">
+                    <div class="modal-body">
+                        <textarea id="messageTextarea" name="postContents" class="form-control" rows="4" placeholder="쪽지 내용을 입력하세요" maxlength="500" style="font-family: 'GmarketSansLight', sans-serif"></textarea>
+                        <input type="text" id="postTile" name="postTitle" placeholder="제목을입력하세요"/>
+                        <div id="charCount">0/500 characters</div>
+                    </div>
+                </form>
                 <div class="modal-footer" style="font-family: 'GmarketSansMedium', sans-serif">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                     <button type="button" class="btn btn-primary" id="sendMessageBtn">보내기</button>
@@ -335,6 +340,7 @@
     <script>
 
 
+        /* 좋아요 버튼 이벤트 */
         function likeBtnEvent(userId) {
             // 해당 버튼아이디의 하트버튼을 가져옴
             const heartButton = document.getElementById('likeBtn_' + userId);
@@ -414,230 +420,216 @@
 
                 });
 
-                //
-                //     // // 눌렀을때 좋아요 목록에 추가되며 하트옆에 숫자 다시쓰기 (ajax로 처리해서 그 부분만 바꿔? 모달처럼? )
-                //     // // 그 부분만 새로고침이 되나?
-                //     $.ajax({
-                //         type:'post',
-                //         url: '/saveCoupleLikeList',
-                //         contentType:'application/json',
-                //         data: JSON.stringify({
-                //             likeToUser: userId
-                //         }),
-                //         dataType : 'json'
-                //     }).done(function(data){
-                //         if(data.resultCode === 200) {
-                //             likeCount = likeCount + 1;
-                //         }else if(data.resultCode === 201) {
-                //             likeCount = likeCount - 1;
-                //         }
-                //
-                //         document.getElementById('likeCount_'+userId).textContent  = likeCount;
-                //
-                //     }).fail(function(xhr, error, status) {
-                //         alert(error);
-                //     });
-                //
-                // }
-
             });
         }
-                // 상세정보 입력 버튼 클릭 이벤트 처리
-                document.addEventListener('DOMContentLoaded', function () {
-                    const writeBtn = document.getElementById('writeBtn');
 
-                    writeBtn.addEventListener('click', function () {
-                        window.location.href = '/DetailInformation';
-                    });
-                });
+        function sendPost(userNick) {
 
-                //navtabs 페이지 이동 함수
-                $(document).ready(function () {
-                    // 검색 탭(nav-link) 클릭 이벤트 처리
-                    $('.nav-link[href="#"]').on('click', function (e) {
-                        e.preventDefault(); // 기본 링크 동작 방지
-                        // 페이지 이동을 위해 JavaScript로 URL 변경
-                        window.location.href = '/coupleZoneSelectedList';
-                    });
-                });
+            $("#messageModal").modal("show");
+            $("#messageTextarea").val(""); // Clear textarea when opening modal
+            $("#charCount").hide();
 
-                // 페이지당 프로필 카드 개수
-                const cardsPerPage = 10;
+            $("#messageTextarea").on("input", function () {
+                const maxLength = 500;
+                const currentLength = $(this).val().length;
+                const charCountElement = $("#charCount");
 
-                // 현재 페이지 번호 초기화
-                let currentPage = 0;
+                charCountElement.text(currentLength + "/" + maxLength + " characters");
 
-                // 페이지 이동 함수
-                function goToPage(pageNumber) {
-                    currentPage = pageNumber;
-                    const startIndex = currentPage * cardsPerPage;
-                    const endIndex = startIndex + cardsPerPage;
+                if (currentLength > maxLength) {
+                    charCountElement.show();
+                    $(this).addClass("exceeded");
+                } else {
+                    charCountElement.hide();
+                    $(this).removeClass("exceeded");
+                }
+            });
 
-                    // 모든 프로필 카드 숨김
-                    $('.profile-card').hide();
+            /* 보내기 버튼 클릭 시 동작할 함수 */
+            $('#sendMessageBtn').on('click', function () {
 
-                    // 현재 페이지의 프로필 카드만 표시
-                    $('.profile-card').slice(startIndex, endIndex).show();
+                const message = $('#messageTextarea').val(); // textarea에서 입력한 내용 가져오기
+                // 리시버아이디를 넘기기 위해 hidden에 저장
+                $('#postReceiver').attr('value', userNick);
+                // Check if message length is valid (less than or equal to 500 characters)
+                if (message.length > 500) {
+                    alert('메시지는 500자 이내로 작성해주세요.');
+                    return; // Don't send the message
                 }
 
-                // 페이지 이동 버튼 생성 및 초기화
-                function initializePagination() {
-                    const totalProfileCards = $('.profile-card').length;
-                    const totalPages = Math.ceil(totalProfileCards / cardsPerPage);
-                    const pagination = $('#pageArea');
+                const formObj = $('#frm')[0];
+                //form 데이터 만들기
+                const formData = new FormData(formObj);
 
-                    // Pagination 초기화
-                    pagination.empty();
-
-                    // Pagination 버튼 생성
-                    for (let i = 1; i <= totalPages; i++) {
-                        const pageButton = $('<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>');
-                        pageButton.click(function () {
-                            goToPage(i - 1); // 페이지 번호가 0부터 시작하므로 1을 뺍니다.
-                        });
-                        pagination.append(pageButton);
-                    }
-                }
-
-                // 페이지 로딩 시 Pagination 초기화
-                $(document).ready(function () {
-                    initializePagination();
-                    goToPage(currentPage);
-                });
-
-                // 이전 페이지로 이동하는 함수
-                function goToPreviousPage() {
-                    if (currentPage > 0) {
-                        currentPage--;
-                        goToPage(currentPage);
-                    }
-                }
-
-                // 다음 페이지로 이동하는 함수
-                function goToNextPage() {
-                    const totalProfileCards = $('.profile-card').length;
-                    const totalPages = Math.ceil(totalProfileCards / cardsPerPage);
-                    if (currentPage < totalPages - 1) {
-                        currentPage++;
-                        goToPage(currentPage);
-                    }
-                }
-
-                // 이전 및 다음 페이지 버튼에 클릭 이벤트를 연결합니다.
-                $(document).ready(function () {
-                    $('#prevPage').click(goToPreviousPage);
-                    $('#nextPage').click(goToNextPage);
-                });
-
-                // 페이지네이션 초기화
-                $(document).ready(function () {
-                    initializePagination();
-                    goToPage(currentPage);
-                });
-
-
-                $('.thumbnail').on('click', function (e) {
-                    // 클릭된 썸네일의 id 값(해당 유저아이디로 적용함) 가져오기(String 값)
-                    const thumbnailId = $(this).attr('id');
-
-                    // 이미지 엘리먼트의 src 속성 가져오기
-                    const imgSrc = $(this).attr('src');
-
-
-                    $.ajax({
+                // 여기에 쪽지를 보내는 로직을 추가하세요
+                $.ajax(
+                    {
+                        url: '/sendPost',
                         type: 'post',
-                        url: '/showDetailData',
-                        data: ({
-                            thumbnailId: thumbnailId
-                        }),
-                        dataType: 'json'
-                    }).done(function (vo) {
-                        const data = vo.detailInfos[0];
-
-                        // 모달 내부 요소에 데이터 설정
-                        $('#infoModal img').attr('src', imgSrc);
-                        $('#infoModal table tr:nth-child(1) th:nth-child(2)').text(data.detailIntro);
-                        $('#infoModal table tr:nth-child(2) th:nth-child(2)').text(data.detailHobby);
-                        $('#infoModal table tr:nth-child(3) th:nth-child(2)').text(data.detailFood);
-                        $('#infoModal table tr:nth-child(4) th:nth-child(2)').text(data.detailPat);
-                        // 모달 열기
-                        $('#infoModal').modal('show');
-                    }).fail(function (xhr, error, status) {
-                        alert(error);
-                    });
-                    // 이곳에서 detailInfo 변수를 사용하지 않는 것이 중요합니다.
-                    // AJAX 호출이 비동기적으로 이루어지므로 AJAX가 완료될 때까지 기다리지 않습니다.
-                });
-
-
-                function closeModal() {
-                    $('#infoModal').modal('hide');
-                }
-
-                // 닫기 버튼 클릭 이벤트 처리
-                $('#closeModalBtn').on('click', closeModal);
-
-                // 모달 외부를 클릭하면 모달 닫기
-                $('#infoModal').on('click', function (event) {
-                    if ($(event.target).is('#infoModal')) {
-                        closeModal();
+                        dataType : 'json',
+                        contentType: false,  //전송할 타입 제거
+                        processData : false, //ajax 전송 파라메터 없음
+                        data : formData
                     }
-                });
-
-                $(document).ready(function () {
-                    $("#messageBtn").click(function () {
-                        $("#messageModal").modal("show");
-                    });
-                });
-
-                $(document).ready(function () {
-                    $("#messageTextarea").on("input", function () {
-                        const maxLength = 500;
-                        const currentLength = $(this).val().length;
-                        const charCountElement = $("#charCount");
-
-                        charCountElement.text(currentLength + "/" + maxLength + " characters");
-
-                        if (currentLength > maxLength) {
-                            charCountElement.show();
-                            $(this).addClass("exceeded");
-                        } else {
-                            charCountElement.hide();
-                            $(this).removeClass("exceeded");
-                        }
-                    });
-
-                    $("#messageBtn").click(function () {
-                        $("#messageModal").modal("show");
-                        $("#messageTextarea").val(""); // Clear textarea when opening modal
-                        $("#charCount").hide();
-                    });
-
-                    $('#sendMessageBtn').on('click', function () {
-                        const message = $('#messageTextarea').val(); // textarea content
-
-                        // Check if message length is valid (less than or equal to 500 characters)
-                        if (message.length > 500) {
-                            alert('메시지는 500자 이내로 작성해주세요.');
-                            return; // Don't send the message
-                        }
-
-                        // Your logic to send the message goes here
-
-                        // Close the modal
+                ).done(function(data){
+                    if(data.resultCode == 200) {
+                        alert('쪽지를 보냈습니다.');
+                        // 쪽지 보내기가 완료되면 모달 닫기
                         $('#messageModal').modal('hide');
-                    });
+                    }else {
+                        alert('쪽지보내기에 실패하였습니다.');
+                        return false;
+                    }
+                }).fail(function(xhr, error, status) {
+                    alert(error);
                 });
 
-                // 보내기 버튼 클릭 시 동작할 함수
-                $('#sendMessageBtn').on('click', function () {
-                    const message = $('#messageTextarea').val(); // textarea에서 입력한 내용 가져오기
+            });
 
-                    // 여기에 쪽지를 보내는 로직을 추가하세요
+        }
 
-                    // 쪽지 보내기가 완료되면 모달 닫기
-                    $('#messageModal').modal('hide');
+
+        /* 썸네일 클릭시 상세정보 모달창 띄우기*/
+        $('.thumbnail').on('click', function (e) {
+            // 클릭된 썸네일의 id 값(해당 유저아이디로 적용함) 가져오기(String 값)
+            const thumbnailId = $(this).attr('id');
+
+            // 이미지 엘리먼트의 src 속성 가져오기
+            const imgSrc = $(this).attr('src');
+
+            $.ajax({
+                type: 'post',
+                url: '/showDetailData',
+                data: ({
+                    thumbnailId: thumbnailId
+                }),
+                dataType: 'json'
+            }).done(function (vo) {
+                const data = vo.detailInfos[0];
+
+                // 모달 내부 요소에 데이터 설정
+                $('#infoModal img').attr('src', imgSrc);
+                $('#infoModal table tr:nth-child(1) th:nth-child(2)').text(data.detailIntro);
+                $('#infoModal table tr:nth-child(2) th:nth-child(2)').text(data.detailHobby);
+                $('#infoModal table tr:nth-child(3) th:nth-child(2)').text(data.detailFood);
+                $('#infoModal table tr:nth-child(4) th:nth-child(2)').text(data.detailPat);
+                // 모달 열기
+                $('#infoModal').modal('show');
+            }).fail(function (xhr, error, status) {
+                alert(error);
+            });
+            // 이곳에서 detailInfo 변수를 사용하지 않는 것이 중요합니다.
+            // AJAX 호출이 비동기적으로 이루어지므로 AJAX가 완료될 때까지 기다리지 않습니다.
+        });
+
+
+        /* 모달창 닫기 함수 */
+        function closeModal() {
+            $('#infoModal').modal('hide');
+        }
+
+        // 모달창 내부 닫기 버튼 클릭 이벤트 처리
+        $('#closeModalBtn').on('click', closeModal);
+
+        // 모달 외부를 클릭하면 모달 닫기
+        $('#infoModal').on('click', function (event) {
+            if ($(event.target).is('#infoModal')) {
+                closeModal();
+            }
+        });
+
+
+        /* 상세정보 입력 버튼 클릭 이벤트 처리 */
+        document.addEventListener('DOMContentLoaded', function () {
+           const writeBtn = document.getElementById('writeBtn');
+
+           writeBtn.addEventListener('click', function () {
+                 window.location.href = '/DetailInformation';
+           });
+        });
+
+
+
+        /* 페이지 이동 버튼 생성 및 초기화 */
+        function initializePagination() {
+            const totalProfileCards = $('.profile-card').length;
+            const totalPages = Math.ceil(totalProfileCards / cardsPerPage);
+            const pagination = $('#pageArea');
+
+            // Pagination 초기화
+            pagination.empty();
+
+            // Pagination 버튼 생성
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = $('<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>');
+                pageButton.click(function () {
+                    goToPage(i - 1); // 페이지 번호가 0부터 시작하므로 1을 뺍니다.
                 });
+                pagination.append(pageButton);
+            }
+        }
+
+
+
+        /* 이전 페이지로 이동하는 함수 */
+        function goToPreviousPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                goToPage(currentPage);
+            }
+        }
+
+        /* 다음 페이지로 이동하는 함수 */
+        function goToNextPage() {
+            const totalProfileCards = $('.profile-card').length;
+            const totalPages = Math.ceil(totalProfileCards / cardsPerPage);
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                goToPage(currentPage);
+            }
+        }
+
+
+        /* 페이지당 프로필 카드 개수 */
+        const cardsPerPage = 10;
+
+        /* 현재 페이지 번호 초기화 */
+        let currentPage = 0;
+
+        /* 페이지 이동 함수 */
+        function goToPage(pageNumber) {
+           currentPage = pageNumber;
+           const startIndex = currentPage * cardsPerPage;
+           const endIndex = startIndex + cardsPerPage;
+
+           // 모든 프로필 카드 숨김
+           $('.profile-card').hide();
+
+           // 현재 페이지의 프로필 카드만 표시
+           $('.profile-card').slice(startIndex, endIndex).show();
+        }
+
+
+        /* 페이지 로딩 시 실행 작업들 */
+        $(document).ready(function () {
+            // 페이지 로딩 시 Pagination 초기화
+            initializePagination();
+            goToPage(currentPage);
+
+            /* navtabs(리스트,선택리스트) 페이지 이동 함수 */
+            // 검색 탭(nav-link) 클릭 이벤트 처리
+            $('.nav-link[href="#"]').on('click', function (e) {
+                e.preventDefault(); // 기본 링크 동작 방지
+                // 페이지 이동을 위해 JavaScript로 URL 변경
+                window.location.href = '/coupleZoneSelectedList';
+            });
+
+
+            /* 이전 및 다음 페이지 버튼에 클릭 이벤트를 연결합니다. */
+            $('#prevPage').click(goToPreviousPage);
+            $('#nextPage').click(goToNextPage);
+
+        });
 
     </script>
 </div>

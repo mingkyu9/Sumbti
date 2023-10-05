@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,4 +26,7 @@ public class PostService {
         return  mapper.getPostDetail(postNum);
     }
 
+    public void postSend(PostVO.SendPost param) throws SQLException{
+           mapper.postSend(param);
+    }
 }

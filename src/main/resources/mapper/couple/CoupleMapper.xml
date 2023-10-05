@@ -5,7 +5,7 @@
 
     <!-- 커플 상세정보 등록한 유저목록 가져오기 -->
     <select id="getCoupleList"  parameterType="map" resultType="coupleList">
-        select  u.user_id,
+        SELECT  u.user_id,
                 u.user_mbti,
                 u.user_gender,
                 u.user_nick,
@@ -13,7 +13,7 @@
                 u.hate_mbti,
                (select count(*) from like_list_couple lk WHERE lk.couple_like_to = u.user_id) as like_count,
                 di.detail_intro
-        from user_info u
+        FROM user_info u
               LEFT JOIN detail_info_couple di ON u.user_id = di.user_id
         WHERE
               u.user_gender != (SELECT user_gender FROM user_info WHERE user_id = #{userId})
@@ -21,43 +21,46 @@
               u.user_id IN (SELECT user_id FROM detail_info_couple);
     </select>
 
-<!--    <select id="getCoupleList"  resultType="coupleList">-->
-<!--        select user_id,-->
-<!--        user_mbti,-->
-<!--        user_gender,-->
-<!--        user_nick,-->
-<!--        (select count(*) from like_list lk where lk.like_to  = u.user_id) as like_count-->
-<!--        from   user_info u-->
-<!--    </select>-->
 
     <!-- 커플 상세정보 저장-->
     <insert id="saveDetail"  parameterType="coupleDetailInfo">
             insert into detail_info_couple (user_id, detail_intro, detail_hobby, detail_food, detail_pat)
-                             values( #{userId}, #{detailIntro}, #{detailHobby}, #{detailFood}, #{detailPat})
+                                    values (#{userId}, #{detailIntro}, #{detailHobby}, #{detailFood}, #{detailPat})
     </insert>
 
-    <select id="showDetailInfo" parameterType="map" resultType="coupleDetailInfo">
 
-        select user_id, detail_intro, detail_hobby, detail_food, detail_pat
-          from detail_info
-            where user_id = #{userId}
+    <!-- 커플 상세정보 가져오기-->
+    <select id="showDetailInfo" parameterType="map" resultType="coupleDetailInfo">
+        select user_id,
+               detail_intro,
+               detail_hobby,
+               detail_food,
+               detail_pat
+        from   detail_info_couple
+        where  user_id = #{userId}
     </select>
 
 
-    <!-- 접속유저가 버튼유저를 좋아하고 있는지 확인 0이면 없고, 1이면 있음-->
+    <!-- 커플 좋아요 리스트에서, 접속유저가 버튼유저를 좋아하고 있는지 확인-->
     <select id="CoupleCheckExistList" parameterType="map" resultType="int">
         select count(*)
-        from like_list
-        where like_from = #{userId} and like_to = #{userTo}
+        from like_list_couple
+            where couple_like_from = #{userId} and couple_like_to = #{userTo}
     </select>
 
 
+    <!-- 커플 좋아요 리스트에 해당 버튼유저 추가 -->
     <insert id="coupleAddLikeList"  parameterType="map">
-        insert into like_list (like_from, like_to)
-        values(#{userId}, #{userTo})
+        insert into like_list_couple (like_from, like_to)
+                              values (#{userId}, #{userTo})
     </insert>
 
+
+    <!-- 커플 좋아요 리스트에서 해당 버튼유저 삭제 -->
     <delete id="coupleDeleteLikeList" parameterType="map">
-        delete from like_list where like_from = #{userId} and like_to = #{userTo}
+        delete
+        from   like_list_couple
+        where  couple_like_from = #{userId} and couple_like_to = #{userTo}
     </delete>
+
 </mapper>
