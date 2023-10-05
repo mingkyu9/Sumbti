@@ -208,7 +208,7 @@
                             <a class="nav-link active">받은 편지함</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/post/sent/list">보낸 편지함</a>
+                            <a class="nav-link" href="/sendPostList">보낸 편지함</a>
                         </li>
 
                     </ul>
@@ -222,7 +222,7 @@
                     </div>
                     <ul class="menu">
                         <li class="active">날짜순</li>
-                        <li>이름순</li>
+                        <li>닉네임순</li>
                     </ul>
                 </div>
             </div>
@@ -251,6 +251,9 @@
                     </table>
                 </div>
             </div>
+            <th style="width: 20%;">[[${vo.image}]]</th>
+
+
 
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center" id="pageArea"></ul>
@@ -295,7 +298,7 @@
             const writeBtn = document.getElementById('writeBtn');
 
             writeBtn.addEventListener('click', function() {
-                window.location.href = '/post/write';
+                window.location.href = '/sendPostView';
             });
         });
 

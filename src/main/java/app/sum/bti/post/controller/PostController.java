@@ -1,5 +1,7 @@
 package app.sum.bti.post.controller;
 
+import app.sum.bti.couple.vo.CoupleVO;
+import app.sum.bti.login.vo.LoginVO;
 import app.sum.bti.post.service.PostService;
 import app.sum.bti.post.vo.PostVO;
 import lombok.RequiredArgsConstructor;
@@ -59,12 +61,15 @@ public class PostController {
         return view;
     }
 
+    // 보낸쪽지함
     @GetMapping("/sendPostList")
     public ModelAndView sendPostView() {
         ModelAndView view  = new ModelAndView();
         view.setViewName("views/postBox/postSentList");
         return view;
     }
+
+
 
 
     // 쪽지보내기 화면
@@ -76,29 +81,21 @@ public class PostController {
         return view;
     }
 
-//    @PostMapping("/sendPost")
-//    @ResponseBody
-//    public Map<String, Object> PostSend(@ModelAttribute PostVO.SendPost sendRequest, HttpSession session){
-//        Map<String, Object> resultMap = new HashMap<>();
-//        // 세션에 저장되어있는 정보 가져오기
-//        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
-//        sendRequest.setPostSender(login.getUserId());
-//
-//        try {
-//            postService.postSend(sendRequest);
-//            resultMap.put("resultCode",200);
-//        }catch (Exception e){
-//            resultMap.put("resultCode",500);
-//            e.printStackTrace();
-//        }
-//        return resultMap;
-//    }
+    @PostMapping("/sendPost")
+    @ResponseBody
+    public Map<String, Object> PostSend(@ModelAttribute PostVO.SendPost sendRequest, HttpSession session){
+        Map<String, Object> resultMap = new HashMap<>();
+        // 세션에 저장되어있는 정보 가져오기
+        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
+        sendRequest.setPostSender(login.getUserId());
 
-
-
-
-
-
-
-
+        try {
+            postService.postSend(sendRequest);
+            resultMap.put("resultCode",200);
+        }catch (Exception e){
+            resultMap.put("resultCode",500);
+            e.printStackTrace();
+        }
+        return resultMap;
+    }
 }

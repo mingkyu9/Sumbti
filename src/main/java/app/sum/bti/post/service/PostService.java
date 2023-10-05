@@ -26,9 +26,7 @@ public class PostService {
         return  mapper.getPostDetail(postNum);
     }
 
-
-    public void postSend(PostVO.SendPost param) throws SQLException {
-        mapper.postSend(param);
+    public void postSend(PostVO.SendPost param) throws SQLException{
+           mapper.postSend(param);
     }
-
 }

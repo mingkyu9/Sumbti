@@ -183,7 +183,7 @@
             <textarea class="contentArea">[[${postDetail.postContents}]]</textarea>
         </div>
         <div class="btn-area">
-            <button type="button" class="btn btn-primary btn-lg" id="sendBtn"  onclick="send();">답장</button>
+            <button type="button" class="btn btn-primary btn-lg" id="sendBtn"  th:onclick="send([[${postDetail.userNick}]]);">답장</button>
             <span style="margin-right: 10px;"></span>
             <button type="button" class="btn btn-danger btn-lg" id="deleteBtn">삭제</button>
             <span style="margin-right: 10px;"></span>
@@ -194,15 +194,10 @@
 
     <script>
 
+        function send(nick){
         // 답장 버튼 클릭 이벤트 처리
-        document.addEventListener('DOMContentLoaded', function() {
-            const sendBtn = document.getElementById('sendBtn');
-
-            sendBtn.addEventListener('click', function() {
-                window.location.href = '/post/write';
-            });
-        });
-
+            window.location.href = '/sendPostView?nick='+nick;
+        }
         // 삭제 버튼 클릭 이벤트 처리
         const deleteBtn = document.getElementById('deleteBtn');
 
@@ -222,7 +217,7 @@
             const listBtn = document.getElementById('listBtn');
 
             listBtn.addEventListener('click', function() {
-                window.location.href = '/post/inbox/list';
+                window.location.href = '/postBoxList';
             });
         });
 

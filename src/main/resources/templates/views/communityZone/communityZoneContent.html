@@ -89,6 +89,10 @@
             margin-right: 25px;
         }
 
+        .btn {
+            margin-right: 15px;
+        }
+
         .likeArea {
             display: flex;
             align-items: center;
@@ -181,6 +185,8 @@
             <span id="likeCount">35</span>
         </div>
         <div class="btn-area">
+            <button type="button" class="btn btn-primary btn-lg" id="modifyBtn">수정</button>
+            <button type="button" class="btn btn-danger btn-lg" id="delBtn">삭제</button>
             <button type="button" class="btn btn-secondary btn-lg" id="listBtn">목록</button>
         </div>
 
@@ -206,6 +212,14 @@
 
             listBtn.addEventListener('click', function() {
                 window.location.href = '/comm/list';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const modifyBtn = document.getElementById('modifyBtn');
+
+            modifyBtn.addEventListener('click', function() {
+                window.location.href = '/comm/modify';
             });
         });
 

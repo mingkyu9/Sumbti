@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout/main_layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
+
+        @font-face {
+            font-family: 'GmarketSansMedium';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansLight';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansBold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+
+
+        .login-form  {
+            position : relative;
+            margin-top: 230px;
+        }
+
+        .login-form h1  {
+            font-size : 32px;
+            color : #fff;
+            text-align : center;
+            margin-bottom : 6px;
+        }
+
+        .int-area  {
+            width : 520px;
+            position : relative;
+            margin-left: 80px;
+            margin-top : 20px;
+            margin-bottom: 30px;
+        }
+
+        .int-area:first-child  {
+            margin-top : 0;
+        }
+
+        .int-area input  {
+            width : 95%;
+            /*상단 20px, 좌우 20px, 하단 30px의 여백을 지정*/
+            padding : 20px 10px 10px;
+            /*요소의 배경을 투명하게 지정*/
+            background-color: rgba(255, 255, 255, 0.5);
+            border : none;
+            border-bottom : 1px solid #999;
+            border-radius : 10px;
+            font-size : 18px;
+            color : black;
+            outline : none;
+        }
+
+        .int-area label  {
+            margin : 1.5px;
+            position : absolute;
+            left : 10px;
+            top : 15px;
+            font-size : 18px;
+            color : #999;
+            transition : all .5s ease;
+            /*
+            1. transition 속성은 요소의 속성 변화가 발생했을 때, 부드럽게 변화를 전환해주는 효과
+            2. all은 애니메이션 효과를 적용한 속성 (top, font-size, color)
+            3. .5s는 애니메이션 지속시간s
+            4. ease는 애니메이션의 타이밍 함수로 천천히 시작하여 서서히 가속되는 형태의 애니메이션 제공
+            */
+        }
+
+        .int-area input:focus + label,
+        .int-area input:valid + label  {
+            top : -2px;
+            font-size : 13px;
+            color : #166cea;
+        }
+
+        .btn-area  {
+            margin-top : 80px;
+            display : flex;
+            justify-content : center;
+            align-items: center
+        }
+
+        .btn-area button  {
+            width : 80%;
+            height : 50px;
+            background : #9966;
+            color : #fff;
+            font-size : 20px;
+            font-family: 'GmarketSansMedium', sans-serif;
+            border : none;
+            border-radius : 25px;
+            cursor : pointer;
+            /*커서 손가락 모양으로 바꾸기*/
+        }
+
+        .btn-area button:hover  {
+            background-color : #999900;
+        }
+
+        .caption  {
+            margin-top : 5px;
+            text-align : center;
+        }
+
+        .caption a  {
+            font-size : 25px;
+            font-family: 'GmarketSansMedium', sans-serif;
+            color : #999;
+            text-decoration : none;
+        }
+
+        #sumbtiLogo {
+            text-align: center;
+            font-family: 'GmarketSansBold', sans-serif;
+            margin-top: 35px;
+            margin-bottom: 35px;
+        }
+
+        .int-area label.warning  {
+            color : red !important;
+            animation : warning .3s ease;
+            animation-iteration-count : 3;
+        }
+        @keyframes warning {
+            0% {transform: translateX(-8px);}
+            25% {transform: translateX(8px);}
+            50% {transform: translateX(-8px);}
+            75% {transform: translateX(8px);}
+        }
+
+        .form {
+            border-top: 1px solid rgb(98, 98, 98);
+            margin-top : 10px;
+            padding:30px;
+            padding-top: 60px;
+            border-radius: 5px;
+        }
+
+        .form-group  input {
+            width: 500px;
+            height: 60px;
+            margin-left: 0px;
+            margin-top: 15px;
+            font-size: 20px;
+        }
+
+        .form-group input:invalid + .char-limit-message {
+            display: block;
+        }
+
+
+
+        .form-group  textarea{
+            resize: none;
+            outline: none;
+            width: 100%;
+
+        }
+
+        .btn-area {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: right;
+            padding-right : 30px;
+            margin-bottom: 30px;
+            font-family: 'GmarketSansLight', sans-serif
+        }
+
+        .nav-item {
+            font-family: 'GmarketSansBold', sans-serif;
+            font-size: 25px;
+        }
+
+    </style>
+</th:block>
+<!-- main_layout 에 속할 페이지 이기때문에 내용만 있으면 된다 -->
+<div layout:fragment="content">
+    <div class="container">
+        <div class="contents">
+            <section class="login-form">
+                <div id="sumbtiLogo">
+                    <img th:src="@{/img/logo/sumBTI.png}">
+                </div>
+                <form id = "form" action = "<%=rootPath%>/login" method = "POST">
+                    <div class = "int-area">
+                        <input type = "text" name = "id" id = "id" autocomplete = "off" required>
+                        <label for ="id">USERNAME</label>
+                    </div>
+                    <div class = "int-area">
+                        <input type = "password" name = "pw" id = "pw" autocomplete = "off" required>
+                        <label for ="pw">PASSWORD</label>
+                    </div>
+                    <div class = "btn-area">
+                        <button type = "submit" id = "login">LOGIN</button>
+                    </div>
+                    <div class = "caption">
+                        <a href = "/signin/first">회원가입하기</a>
+                    </div>
+                </form>
+            </section>
+
+
+        </div>
+    </div>
+    <script>
+        function initEvt()  {
+            $('#login').on('click', function(event){
+                var id = '#id';
+                var pw = '#pw';
+
+
+                if($(id).val() == '')  {
+                    //id값이 없다면 warning 클래스로 넘어간다.
+                    $(id).next('label').addClass('warning')
+                    //해당 클래스는 1.5초 후 사라진다.
+                    setTimeout(function(){
+                        $('label').removeClass('warning');
+                    },1500);
+                }else if($(pw).val() == '')  {
+                    $(pw).next('label').addClass('warning')
+                    setTimeout(function(){
+                        $('label').removeClass('warning');
+                    },1500);
+                }else  {
+                    $('#frm').submit();
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            initEvt();
+        });
+
+    </script>
+</div>
+</html>

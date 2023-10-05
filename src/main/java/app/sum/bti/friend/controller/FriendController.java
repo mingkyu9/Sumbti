@@ -4,11 +4,13 @@ import app.sum.bti.couple.service.CoupleService;
 import app.sum.bti.couple.vo.CoupleVO;
 import app.sum.bti.friend.service.FriendService;
 import app.sum.bti.friend.vo.FriendVO;
+import app.sum.bti.login.vo.LoginVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,10 +24,12 @@ public class FriendController {
 
     // FriendZoneList 화면
     @GetMapping("/friendZoneList")
-    public ModelAndView getFriendList(@RequestParam(value = "userId", defaultValue = "test1") String userId){
+    public ModelAndView getFriendList(HttpSession session){
         ModelAndView view  = new ModelAndView();
+        // 세션에 저장되어있는 정보 가져오기
+        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
         Map<String,Object> params = new HashMap<String,Object>();
-        params.put("userId",userId);
+        params.put("userId",login.getUserId());
 
         try {
             List<FriendVO.FriendList> friendList = friendService.getFriendList(params);
@@ -48,10 +52,12 @@ public class FriendController {
 
     // FriendZoneSelectedList 화면
     @GetMapping("/friendZoneSelectedList")
-    public ModelAndView getCoupleListPick(@RequestParam(value = "userId", defaultValue = "test1") String userId){
+    public ModelAndView getCoupleListPick(HttpSession session){
         ModelAndView view  = new ModelAndView();
+        // 세션에 저장되어있는 정보 가져오기
+        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
         Map<String,Object> params = new HashMap<String,Object>();
-        params.put("userId",userId);
+        params.put("userId",login.getUserId());
         try {
             List<FriendVO.FriendList> friendList = friendService.getFriendList(params);
 
@@ -71,14 +77,11 @@ public class FriendController {
     }
 
 
-    // FriendZone 글쓰기 화면
+    // FriendZone 글쓰기 화면 (그냥도 들어올수 있나?)
     @GetMapping("/friendWrite")
-    public ModelAndView getWriteDetail(@RequestParam(value="userId", defaultValue ="admin") String userId){
+    public ModelAndView getWriteDetail(){
         ModelAndView view  = new ModelAndView();
-        // 그냥도 들어올수 있나?
-        view.addObject("userId",userId);
         view.setViewName("views/friendZone/friendWrite");
-
         return view;
     }
     
@@ -86,10 +89,14 @@ public class FriendController {
     // 필터링된 리스트 반환 처리
     @PostMapping("/selectFriend")
     @ResponseBody
-    public Map<String, Object> getFriendSelectedList(@RequestBody  Map<String, Object> requestData){
+    public Map<String, Object> getFriendSelectedList(@RequestBody  Map<String, Object> requestData, HttpSession session){
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        // 세션에 저장되어있는 정보 가져오기
+        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
+        // 쿼리에 전달할 파라미터 만들기
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("userId",requestData.get("userID").toString());
+        param.put("userId",login.getUserId());
+
         List<FriendVO.FriendList> friendList = new ArrayList<>();
         try {
 
@@ -112,11 +119,14 @@ public class FriendController {
     }
 
 
-    // FriendZone 상세정보 저장 처리
+    /* FriendZone 상세정보 저장 처리 */
     @PostMapping("/saveDetailsFriends")
     @ResponseBody
-    public Map<String, Object> saveDetail(@ModelAttribute FriendVO.FriendDetailInfo detailRequest){
+    public Map<String, Object> saveDetail(@ModelAttribute FriendVO.FriendDetailInfo detailRequest, HttpSession session){
         Map<String, Object> resultMap = new HashMap<>();
+        // 세션에 저장되어있는 정보 가져오기
+        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
+        detailRequest.setUserId(login.getUserId());
 
         try {
                 int result = friendService.saveDetail(detailRequest);

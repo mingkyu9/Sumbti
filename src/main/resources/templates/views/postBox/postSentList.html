@@ -205,7 +205,7 @@
                     </div>
                     <ul class="nav nav-tabs nav-fill">
                         <li class="nav-item">
-                            <a class="nav-link" href="/post/inbox/list">받은 편지함</a>
+                            <a class="nav-link" href="/postBoxList">받은 편지함</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active">보낸 편지함</a>
@@ -222,7 +222,7 @@
                     </div>
                     <ul class="menu">
                         <li class="active">날짜순</li>
-                        <li>이름순</li>
+                        <li>닉네임순</li>
                     </ul>
                 </div>
             </div>
@@ -243,8 +243,8 @@
                             <td class="truncate-title">
                                 <a href="/your-link-here">일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십</a>
                             </td>
-                            <td class="truncate-nickname">[[${}]]</td>
-                            <td class="truncate-zone">[[]]</td>
+                            <td class="truncate-nickname">일이삼사오륙칠</td>
+                            <td class="truncate-zone">날짜드가야함</td>
                         </tr>
                         </tbody>
                     </table>
@@ -294,7 +294,7 @@
             const writeBtn = document.getElementById('writeBtn');
 
             writeBtn.addEventListener('click', function() {
-                window.location.href = '/post/write';
+                window.location.href = '/sendPostView';
             });
         });
 
