@@ -74,12 +74,29 @@ public class PostController {
 
     // 쪽지보내기 화면
     @GetMapping("/sendPostView")
-    public ModelAndView sendPostList(@RequestParam(value = "nick", defaultValue = "") String nick) {
+    public ModelAndView sendPostList(@RequestParam(value = "nick", defaultValue = "") String nick,
+                                     HttpSession session) {
         ModelAndView view  = new ModelAndView();
+        Map<String,Object> param  = new HashMap<>();
+        // 세션에 저장되어있는 정보 가져오기
+        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
+        param.put("userId", login.getUserId());
+
+        try{
+            List<PostVO.LikeUserList> coList =  postService.coList(param);
+            view.addObject("coList",coList);
+            List<PostVO.LikeUserList> frList =  postService.frList(param);
+            view.addObject("frList",frList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         view.addObject("nick", nick);
         view.setViewName("views/postBox/postBoxWrite");
         return view;
     }
+
+
 
     @PostMapping("/sendPost")
     @ResponseBody

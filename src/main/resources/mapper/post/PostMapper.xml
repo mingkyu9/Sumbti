@@ -41,4 +41,19 @@
                   (select user_id from user_info where user_nick = #{postReceiver}))
     </insert>
 
+    <!-- 쪽지보내기 커플 좋아요한 유저 선택 리스트 불러오기 -->
+    <select id="coList" parameterType="map" resultType="likeUserList">
+        select user_nick
+        from   user_info u
+            LEFT JOIN like_list_couple l ON u.user_id = l.couple_like_to
+        where l.couple_like_from = #{userId}
+    </select>
+
+    <!-- 쪽지보내기 친구 좋아요한 유저 선택 리스트 불러오기 -->
+    <select id="frList" parameterType="map" resultType="likeUserList">
+        select user_nick
+        from   user_info u
+            LEFT JOIN like_list_friend l ON u.user_id = l.friend_like_to
+        where l.friend_like_from = #{userId}
+    </select>
 </mapper>

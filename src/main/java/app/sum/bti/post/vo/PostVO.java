@@ -41,5 +41,9 @@ public class PostVO {
         private String postReceiver;
     }
 
+    @Data
+    public static class LikeUserList{
+        private String userNick;
+    }
 
 }
