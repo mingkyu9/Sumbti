@@ -227,32 +227,30 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="list" th:each="vo:${postList}">
+                <div class="list" >
                     <table class="table" id="postArea">
                         <thead>
                         <tr>
                             <th style="width: 20%;">사진</th>
-                            <th style="width: 50%;">제목</th>
+                            <th style="width: 40%;">제목</th>
                             <th style="width: 20%;">닉네임</th>
-                            <th style="width: 10%;">zone</th>
+                            <th style="width: 20%;">작성시간</th>
+
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr th:each="vo:${postList}">
                             <th><img th:src="@{${vo.images}}" id="profileIcon"></th>
                             <td class="truncate-title">
                                 <a th:href="@{postDetail(postNum=${vo.postNum})}">[[${vo.postTitle}]]</a>
                             </td>
                             <td class="truncate-nickname">[[${vo.userNick}]]</td>
-                            <td class="truncate-zone">[[${vo.postZone}]]</td>
+                            <td class="truncate-zone">[[${vo.postTime}]]</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <th style="width: 20%;">[[${vo.image}]]</th>
-
-
 
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center" id="pageArea"></ul>
