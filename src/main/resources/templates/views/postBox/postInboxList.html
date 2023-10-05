@@ -227,30 +227,31 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="list" th:each="vo:${postList}">
+                <div class="list" >
                     <table class="table" id="postArea">
                         <thead>
                         <tr>
                             <th style="width: 20%;">사진</th>
-                            <th style="width: 50%;">제목</th>
+                            <th style="width: 40%;">제목</th>
                             <th style="width: 20%;">닉네임</th>
-                            <th style="width: 10%;">날짜</th>
+                            <th style="width: 20%;">작성시간</th>
+
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr th:each="vo:${postList}">
                             <th><img th:src="@{${vo.images}}" id="profileIcon"></th>
                             <td class="truncate-title">
                                 <a th:href="@{postDetail(postNum=${vo.postNum})}">[[${vo.postTitle}]]</a>
                             </td>
                             <td class="truncate-nickname">[[${vo.userNick}]]</td>
-                            <td class="truncate-zone">날짜드가야함</td>
+                            <td class="truncate-zone">[[${vo.postTime}]]</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
+            <th style="width: 20%;">[[${vo.image}]]</th>
 
 
 
