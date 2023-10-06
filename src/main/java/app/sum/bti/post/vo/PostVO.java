@@ -40,4 +40,8 @@ public class PostVO {
         private String postSender;
         private String postReceiver;
     }
+    public static class LikeUserList{
+        private String userNick;
+    }
+
 }

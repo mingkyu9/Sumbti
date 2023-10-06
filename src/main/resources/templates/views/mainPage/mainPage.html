@@ -309,36 +309,12 @@
                         <th width="20%">하트 수</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody th:each="vo:${coLank}">
                     <tr>
-                        <td>1</td>
-                        <td>ENFP</td>
-                        <td>User1</td>
-                        <td>100</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>INTJ</td>
-                        <td>User2</td>
-                        <td>85</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>INFJ</td>
-                        <td>User3</td>
-                        <td>72</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>ESTP</td>
-                        <td>User4</td>
-                        <td>60</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>ISTP</td>
-                        <td>User5</td>
-                        <td>55</td>
+                        <td>[[${vo.likeRank}]]</td>
+                        <td>[[${vo.userMbti}]]</td>
+                        <td>[[${vo.userNick}]]</td>
+                        <td>[[${vo.likeCount}]]</td>
                     </tr>
                     </tbody>
                 </table>
@@ -355,36 +331,12 @@
                         <th width="20%">하트 수</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody th:each="fvo:${frLank}">
                     <tr>
-                        <td>1</td>
-                        <td>ENFP</td>
-                        <td>User1</td>
-                        <td>100</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>INTJ</td>
-                        <td>User2</td>
-                        <td>85</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>INFJ</td>
-                        <td>User3</td>
-                        <td>72</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>ESTP</td>
-                        <td>User4</td>
-                        <td>60</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>ISTP</td>
-                        <td>User5</td>
-                        <td>55</td>
+                        <td>[[${fvo.likeRank}]]</td>
+                        <td>[[${fvo.userMbti}]]</td>
+                        <td>[[${fvo.userNick}]]</td>
+                        <td>[[${fvo.likeCount}]]</td>
                     </tr>
                     </tbody>
                 </table>

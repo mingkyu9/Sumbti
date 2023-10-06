@@ -303,7 +303,7 @@
                         <img class="thumbnail img-responsive" th:id ="${vo.userId}"  th:src="@{${vo.images}}" th:style="'max-width: 120px;'">
                     </div>
                     <div class="likeArea">
-                        <div class="heart" th:id="|likeBtn_${vo.userId}|" th:onclick="likeBtnEvent([[${vo.userId}]]);"></div>
+                        <div class="heart" th:id="${vo.userId}"></div>
                         <span th:id="|likeCount_${vo.userId}|">[[${vo.likeCount}]]</span>
                         <button type="button"
                                 class="btn btn-info"
@@ -377,6 +377,107 @@
     </div>
 
     <script>
+
+        // /* 좋아요 버튼 클릭 이벤트 */
+        // function likeBtnEvent(userId) {
+        //     // 해당 버튼아이디의 하트버튼을 가져옴
+        //     // const heartButton = document.getElementById('likeBtn_'+userId);
+        //     let likeCount = document.getElementById('likeCount_'+userId).innerText;
+        //
+        //     /* 좋아요 버튼 활성화 비활성화 이벤트 */
+        //     document.addEventListener('DOMContentLoaded', function() {
+        //         const heartButton = document.getElementById('likeBtn');
+        //         let isActive = false; // 하트의 활성화 상태를 나타내는 변수
+        //
+        //         // 하트 클릭 이벤트 처리
+        //         heartButton.addEventListener('click', () => {
+        //             if (!isActive) {
+        //                 heartButton.classList.add('active'); // 애니메이션 활성화
+        //
+        //                 // 애니메이션을 비활성화 및 하트를 숨기는 타이머 설정
+        //                 setTimeout(() => {
+        //                     heartButton.classList.remove('active'); // 애니메이션 비활성화
+        //                     heartButton.style.display = 'none'; // 하트 숨김
+        //                 }, 1000); // 1초(1000 밀리초) 후에 실행
+        //
+        //                 isActive = true; // 상태를 활성화로 설정
+        //             }
+        //         });
+        //     });
+        //
+        //     $.ajax({
+        //         type:'post',
+        //         url: '/saveCoupleLikeList',
+        //         contentType:'application/json',
+        //         data: JSON.stringify({
+        //             likeToUser: userId
+        //         }),
+        //         dataType : 'json'
+        //     }).done(function(data){
+        //         if(data.resultCode === 200) {
+        //             likeCount = likeCount + 1;
+        //         }else if(data.resultCode === 201) {
+        //             likeCount = likeCount - 1;
+        //         }
+        //
+        //         document.getElementById('likeCount_'+userId).textContent  = likeCount;
+        //
+        //     }).fail(function(xhr, error, status) {
+        //         alert(error);
+        //     });
+        // }
+
+        /* 좋아요 버튼 이벤트 추가(적용) 함수 */
+        function addLikeEvent() {
+
+                let isActive = {}; // 각 버튼의 활성화 상태를 저장하는 객체
+
+                // 모든 하트 버튼 선택
+                const heartButtons = document.querySelectorAll('.heart');
+
+                heartButtons.forEach(function (button) {
+                    const userId = button.getAttribute('id'); // 각 버튼의 사용자 ID 가져오기
+                    console.log(userId);
+                    let likeCount = document.getElementById('likeCount_' + userId).innerText;
+                    // 각 버튼에 대한 클릭 이벤트 처리
+                    button.addEventListener('click', () => {
+
+                        if (!isActive[userId]) {
+                            button.classList.add('active'); // 애니메이션 활성화
+
+                            // 애니메이션을 비활성화 및 하트를 숨기는 타이머 설정
+                            setTimeout(() => {
+                                button.classList.remove('active'); // 애니메이션 비활성화
+                                // button.style.display = 'none'; // 하트 숨김
+                                isActive[userId] = false;
+                            }, 1000); // 1초(1000 밀리초) 후에 실행
+
+                            isActive[userId] = true; // 해당 버튼의 상태를 활성화로 설정(중복클릭방지?)
+
+                            $.ajax({
+                                type: 'post',
+                                url: '/saveCoupleLikeList',
+                                data: ({
+                                    likeToUser: userId
+                                }),
+                                dataType: 'json'
+                            }).done(function (data) {
+                                if (data.resultCode === 200) {
+                                    likeCount++; // 자바스크립트라 이렇게 사용가능한건가.. 타입이 없어서?
+                                } else if (data.resultCode === 201) {
+                                    likeCount--;
+                                }
+
+                                document.getElementById('likeCount_' + userId).innerText = likeCount;
+
+                            }).fail(function (xhr, error, status) {
+                                alert(error);
+                            });
+                        }
+                    });
+                });
+        }
+
 
         /* 쪽지 버튼 클릭 */
         function sendPost(userNick) {
@@ -482,10 +583,11 @@
                 const template = getTemplates(obj);
                 // 템플릿(그려질화면)을  그려질 div 영역에 전달
                 profileArea.append(template);
-                setModalEvent();
-                initializePagination();
-                goToPage(currentPage);
-            })
+            });
+            setModalEvent();
+            initializePagination();
+            goToPage(0);
+            addLikeEvent();
         }
 
         /* 필터처리된 데이터를 가지고 화면을 그릴 메서드 */
@@ -507,7 +609,7 @@
                         <img class="thumbnail img-responsive" id ="@@userId@@" src="@@imageUrl@@"  style="max-width: 120px;">
                     </div>
                     <div class="likeArea">
-                        <div class="heart" id="@@likeBtn@@" onclick="likeBtnEvent('@@userId@@');"></div>
+                        <div class="heart" id="@@likeBtn@@"></div>
                         <span id="@@likeCountId@@">@@likCount@@</span>
                         <button type="button" class="btn btn-info" id="@@postBtn@@"  onclick="sendPost('@@nickName@@')" style="margin-left: 30px; font-size: 20px;">쪽지</button>
                     </div>
@@ -520,73 +622,12 @@
             template = template.replaceAll('@@imageUrl@@', vo.images);
             template = template.replaceAll('@@likCount@@', vo.likeCount);
 
-            template = template.replaceAll('@@likeBtn@@', likeBtnId);
+            template = template.replaceAll('@@likeBtn@@', vo.userId);
             template = template.replaceAll('@@likeCountId@@', likeCountId);
             template = template.replaceAll('@@postBtn@@', postId);
 
             return template;
         }
-
-
-        /* 좋아요 버튼 클릭 이벤트 */
-        function likeBtnEvent(userId) {
-            // 해당 버튼아이디의 하트버튼을 가져옴
-            const heartButton = document.getElementById('likeBtn_'+userId);
-            let likeCount = document.getElementById('likeCount_'+userId).innerText;
-
-            // 하트 클릭 이벤트 처리
-            heartButton.addEventListener('click', () => {
-                heartButton.classList.add('active'); // 애니메이션 활성화
-                setTimeout(() => {
-                    heartButton.classList.remove('active'); // 일정 시간 후 애니메이션 비활성화
-                }, 1000); // 2초 후에 애니메이션 비활성화
-            });
-
-
-            // // 눌렀을때 좋아요 목록에 추가되며 하트옆에 숫자 다시쓰기 (ajax로 처리해서 그 부분만 바꿔? 모달처럼? )
-            // // 그 부분만 새로고침이 되나?
-            $.ajax({
-                type:'post',
-                url: '/saveCoupleLikeList',
-                contentType:'application/json',
-                data: JSON.stringify({
-                    likeToUser: userId
-                }),
-                dataType : 'json'
-            }).done(function(data){
-                if(data.resultCode === 200) {
-                    likeCount = likeCount + 1;
-                }else if(data.resultCode === 201) {
-                    likeCount = likeCount - 1;
-                }
-
-                document.getElementById('likeCount_'+userId).textContent  = likeCount;
-
-            }).fail(function(xhr, error, status) {
-                alert(error);
-            });
-        }
-
-        /* 좋아요 버튼 활성화 비활성화 이벤트 */
-        document.addEventListener('DOMContentLoaded', function() {
-            const heartButton = document.getElementById('likeBtn');
-            let isActive = false; // 하트의 활성화 상태를 나타내는 변수
-
-            // 하트 클릭 이벤트 처리
-            heartButton.addEventListener('click', () => {
-                if (!isActive) {
-                    heartButton.classList.add('active'); // 애니메이션 활성화
-
-                    // 애니메이션을 비활성화 및 하트를 숨기는 타이머 설정
-                    setTimeout(() => {
-                        heartButton.classList.remove('active'); // 애니메이션 비활성화
-                        heartButton.style.display = 'none'; // 하트 숨김
-                    }, 1000); // 1초(1000 밀리초) 후에 실행
-
-                    isActive = true; // 상태를 활성화로 설정
-                }
-            });
-        });
 
 
 
@@ -722,6 +763,7 @@
             initializePagination();
             goToPage(currentPage);
             setModalEvent();
+            addLikeEvent();
 
             // 검색 탭(nav-link) 클릭 이벤트 처리
             $('.nav-link[href="#"]').on('click', function (e) {
