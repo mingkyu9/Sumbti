@@ -2,6 +2,7 @@ package app.sum.bti.community.controller;
 
 import app.sum.bti.community.service.BoardService;
 import app.sum.bti.community.vo.BoardVO;
+import app.sum.bti.login.vo.LoginVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,16 +60,28 @@ public class BoardController {
 	}
 	@PostMapping("/add")
 	@ResponseBody
-	public Map<String, Object> writeBoard(@ModelAttribute BoardVO.Request boardRequest) {
+	public Map<String, Object> writeBoard(@ModelAttribute BoardVO.Request boardRequest,
+										  HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<>();
 
 		try {
-			int result = service.writeBoard(boardRequest);
 
-			if(result > 0) {
-				resultMap.put("resultCode", 200);
+			//로그인된 사용자 정보 가져오기
+			LoginVO.LoginUserInfo user = (LoginVO.LoginUserInfo)
+								request.getSession().getAttribute("loginUserInfo");
+
+
+			//로그인 상태일때만 글쓸 수 있게하고 아니면 오류
+			if(user != null) {
+				boardRequest.setUserId(user.getUserId());
+				int result = service.writeBoard(boardRequest);
+				if (result > 0) {
+					resultMap.put("resultCode", 200);
+				} else {
+					throw new Exception("insert Error");
+				}
 			}else {
-				throw new  Exception("insert Error");
+				throw new Exception("Login Error");
 			}
 
 		}catch (Exception e) {
@@ -79,7 +93,7 @@ public class BoardController {
 
 	}
 
-	//누나가 단 만들어주면 수정
+	//상세보기
 	@GetMapping("/content")
 	public ModelAndView  boardDetailView(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber,
 										 @RequestParam("boardNum") int boardNum) {
@@ -151,6 +165,8 @@ public class BoardController {
 		Map<String, Object> resultMap = new HashMap<>();
 
 		try {
+
+
 
 			int result = service.updateBoard(boardUpdate);
 
