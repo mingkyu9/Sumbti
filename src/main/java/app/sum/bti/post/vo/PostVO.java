@@ -40,16 +40,8 @@ public class PostVO {
         private String postSender;
         private String postReceiver;
     }
-
-    
-    // 쪽지보내기
-    @Data
-    public static class SendPost{
-
-        private String postTitle;
-        private String postContents;
-        private String postSender;
-        private String postReceiver;
+    public static class LikeUserList{
+        private String userNick;
     }
 
 }

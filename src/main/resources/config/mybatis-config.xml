@@ -6,23 +6,34 @@
      <setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
 
-  <typeAliases>
-     <typeAlias type="java.util.Map" alias="map" />
-      <!--커플/프렌드존 -->
-     <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleList" alias="coupleList"/>
-     <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleDetailInfo" alias="coupleDetailInfo"/>
-     <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendList" alias="friendList"/>
-     <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendDetailInfo" alias="friendDetailInfo"/>
+
+    <typeAliases>
+        <typeAlias type="java.util.Map" alias="map" />
+
+        <typeAlias type="app.sum.bti.community.vo.BoardVO$BoardList"  alias="boardList"/>
+        <typeAlias type="app.sum.bti.community.vo.BoardVO$Detail" alias="boardDetail"/>
+        <typeAlias type="app.sum.bti.community.vo.BoardVO$UpdateRequest" alias="boardUpdate"/>
+        <typeAlias type="app.sum.bti.community.vo.BoardVO$Request"  alias="boardCreate"/>
+
+
+        <!--커플/프렌드존 -->
+        <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleList" alias="coupleList"/>
+        <typeAlias type="app.sum.bti.couple.vo.CoupleVO$CoupleDetailInfo" alias="coupleDetailInfo"/>
+        <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendList" alias="friendList"/>
+        <typeAlias type="app.sum.bti.friend.vo.FriendVO$FriendDetailInfo" alias="friendDetailInfo"/>
 
       <!--쪽지함 -->
       <typeAlias type="app.sum.bti.post.vo.PostVO$PostList" alias="postList"/>
       <typeAlias type="app.sum.bti.post.vo.PostVO$PostDetail" alias="postDetail"/>
       <typeAlias type="app.sum.bti.post.vo.PostVO$SendPost" alias="sendPost"/>
+      <typeAlias type="app.sum.bti.post.vo.PostVO$LikeUserList" alias="likeUserList"/>
 
       <!--로그인-->
       <typeAlias type="app.sum.bti.login.vo.LoginVO$LoginInfo" alias="loginInfo"/>
       <typeAlias type="app.sum.bti.login.vo.LoginVO$LoginUserInfo" alias="loginUserInfo"/>
 
+      <!--메인화면-->
+      <typeAlias type="app.sum.bti.mainView.vo.mainViewVO$LankList" alias="lankList"/>
   </typeAliases>
 
 

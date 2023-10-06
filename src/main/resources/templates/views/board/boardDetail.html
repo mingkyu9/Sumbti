@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorate="~{layout/main_layout}">
+
+
+<th:block layout:fragment="css">
+ <style>
+	 .contents {
+		margin-top: 120px;
+		height: 550px;
+	 }
+	 
+	 ul {
+		 list-style:  none;
+	 }
+	 
+	 .main-area {
+	    border-top: 1px solid rgb(98, 98, 98);
+	    margin-top : 30px;
+		padding:30px;
+		border-radius: 5px;
+	   }
+	   
+	   .b-table {
+		   border: 1px solid;
+		   border-collapse: collapse;
+		   width: 100%;
+		    height: 350px;
+	   }
+	   
+	   .b-table th, td {
+		      border: 1px solid;
+	   }
+	   
+	   .b-table th {
+		    background-color:  #eeffe1;
+	   }
+	   
+	   	  .btn-area {
+		  width: 100%;
+		  height: 30px;
+		  line-height: 30px;
+		  text-align: right;
+		  padding-right : 30px;
+	  }
+	   
+	 
+ </style>	
+</th:block>
+	 
+<!-- main_layout 에 속할 페이지 이기때문에 내용만 있으면 된다 -->
+<div layout:fragment="content">
+	  <div class="container">
+		   <div class="contents">
+			       <div style="text-align: center;">
+			           <h3>게시글 보기 </h3>
+		          </div>
+		     <section class="main-area">
+				 <input type="hidden" id="boardNum" name="boardNum"  th:value="${detail.boardNum}">
+				  <input type="hidden" id="nowPageNumber" name="nowPageNumber"   th:value="${nowPageNumber}">
+			   <table class="b-table">
+				    <colgroup>
+				          <col width ="20%"></col>
+				          <col width ="80%" ></col>
+				    </colgroup>
+				     <tbody>
+						 <tr style="height: 10%;">
+						      <th>게시글 제목</th>
+						     <td>
+								<span th:text="${detail.boardTitle}"></span>
+						     </td>
+						   </tr>
+						 <tr style="height: 10%;">
+						      <th>글쓴이</th>
+						     <td>
+								<span>[[ ${detail.userId} ]]</span>
+						     </td>
+						   </tr>
+							 <tr style="height: 10%;">
+						   </tr>
+
+						   </tr>
+						     <tr>
+						      <th>내용 </th>
+						     <td>
+								<div th:utext="${detail.boardContents}"></div>
+						     </td>
+						   </tr>
+					 </tbody>
+			   </table>
+		    </section>
+		     <div class="btn-area">
+				   <button type="button" class="btn btn-primary"     id="saveBtn"  onclick="mdofiy();">글 수정</button>
+			      <button type="button" class="btn btn-danger"       id="cancelBtn"  onclick="del();">삭제</button>
+			       <button type="button" class="btn btn-secondary" id="moveBtn"  onclick="goList();">목록</button>
+			  </div>	       
+		   </div>
+	  </div>
+	  <script>
+		  
+		  function goList(){
+			  location.href = '/board/list?nowPageNumber=' + $('#nowPageNumber').val();
+		  }
+		  
+		  
+		  function fileDown(fileId) {
+			   location.href = '/api/board/filedown?fileId=' + fileId;
+		  }
+		  
+		  
+		  function del() {
+			  const isConfirm = confirm('정말 삭제하시겠습니까?');
+			  
+			  if(isConfirm) {
+				    location.href = '/board/del/' + $('#boardNum').val();
+			  }
+			  
+		  }		  
+		 
+		 
+		 function mdofiy() {
+			 location.href  ='/board/modify/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardNum=' + $('#boardNum').val() ;
+		 }
+		 
+		  
+	  </script>
+</div>
+</html>
+
+
+

@@ -2,11 +2,9 @@
 <html  xmlns:th="http://www.thymeleaf.org"
        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
        layout:decorate="~{layout/main_layout}">
-<head>
 <th:block layout:fragment="css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <style>
-
         @font-face {
             font-family: 'GmarketSansMedium';
             src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
@@ -44,11 +42,12 @@
         }
 
         .heart {
-            height:40px;
-            width: 40px;
-            color: #f20044;
+            height:20px;
+            width: 20px;
+            background-color: #f20044;
             position: relative;
-            /*box-shadow: -10px 10px 90px #f20044;*/
+            transform: rotate(-45deg);
+            box-shadow: -10px 10px 90px #f20044;
             margin-right: 20px;
         }
 
@@ -58,39 +57,39 @@
 
         @keyframes heartBeat {
             0% {
-                transform: scale(1.4);
+                transform: rotate(-45deg) scale(1.4);
             }
             80% {
-                transform: scale(1.0);
+                transform: rotate(-45deg) scale(1.0);
             }
             100% {
-                transform: scale(1.4);
+                transform: rotate(-45deg) scale(1.4);
             }
         }
 
-        /*.heart:before {*/
-        /*    content:'';*/
-        /*    position: absolute;*/
-        /*    height:20px;*/
-        /*    width: 20px;*/
-        /*    background-color: #f20044;*/
-        /*    right: -3%;*/
-        /*    bottom: 52%;*/
-        /*    border-radius: 50px;*/
-        /*    box-shadow: -10px 10px 90px #f20044;*/
-        /*}*/
+        .heart:before {
+            content:'';
+            position: absolute;
+            height:20px;
+            width: 20px;
+            background-color: #f20044;
+            right: -3%;
+            bottom: 52%;
+            border-radius: 50px;
+            box-shadow: -10px 10px 90px #f20044;
+        }
 
-        /*.heart:after {*/
-        /*    content:'';*/
-        /*    position: absolute;*/
-        /*    height:20px;*/
-        /*    width: 20px;*/
-        /*    background-color: #f20044;*/
-        /*    right: -52%;*/
-        /*    bottom: 3%;*/
-        /*    border-radius: 50px;*/
-        /*    box-shadow: -10px 10px 90px #f20044;*/
-        /*}*/
+        .heart:after {
+            content:'';
+            position: absolute;
+            height:20px;
+            width: 20px;
+            background-color: #f20044;
+            right: -52%;
+            bottom: 3%;
+            border-radius: 50px;
+            box-shadow: -10px 10px 90px #f20044;
+        }
 
         .modal {
             display: none;
@@ -208,22 +207,12 @@
             font-size: 25px;
         }
 
-        .mbtiChk .form-check-input {
-            transform: scale(1.5); /* 원하는 크기로 조절 (예: 1.5는 1.5배 크게) */
-            margin-right: 10px;
-        }
-
-        .mbtiChk .form-check-label {
-            margin-right:10px;
-            font-family: 'GmarketSansMedium', sans-serif;
-        }
 
 
     </style>
 
 </th:block>
-</head>
-<body>
+
 <div layout:fragment="content">
     <section class="content">
         <div class="container">
@@ -231,92 +220,50 @@
                 <img th:src="@{/img/logo/friendZone.png}">
             </div>
             <input type="hidden"  id="nowPageNumber"  name ="nowPageNumber"  value="0">
-            <!-- 접속유저 아이디 넘기기 -->
-            <input type="hidden"  id="userId"  name ="userId"  value="test1">
 
             <div class="row" style="margin-top: 15px; justify-content: flex-end; font-family: 'GmarketSansLight', sans-serif;">
                 <div class="col-md-6" style="text-align: right; margin-bottom:20px;">
-                    <button type="button" class="btn btn-primary" id="writeBtn" >프로필 등록</button>
+                    <button type="button" class="btn btn-primary" id="writeBtn">상세정보 입력</button>
                 </div>
             </div>
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link" href="/friendZoneList">추천</a>
+                    <a class="nav-link active">추천</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active">검색</a>
+                    <a class="nav-link" href="/friendZoneSelectedList">검색</a>
                 </li>
 
             </ul>
 
-            <div class="mbtiChk text-center" style="margin: 40px;">
-                <h3 style="font-family: 'GmarketSansBold', sans-serif; font-size:25px; margin-bottom:30px;">
-                    제외할 MBTI를 선택하세요
-                </h3>
-                <div class="form-check form-check-inline" >
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="chooseMBTI"  value="e">
-                    <label class="form-check-label" for="inlineCheckbox1">E</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="chooseMBTI" value="i">
-                    <label class="form-check-label" for="inlineCheckbox2">I</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="chooseMBTI" value="n">
-                    <label class="form-check-label" for="inlineCheckbox3">N</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="chooseMBTI" value="s">
-                    <label class="form-check-label" for="inlineCheckbox4">S</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="chooseMBTI" value="f">
-                    <label class="form-check-label" for="inlineCheckbox5">F</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox6" name="chooseMBTI" value="t">
-                    <label class="form-check-label" for="inlineCheckbox6">T</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox7" name="chooseMBTI" value="j">
-                    <label class="form-check-label" for="inlineCheckbox7">J</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox8" name="chooseMBTI" value="p">
-                    <label class="form-check-label" for="inlineCheckbox8">P</label>
-                </div>
-                <div class="text-right">
-                    <button type="button"
-                            class="btn btn-outline-dark"
-                            style="margin-top:30px; font-family:'GmarketSansLight', sans-serif;"
-                            onclick="pickUser();">제외 하고 검색</button>
-                </div>
-            </div>
-
-
-            <!-- 유저 프로필 그리는 영역 -->
+            <!-- 유저 정보 그리는 부분 -->
             <div class="row imgboard"  id="profileArea">
                 <div class="col-lg-3  col-md-4  col-sm-6  col-xs-12 profile-card"
-                     style="font-size: 20px; text-align: center; font-family: 'GmarketSanslight', sans-serif;" th:each="vo:${friendList}" id="vo">
-                    <span >
-                        <a href="javascript:void(0)" th:text="${vo.detailIntro}">노래하는</a>
-			        </span>
+                     style="font-size: 20px; text-align: center; font-family: 'GmarketSanslight', sans-serif; "  th:each="vo:${friendList}">
+
+                    <!-- 자기 소개 표시 -->
+                    <span th:text="${vo.detailIntro}"> </span>
+
                     <br>
-                    <span>[[${vo.userNick}]]</span>
+                    <!-- 닉네임 표시-->
+                    <span th:text="${vo.userNick}"></span>
+
+                    <!-- 유저의 해당 캐릭터 표시 -->
                     <div class="profile-image" style="display: flex; justify-content: center; align-items: center; margin-left:10px;">
-                        <img class="thumbnail img-responsive" th:id ="${vo.userId}"  th:src="@{${vo.images}}" th:style="'max-width: 120px;'">
+                        <img class="thumbnail img-responsive" th:id="${vo.userId}" th:src="@{${vo.images}}" th:style="'max-width: 120px;'">
                     </div>
+
                     <div class="likeArea">
-                        <div class="heart" th:id="|likeBtn_${vo.userId}|" th:onclick="likeBtnEvent([[${vo.userId}]]);"><ion-icon name="heart" class="heart" id="likeBtn"></ion-icon></div>
+                        <div class="heart" th:id="|likeBtn_${vo.userId}|" th:onclick="likeBtnEvent([[${vo.userId}]]);"></div>
                         <span th:id="|likeCount_${vo.userId}|">[[${vo.likeCount}]]</span>
-                        <button type="button"
-                                class="btn btn-info"
-                                style="margin-left: 30px; font-size: 20px;" th:id="|postBtn_${vo.userId}|"  th:onclick="sendPost([[${vo.userNick}]]);">쪽지</button>
+                        <button type="button" class="btn btn-info" th:id="|postBtn_${vo.userId}|" th:onclick="sendPost([[${vo.userNick}]]);"
+                                style="margin-left: 30px; font-size: 20px;">쪽지</button>
                     </div>
+
                 </div>
+
             </div>
         </div>
-
         <div>
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center" id="pageArea"></ul>
@@ -368,8 +315,8 @@
                 <form id="frm">
                     <input type="hidden" id="postReceiver" name="postReceiver" value="">
                     <div class="modal-body">
-                        <input type="text" id="postTile" name="postTitle" placeholder=" 쪽지 제목을 입력하세요" style="margin-bottom: 15px; width: 100%; height: 40px; font-family: 'GmarketSansLight', sans-serif; border: 1px solid #737373; border-radius: 5px;"/>
                         <textarea id="messageTextarea" name="postContents" class="form-control" rows="4" placeholder="쪽지 내용을 입력하세요" maxlength="500" style="font-family: 'GmarketSansLight', sans-serif"></textarea>
+                        <input type="text" id="postTile" name="postTitle" placeholder="제목을입력하세요"/>
                         <div id="charCount">0/500 characters</div>
                     </div>
                 </form>
@@ -380,65 +327,103 @@
             </div>
         </div>
     </div>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
     <script>
 
+        /* 좋아요 버튼 이벤트 */
+        function likeBtnEvent(userId) {
+            // 해당 버튼아이디의 하트버튼을 가져옴
+            const heartButton = document.getElementById('likeBtn_' + userId);
+            // 해당 카운트아이디의 카운트값을 가져옴
+            let likeCount = document.getElementById('likeCount_' + userId).innerText;
+            // likeCount = parseInt(likeCount, 10);
+            $.ajax({
+                type: 'post',
+                url: '/saveFriendLikeList',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    likeToUser: userId
+                }),
+                dataType: 'json'
+            }).done(function (data) {
+                // 코드값이 200일떄는 좋아요 카운트 업, 201 일때는 카운트 다운
+                if (data.resultCode === 200) {
+                    likeCount = likeCount + 1;
+                } else if (data.resultCode === 201) {
+                    likeCount = likeCount - 1;
+                }
+                // 조정된 카운트를 다시 해당카운트아이디 값에 삽입
+                document.getElementById('likeCount_' + userId).innerText = likeCount;
 
-        /* 좋아요 버튼 이벤트 추가(적용) 함수 */
-        function addLikeEvent() {
+            }).fail(function (xhr, error, status) {
+                alert(error);
+            });
+        }
 
-            let isActive = {}; // 각 버튼의 활성화 상태를 저장하는 객체
+        // 하트 애니메이션
+        document.addEventListener('DOMContentLoaded', function() {
+            const heartButton = document.getElementById('likeBtn');
+            let isActive = false; // 하트의 활성화 상태를 나타내는 변수
 
-            // 모든 하트 버튼 선택
-            const heartButtons = document.querySelectorAll('.heart');
+            // 하트 클릭 이벤트 처리
+            heartButton.addEventListener('click', () => {
+                if (!isActive) {
+                    heartButton.classList.add('active'); // 애니메이션 활성화
 
-            heartButtons.forEach(function (button) {
-                const userId = button.getAttribute('id'); // 각 버튼의 사용자 ID 가져오기
-                console.log(userId);
-                let likeCount = document.getElementById('likeCount_' + userId).innerText;
-                // 각 버튼에 대한 클릭 이벤트 처리
-                button.addEventListener('click', () => {
+                    // 애니메이션을 비활성화 및 하트를 숨기는 타이머 설정
+                    setTimeout(() => {
+                        heartButton.classList.remove('active'); // 애니메이션 비활성화
+                        heartButton.style.display = 'none'; // 하트 숨김
+                    }, 1000); // 1초(1000 밀리초) 후에 실행
 
-                    if (!isActive[userId]) {
-                        button.classList.add('active'); // 애니메이션 활성화
+                    isActive = true; // 상태를 활성화로 설정
+                }
+            });
+        });
 
-                        // 애니메이션을 비활성화 및 하트를 숨기는 타이머 설정
-                        setTimeout(() => {
-                            button.classList.remove('active'); // 애니메이션 비활성화
-                            // button.style.display = 'none'; // 하트 숨김
-                            isActive[userId] = false;
-                        }, 1000); // 1초(1000 밀리초) 후에 실행
+        //하트 애니메이션
+        document.addEventListener('DOMContentLoaded', function() {
+            const heartButton = document.getElementById('likeBtn');
 
-                        isActive[userId] = true; // 해당 버튼의 상태를 활성화로 설정(중복클릭방지?)
+            // 하트 클릭 이벤트 처리
+            heartButton.addEventListener('click', () => {
+                heartButton.classList.add('active'); // 애니메이션 활성화
+                setTimeout(() => {
+                    heartButton.classList.remove('active'); // 일정 시간 후 애니메이션 비활성화
+                }, 1000); // 2초 후에 애니메이션 비활성화
+            });
+        });
 
-                        $.ajax({
-                            type: 'post',
-                            url: '/saveFriendLikeList',
-                            data: ({
-                                likeToUser: userId
-                            }),
-                            dataType: 'json'
-                        }).done(function (data) {
-                            if (data.resultCode === 200) {
-                                likeCount++; // 자바스크립트라 이렇게 사용가능한건가.. 타입이 없어서?
-                            } else if (data.resultCode === 201) {
-                                likeCount--;
-                            }
+        function likeBtnEvent(userId) {
+            // 해당 버튼아이디의 하트버튼을 가져옴
+            const heartButton = document.getElementById('likeBtn_' + userId);
+            // 해당 카운트아이디의 카운트값을 가져옴
+            let likeCount = document.getElementById('likeCount_' + userId).innerText;
+            // likeCount = parseInt(likeCount, 10);
+            $.ajax({
+                type: 'post',
+                url: '/saveFriendLikeList',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    likeToUser: userId
+                }),
+                dataType: 'json'
+            }).done(function (data) {
+                // 코드값이 200일떄는 좋아요 카운트 업, 201 일때는 카운트 다운
+                if (data.resultCode === 200) {
+                    likeCount = likeCount + 1;
+                } else if (data.resultCode === 201) {
+                    likeCount = likeCount - 1;
+                }
+                // 조정된 카운트를 다시 해당카운트아이디 값에 삽입
+                document.getElementById('likeCount_' + userId).innerText = likeCount;
 
-                            document.getElementById('likeCount_' + userId).innerText = likeCount;
-
-                        }).fail(function (xhr, error, status) {
-                            alert(error);
-                        });
-                    }
-                });
+            }).fail(function (xhr, error, status) {
+                alert(error);
             });
         }
 
 
-
-        /* 쪽지 버튼 클릭 */
         function sendPost(userNick) {
 
             $("#messageModal").modal("show");
@@ -461,8 +446,7 @@
                 }
             });
 
-
-            /* 모달내부 보내기 버튼 클릭 시 동작할 함수 */
+            /* 보내기 버튼 클릭 시 동작할 함수 */
             $('#sendMessageBtn').on('click', function () {
 
                 const message = $('#messageTextarea').val(); // textarea에서 입력한 내용 가져오기
@@ -502,132 +486,42 @@
                 });
 
             });
+
         }
 
 
-        /* '제외 하고 검색' 버튼 클릭시 메서드 */
-        function pickUser() {
-            // 체크박스에 체크된 MBTI 가져오기
-            const selectedMBTI = $("input[name='chooseMBTI']:checked").map(function () {
-                return this.value;
-            }).get();
+        /* 썸네일 클릭시 상세정보 모달창 띄우기*/
+        $('.thumbnail').on('click', function(e){
+            // 클릭된 썸네일의 id 값(해당 유저아이디로 적용함) 가져오기(String 값)
+            const thumbnailId = $(this).attr('id');
 
-            // 체크된 MBTI 를 포함하지 않는 유저리스트 받아오기
-            $.ajax(
-                 {
-                   type: 'post',
-                   url: '/selectFriend',
-                   contentType: 'application/json',
-                   data: JSON.stringify({
-                           selectedMBTI: selectedMBTI,
-                           userID: $('#userId').val()
-                         }),
-                   dataType: 'json'
-                 }
-                ).done(function (data) {
-                    // 받아온 리스트 데이터를 makeProfile() 메서드로 전달
-                    makeProfile(data.friendList);
-                }).fail(function (xhr, error, status) {
-                    alert(error);
-                });
-            }
+            // 이미지 엘리먼트의 src 속성 가져오기
+            const imgSrc = $(this).attr('src');
 
+            $.ajax({
+                type:'post',
+                url: '/showDetailFriendData',
+                data: ({
+                    thumbnailId: thumbnailId
+                }),
+                dataType : 'json'
+            }).done(function(vo){
+                const data = vo.detailInfos[0];
 
-        function makeProfile(friendList) {
-            // 유저 프로필 그리는 div영역을 id 값으로 가져오기
-            const profileArea = $('#profileArea');
-            // 영역 비우기
-            profileArea.empty();
-
-            //반복으로 리스트의 데이터를 템플릿(그려질화면)(유저하나)에 하나씩 전달?)
-            $.each(friendList, function (index, obj) {
-                const template = getTemplates(obj);
-                // 템플릿(그려질화면)을  그려질 div 영역에 전달
-                profileArea.append(template);
+                // 모달 내부 요소에 데이터 설정
+                $('#infoModal img').attr('src', imgSrc);
+                $('#infoModal table tr:nth-child(1) th:nth-child(2)').text(data.detailIntro);
+                $('#infoModal table tr:nth-child(2) th:nth-child(2)').text(data.detailHobby);
+                $('#infoModal table tr:nth-child(3) th:nth-child(2)').text(data.detailFood);
+                $('#infoModal table tr:nth-child(4) th:nth-child(2)').text(data.detailPat);
+                // 모달 열기
+                $('#infoModal').modal('show');
+            }).fail(function(xhr, error, status) {
+                alert(error);
             });
-            setModalEvent();
-            initializePagination();
-            goToPage(0);
-            addLikeEvent();
-        }
-
-
-        /* 필터처리된 데이터를 가지고 화면을 그릴 메서드 */
-        function  getTemplates(vo){
-            // 버튼아이디를 다르게 해야하므로 뒤에 유저아이디를 추가해서 버튼이름 다르게하기
-            // const likeBtnId = "likeBtn_" + vo.userId;
-            const postId = "postBtn_"  + vo.userId;
-            const likeCountId = "likeCount_"  + vo.userId;
-
-            let template = `
-                        <div class="col-lg-3  col-md-4  col-sm-6  col-xs-12 profile-card"
-                     style="font-size: 20px; text-align: center; font-family: 'GmarketSanslight', sans-serif;" id="vo">
-                    <span >
-                        <a href="javascript:void(0)">@@title@@</a>
-                   </span>
-                    <br>
-                    <span>@@nickName@@</span>
-                    <div class="profile-image" style="display: flex; justify-content: center; align-items: center; margin-left:10px;">
-                        <img class="thumbnail img-responsive" id ="@@userId@@" src="@@imageUrl@@"  style="max-width: 120px;">
-                    </div>
-                    <div class="likeArea">
-               <!-- <div class="heart" id="@@likeBtn@@" onclick="likeBtnEvent('@@userId@@');"></div> -->
-                        <div class="heart" id="@@likeBtn@@"></div>
-                        <span id="@@likeCountId@@">@@likCount@@</span>
-                        <button type="button" class="btn btn-info" id="@@postBtn@@"  onclick="sendPost('@@nickName@@')" style="margin-left: 30px; font-size: 20px;">쪽지</button>
-                    </div>
-                </div>`;
-
-
-            // 값을 치환 한다
-            template = template.replaceAll('@@userId@@', vo.userId);
-            template = template.replaceAll('@@title@@', vo.detailIntro);
-            template = template.replaceAll('@@nickName@@',  vo.userNick);
-            template = template.replaceAll('@@imageUrl@@', vo.images);
-            template = template.replaceAll('@@likCount@@', vo.likeCount);
-
-            template = template.replaceAll('@@likeBtn@@', vo.userId);
-            template = template.replaceAll('@@likeCountId@@', likeCountId);
-            template = template.replaceAll('@@postBtn@@', postId);
-
-            return template;
-        }
-
-
-
-        /* 썸네일 클릭 이벤트 함수 */
-        function setModalEvent() {
-
-            $('.thumbnail').on('click', function(e){
-                // id 값 가져오기(String 값)
-                const thumbnailId = $(this).attr('id');
-                // 이미지 엘리먼트의 src 속성 가져오기
-                const imgSrc = $(this).attr('src');
-
-                $.ajax({
-                    type:'post',
-                    url: '/showDetailFriendData',
-                    data: ({
-                        thumbnailId: thumbnailId
-                    }),
-                    dataType : 'json'
-                }).done(function(vo){
-                    const data = vo.detailInfos[0];
-                    // 모달 내부 요소에 데이터 설정
-                    $('#infoModal img').attr('src', imgSrc);
-                    $('#infoModal table tr:nth-child(1) th:nth-child(2)').text(data.detailIntro);
-                    $('#infoModal table tr:nth-child(2) th:nth-child(2)').text(data.detailHobby);
-                    $('#infoModal table tr:nth-child(3) th:nth-child(2)').text(data.detailFood);
-                    $('#infoModal table tr:nth-child(4) th:nth-child(2)').text(data.detailPat);
-                    // 모달 열기
-                    $('#infoModal').modal('show');
-                }).fail(function(xhr, error, status) {
-                    alert(error);
-                });
-                // 이곳에서 detailInfo 변수를 사용하지 않는 것이 중요합니다.
-                // AJAX 호출이 비동기적으로 이루어지므로 AJAX가 완료될 때까지 기다리지 않습니다.
-            });
-        }
+            // 이곳에서 detailInfo 변수를 사용하지 않는 것이 중요합니다.
+            // AJAX 호출이 비동기적으로 이루어지므로 AJAX가 완료될 때까지 기다리지 않습니다.
+        });
 
 
         /* 모달 닫기 함수 */
@@ -635,16 +529,15 @@
             $('#infoModal').modal('hide');
         }
 
-        /* 모달내부 닫기 버튼 클릭 이벤트 처리 */
+        // 모달창 내부 닫기 버튼 클릭 이벤트 처리
         $('#closeModalBtn').on('click', closeModal);
 
-        /* 모달 외부를 클릭하면 모달 닫기 */
-        $('#infoModal').on('click', function (event) {
+        // 모달 외부를 클릭하면 모달 닫기
+        $('#infoModal').on('click', function(event) {
             if ($(event.target).is('#infoModal')) {
                 closeModal();
             }
         });
-
 
 
         /* 상세정보입력 버튼 클릭 이벤트 처리 */
@@ -655,6 +548,7 @@
                 window.location.href = '/friendWrite';
             });
         });
+
 
 
         /* 페이지 이동 버튼 생성 및 초기화 */
@@ -677,6 +571,19 @@
         }
 
 
+        /* navtabs(리스트,선택리스트) 페이지 이동 함수 */
+        $(document).ready(function () {
+            // 검색 탭(nav-link) 클릭 이벤트 처리
+            $('.nav-link[href="#"]').on('click', function (e) {
+                e.preventDefault(); // 기본 링크 동작 방지
+                // 페이지 이동을 위해 JavaScript로 URL 변경
+                window.location.href = '/friendZoneList';
+            });
+            initializePagination();
+            goToPage(currentPage);
+        });
+
+
         /* 이전 페이지로 이동하는 함수 */
         function goToPreviousPage() {
             if (currentPage > 0) {
@@ -684,6 +591,7 @@
                 goToPage(currentPage);
             }
         }
+
 
         /* 다음 페이지로 이동하는 함수 */
         function goToNextPage() {
@@ -701,6 +609,7 @@
 
         /* 현재 페이지 번호 초기화 */
         let currentPage = 0;
+
 
         /* 페이지 이동 함수 */
         function goToPage(pageNumber) {
@@ -720,22 +629,15 @@
         /* 페이지 로딩 시 실행 작업들 */
         $(document).ready(function () {
 
-            // 페이지 로딩 시 Pagination 초기화
-            initializePagination();
-            goToPage(currentPage);
-            setModalEvent();
-            addLikeEvent();
+            /* 이전 및 다음 페이지 버튼에 클릭 이벤트를 연결합니다. */
+            $('#prevPage').click(goToPreviousPage);
+            $('#nextPage').click(goToNextPage);
 
-            // 검색 탭(nav-link) 클릭 이벤트 처리
-            $('.nav-link[href="#"]').on('click', function (e) {
-                e.preventDefault(); // 기본 링크 동작 방지
-                // 페이지 이동을 위해 JavaScript로 URL 변경
-                window.location.href = '/friendZoneSelectedList';
-            });
 
             $("#messageBtn").click(function() {
                 $("#messageModal").modal("show");
             });
+
 
             $("#messageTextarea").on("input", function () {
                 const maxLength = 500;
@@ -775,7 +677,6 @@
             });
         });
 
-
         /* 보내기 버튼 클릭 시 동작할 함수 */
         $('#sendMessageBtn').on('click', function () {
             const message = $('#messageTextarea').val(); // textarea에서 입력한 내용 가져오기
@@ -788,5 +689,4 @@
 
     </script>
 </div>
-</body>
 </html>

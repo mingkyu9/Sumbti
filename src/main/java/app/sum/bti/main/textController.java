@@ -1,16 +1,22 @@
 package app.sum.bti.main;
-
+import app.sum.bti.community.service.BoardService;
+import app.sum.bti.community.vo.BoardVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Controller
+@RequiredArgsConstructor
+@Slf4j
 public class textController {
+
+    private final BoardService boardService;
 
     @GetMapping("/couple/recommand")
     public ModelAndView coupleList() {
@@ -66,41 +72,11 @@ public class textController {
 
     }
 
-    @GetMapping("/comm/write")
-    public ModelAndView communityWrite() {
-        ModelAndView view = new ModelAndView();
-        view.setViewName("views/communityZone/communityZoneWrite");
 
-        return view;
 
-    }
 
-    @GetMapping("/comm/modify")
-    public ModelAndView communityModify() {
-        ModelAndView view = new ModelAndView();
-        view.setViewName("views/communityZone/communityZoneModify");
 
-        return view;
 
-    }
-
-    @GetMapping("/comm/list")
-    public ModelAndView communityList() {
-        ModelAndView view = new ModelAndView();
-        view.setViewName("views/communityZone/communityZoneList");
-
-        return view;
-
-    }
-
-    @GetMapping("/comm/content")
-    public ModelAndView communityContent() {
-        ModelAndView view = new ModelAndView();
-        view.setViewName("views/communityZone/communityZoneContent");
-
-        return view;
-
-    }
 
     @GetMapping("/post/write")
     public ModelAndView postWrite() {

@@ -340,89 +340,59 @@
     <script>
 
 
+
         /* 좋아요 버튼 이벤트 */
-        function likeBtnEvent(userId) {
-            // 해당 버튼아이디의 하트버튼을 가져옴
-            const heartButton = document.getElementById('likeBtn_' + userId);
-            let likeCount = document.getElementById('likeCount_' + userId).innerText;
+        document.addEventListener('DOMContentLoaded', function() {
+            let isActive = {}; // 각 버튼의 활성화 상태를 저장하는 객체
 
-            //하트 애니메이션
-            document.addEventListener('DOMContentLoaded', function () {
-                const heartButton = document.getElementById('likeBtn');
+            // 모든 하트 버튼 선택
+            const heartButtons = document.querySelectorAll('.heart');
 
-                document.addEventListener('DOMContentLoaded', function () {
-                    const heartButton = document.getElementById('likeBtn');
-                    let isActive = false; // 하트의 활성화 상태를 나타내는 변수
+            heartButtons.forEach(function(button) {
+                const userId = button.getAttribute('id'); // 각 버튼의 사용자 ID 가져오기
+                console.log(userId);
+                let likeCount = document.getElementById('likeCount_' + userId).innerText;
+                // 각 버튼에 대한 클릭 이벤트 처리
+                button.addEventListener('click', () => {
 
-                    // 하트 클릭 이벤트 처리
-                    heartButton.addEventListener('click', () => {
-                        if (!isActive) {
-                            heartButton.classList.add('active'); // 애니메이션 활성화
+                    if (!isActive[userId]) {
+                        button.classList.add('active'); // 애니메이션 활성화
 
-                            // 애니메이션을 비활성화 및 하트를 숨기는 타이머 설정
-                            setTimeout(() => {
-                                heartButton.classList.remove('active'); // 애니메이션 비활성화
-                                heartButton.style.display = 'none'; // 하트 숨김
-                            }, 1000); // 1초(1000 밀리초) 후에 실행
+                        // 애니메이션을 비활성화 및 하트를 숨기는 타이머 설정
+                        setTimeout(() => {
+                            button.classList.remove('active'); // 애니메이션 비활성화
+                            // button.style.display = 'none'; // 하트 숨김
+                            isActive[userId] = false;
+                        }, 1000); // 1초(1000 밀리초) 후에 실행
 
-                            isActive = true; // 상태를 활성화로 설정
-                        }
-                    });
-                });
+                        isActive[userId] = true; // 해당 버튼의 상태를 활성화로 설정(중복클릭방지?)
 
-
-                //하트 애니메이션
-                document.addEventListener('DOMContentLoaded', function () {
-                    const heartButton = document.getElementById('likeBtn');
-
-                    function likeBtnEvent(userId) {
-                        // 해당 버튼아이디의 하트버튼을 가져옴
-                        const heartButton = document.getElementById('likeBtn_' + userId);
-                        let likeCount = document.getElementById('likeCount_' + userId).innerText;
-
-                        //하트 애니메이션
-                        document.addEventListener('DOMContentLoaded', function () {
-                            const heartButton = document.getElementById('likeBtn');
-
-                            // 하트 클릭 이벤트 처리
-                            heartButton.addEventListener('click', () => {
-                                heartButton.classList.add('active'); // 애니메이션 활성화
-                                setTimeout(() => {
-                                    heartButton.classList.remove('active'); // 일정 시간 후 애니메이션 비활성화
-                                }, 1000); // 2초 후에 애니메이션 비활성화
-                            });
-                        });
-
-                        // // 눌렀을때 좋아요 목록에 추가되며 하트옆에 숫자 다시쓰기 (ajax로 처리해서 그 부분만 바꿔? 모달처럼? )
-                        // // 그 부분만 새로고침이 되나?
                         $.ajax({
                             type: 'post',
                             url: '/saveCoupleLikeList',
-                            contentType: 'application/json',
-                            data: JSON.stringify({
+                            data: ({
                                 likeToUser: userId
                             }),
                             dataType: 'json'
                         }).done(function (data) {
                             if (data.resultCode === 200) {
-                                likeCount = likeCount + 1;
+                                likeCount++; // 자바스크립트라 이렇게 사용가능한건가.. 타입이 없어서?
                             } else if (data.resultCode === 201) {
-                                likeCount = likeCount - 1;
+                                likeCount--;
                             }
 
-                            document.getElementById('likeCount_' + userId).textContent = likeCount;
+                            document.getElementById('likeCount_' + userId).innerText = likeCount;
 
                         }).fail(function (xhr, error, status) {
                             alert(error);
                         });
-
                     }
-
                 });
-
             });
-        }
+        });
 
+
+        /* 쪽지 버튼 클릭 시 동작할 함수 */
         function sendPost(userNick) {
 
             $("#messageModal").modal("show");
@@ -445,7 +415,7 @@
                 }
             });
 
-            /* 보내기 버튼 클릭 시 동작할 함수 */
+            /* 쪽지모달에서 보내기 버튼 클릭 시 동작할 함수 */
             $('#sendMessageBtn').on('click', function () {
 
                 const message = $('#messageTextarea').val(); // textarea에서 입력한 내용 가져오기

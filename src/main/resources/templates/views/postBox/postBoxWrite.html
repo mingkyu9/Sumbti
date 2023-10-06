@@ -191,18 +191,11 @@
                   <button type="button" class="btn btn-outline-danger" style="font-size: 28px; height: 100%; width: 135px">
                     커플존
                   </button>
-                  <div class="dropdown-content">
-                    <a href="#">항목 1</a>
-                    <a href="#">항목 2</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-
+                  <div class="dropdown-content" id="coList">
+                    <a href="javascript:void(0);"
+                       th:each="vo:${coList}" th:onclick="selectTo([[${vo.userNick}]])">
+                      [[${vo.userNick}]]
+                    </a>
                   </div>
                 </div>
               </div>
@@ -213,18 +206,11 @@
                   <button type="button" class="btn btn-outline-success" style="font-size: 28px; height: 100%; width: 150px;">
                     프렌드존
                   </button>
-                  <div class="dropdown-content">
-                    <a href="#">항목 1</a>
-                    <a href="#">항목 2</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-
+                  <div class="dropdown-content" id="frList">
+                    <a href="javascript:void(0);"
+                       th:each="fvo:${frList}" th:onclick="selectTo([[${fvo.userNick}]])">
+                      [[${fvo.userNick}]]
+                    </a>
                   </div>
                 </div>
               </div>
@@ -343,6 +329,11 @@
           alert(error);
         });
       }//endif
+    }
+
+    /* 선택한 아이디를 입력칸에 추가 */
+    function selectTo(nickName){
+      document.querySelector("#postPerson").value = nickName;
     }
   </script>
 </div>
