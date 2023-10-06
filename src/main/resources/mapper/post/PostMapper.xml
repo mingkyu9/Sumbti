@@ -26,7 +26,6 @@
                post_sender,
                post_time,
                post_contents,
-               update_date,
                u.user_nick,
                u.user_mbti
         from  post_box as p
@@ -42,12 +41,10 @@
                   (select user_id from user_info where user_nick = #{postReceiver}))
     </insert>
 
-    <!-- 쪽지 보내기 -->
-    <insert id="postSend" parameterType="sendPost">
-          insert into post_box (post_title, post_contents, post_sender, post_receiver)
-           values(#{postTitle}, #{postContents}, #{postSender},
-          (select user_id from user_info where user_nick = #{postReceiver}))
-    </insert>
 
 
+
+    <delete id="delPost" parameterType="map">
+        delete from post_box where post_num = ${postNum}
+    </delete>
 </mapper>

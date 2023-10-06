@@ -29,4 +29,12 @@ public class PostService {
     public void postSend(PostVO.SendPost param) throws SQLException{
            mapper.postSend(param);
     }
+
+
+    public void delPost(Map<String, Object> param) throws SQLException {
+          mapper.delPost(param);
+    }
+
+
+
 }

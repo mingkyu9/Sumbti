@@ -170,6 +170,7 @@
                 <img th:src="@{/img/logo/postBox.png}">
             </div>
             <input type="hidden"  id="nowPageNumber"  name ="nowPageNumber"  value="0">
+            <input type="hidden"  id="postNum"  name ="postNum"  th:value="${postNum}">
             <div class="titleArea">
                 <div class="title">
                     <span th:text="${postDetail.getPostTitle()}"> </span>
@@ -205,10 +206,29 @@
             const confirmation = confirm('정말 삭제하시겠습니까?');
 
             if (confirmation) {
+                const num = $('#postNum').val();
                 // 여기에 실제 삭제 동작을 수행하는 코드를 추가하면 됩니다.
                 // 예를 들어, AJAX 요청을 사용하여 서버에서 해당 데이터를 삭제할 수 있습니다.
-
-                alert('삭제되었습니다.');
+                $.ajax(
+                    {
+                        url: '/deletePost',
+                        type: 'post',
+                        dataType : 'json',
+                        data :{
+                            postNum : num
+                        }
+                    }
+                ).done(function(data){
+                    if(data.resultCode == 200) {
+                        alert('삭제되었습니다.');
+                        location.href = '/postBoxList';    // 리스트로 가기
+                    }else {
+                        alert('쪽지보내기에 실패하였습니다.');
+                        return false;
+                    }
+                }).fail(function(xhr, error, status) {
+                    alert(error);
+                });
             }
         });
 

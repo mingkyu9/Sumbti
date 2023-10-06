@@ -50,6 +50,7 @@ public class PostController {
         ModelAndView view  = new ModelAndView();
         Map<String,Object> param = new HashMap<String,Object>();
         param.put("postNum",postNum);
+        view.addObject("postNum",postNum);
         try {
             PostVO.PostDetail postDetail = postService.getPostDetail(param);
 
@@ -70,9 +71,6 @@ public class PostController {
     }
 
 
-
-
-    // 쪽지보내기 화면
     @GetMapping("/sendPostView")
     public ModelAndView sendPostList(@RequestParam(value = "nick", defaultValue = "") String nick) {
         ModelAndView view  = new ModelAndView();
@@ -80,6 +78,8 @@ public class PostController {
         view.setViewName("views/postBox/postBoxWrite");
         return view;
     }
+
+
 
     @PostMapping("/sendPost")
     @ResponseBody
@@ -91,6 +91,23 @@ public class PostController {
 
         try {
             postService.postSend(sendRequest);
+            resultMap.put("resultCode",200);
+        }catch (Exception e){
+            resultMap.put("resultCode",500);
+            e.printStackTrace();
+        }
+        return resultMap;
+    }
+
+//쪽지삭제
+    @PostMapping("/deletePost")
+    @ResponseBody
+    public Map<String, Object> deletePost(@RequestParam (value = "postNum") String num){
+        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> param = new HashMap<>();
+        param.put("postNum",num);
+        try {
+            postService.delPost(param);
             resultMap.put("resultCode",200);
         }catch (Exception e){
             resultMap.put("resultCode",500);
