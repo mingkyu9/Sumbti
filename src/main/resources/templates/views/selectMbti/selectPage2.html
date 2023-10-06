@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout/main_layout}">
+<head>
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
+
+        @font-face {
+            font-family: 'GmarketSansMedium';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansLight';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansBold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+
+        #sumbtiLogo {
+            text-align: center;
+            font-family: 'GmarketSansBold', sans-serif;
+            margin-top: 250px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .contents {
+            height: 600px;
+        }
+
+        .select-form  {
+            position : relative;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            text-align: center;
+            font-family: 'GmarketSansMedium', sans-serif;
+        }
+
+        .dropdown {
+            position: relative;
+            margin-top: 20px;
+            width: 450px;
+            height: 50px;
+            font-size: 20px;
+        }
+
+        .dropdown::before {
+            content: '';
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            z-index: 100000;
+            width: 8px;
+            height: 8px;
+            border: 2px solid #333;
+            border-top: 2px solid #fff;
+            border-right: 2px solid #fff;
+            transform: rotate(-45deg);
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        .dropdown.active::before {
+            top: 25px;
+            transform: rotate(-225deg);
+        }
+
+        .dropdown input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            background: #fff;
+            border: none;
+            outline: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            padding: 12px 20px;
+            border-radius: 10px;
+        }
+
+        .dropdown .option {
+            position: absolute;
+            top: 70px;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            display: none;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .dropdown.active .option {
+            display: block;
+        }
+
+        .dropdown .option div {
+            padding: 12px 20px;
+            cursor: pointer;
+        }
+
+        .dropdown .option div:hover {
+            background: #62baea;
+            color: #fff;
+        }
+
+        .nav-item {
+            font-family: 'GmarketSansBold', sans-serif;
+            font-size: 25px;
+        }
+
+    </style>
+</th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div id="sumbtiLogo">
+            <img th:src="@{/img/logo/sumBTI.png}">
+        </div>
+        <div class="contents">
+            <section class="select-form">
+                <form id = "form" action = "#" method = "#">
+                    <div class = "dropdown">
+                       <input type="text" class="textBox" placeholder="mbti를 선택하세요!" readonly>
+                        <div class="option">
+                            <div onclick="show('INTJ')">INTJ</div>
+                            <div onclick="show('INTP')">INTP</div>
+                            <div onclick="show('ENTJ')">ENTJ</div>
+                            <div onclick="show('ENTP')">ENTP</div>
+                            <div onclick="show('INFJ')">INFJ</div>
+                            <div onclick="show('INFP')">INFP</div>
+                            <div onclick="show('ENFJ')">ENFJ</div>
+                            <div onclick="show('ENFP')">ENFP</div>
+                            <div onclick="show('ISTJ')">ISTJ</div>
+                            <div onclick="show('ISFJ')">ISFJ</div>
+                            <div onclick="show('ESTJ')">ESTJ</div>
+                            <div onclick="show('ESFJ')">ESFJ</div>
+                            <div onclick="show('ISTP')">ISTP</div>
+                            <div onclick="show('ISFP')">ISFP</div>
+                            <div onclick="show('ESTP')">ESTP</div>
+                            <div onclick="show('ESFP')">ESFP</div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div class="btn-area" style="display: flex; justify-content: space-between;">
+            <button type="button" class="btn btn-outline-secondary" id="preBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">< 이전</button>
+            <button type="button" class="btn btn-outline-secondary" id="nextBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">가입 완료</button>
+        </div>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        function show(anything) {
+            document.querySelector('.textBox').value = anything;
+        }
+
+        let dropdown = document.querySelector('.dropdown');
+        dropdown.onclick = function () {
+            dropdown.classList.toggle('active');
+        }
+
+        // 이전 버튼 클릭 이벤트 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            const preBtn = document.getElementById('preBtn');
+
+            preBtn.addEventListener('click', function() {
+                window.location.href = '/signin/second';
+            });
+        });
+
+    </script>
+</div>
+</body>
+</html>

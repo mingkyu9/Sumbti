@@ -60,7 +60,17 @@
             width: 430px;
         }
 
+        #emailConfirm {
+            width: 430px;
+        }
+
         #authenticationButton {
+            margin-left: 21px;
+            height: 60px;
+            margin-top: 15px;
+        }
+
+        #emailConfirmButton {
             margin-left: 21px;
             height: 60px;
             margin-top: 15px;
@@ -119,7 +129,14 @@
                         <label for="emailInput">이메일 입력</label>
                         <div class="input-group-append">
                             <input type="text" class="form-control" id="emailInput"   name="emailInput" maxlength="20">
-                            <button class="btn btn-info" type="button" id="authenticationButton">인증</button>
+                            <button class="btn btn-info" type="button" id="authenticationButton" a href="sendMail">인증</button>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+                        <label for="emailConfirm">인증 번호 입력</label>
+                        <div class="input-group-append">
+                            <input type="text" class="form-control" id="emailConfirm"   name="emailConfirm" maxlength="20">
+                            <button class="btn btn-info" type="button" id="emailConfirmButton" a href="sendMail">확인</button>
                         </div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
@@ -148,6 +165,7 @@
                 $('#passwdInput').prop('disabled', true);
                 $('#passwdConfirm').prop('disabled', true);
                 $('#emailInput').prop('disabled', true);
+                $('#emailConfirm').prop('disabled', true);
                 $('#locationInput').prop('disabled', true);
                 $('#jobInput').prop('disabled', true);
             }
@@ -159,6 +177,7 @@
             let idValidated = false;
             let passwdValidated = false;
             let emailValidated = false;
+            let emailConfirmValidated = false;
             let locationValidated = false;
             let jobValidated = false;
 
@@ -178,6 +197,7 @@
                     $('#passwdInput').prop('disabled', true);
                     $('#passwdConfirm').prop('disabled', true);
                     $('#emailInput').prop('disabled', true);
+                    $('#emailConfirm').prop('disabled', true);
                 }
             }
 
@@ -195,6 +215,7 @@
                     passwdValidated = false;
                     // 비밀번호 조건을 만족하지 않으면 다음 입력 필드 비활성화
                     $('#emailInput').prop('disabled', true);
+                    $('#emailConfirm').prop('disabled', true);
                     $('#passwdConfirm').prop('disabled', true);
                 }
             }
@@ -216,6 +237,7 @@
                     passwordNotMatchMessage.show();
                     // 비밀번호가 일치하지 않으면 다음 입력 필드 비활성화
                     $('#emailInput').prop('disabled', true);
+                    $('#emailConfirm').prop('disabled', true);
                     $('#locationInput').prop('disabled', true);
                     $('#jobInput').prop('disabled', true);
                 }
@@ -234,13 +256,50 @@
                 if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailValue)) {
                     emailValidated = true;
                     // 이메일 조건을 만족하면 다음 입력 필드 활성화
-                    $('#locationInput').prop('disabled', false);
+                    $('#emailConfirm').prop('disabled', false);
 
                 } else {
                     emailValidated = false;
                     // 이메일 조건을 만족하지 않으면 다음 입력 필드 비활성화
+                    $('#locationInput').prop('disabled', true);
                     $('#jobInput').prop('disabled', true);
 
+                }
+            }
+
+            // 이메일 입력 필드의 조건 검사 함수
+            function validateEmail() {
+                const emailInput = $('#emailInput');
+                const emailValue = emailInput.val();
+
+                // 이메일 조건을 검사
+                if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailValue)) {
+                    emailValidated = true;
+                    // 이메일 조건을 만족하면 다음 입력 필드 활성화
+                    $('#emailConfirm').prop('disabled', false);
+
+                } else {
+                    emailValidated = false;
+                    // 이메일 조건을 만족하지 않으면 다음 입력 필드 비활성화
+                    $('#locationInput').prop('disabled', true);
+                    $('#jobInput').prop('disabled', true);
+
+                }
+            }
+
+            function validateEmailConfirm() {
+                const emailConfirm = $('#emailConfirm');
+                const emailConfirmValue = emailConfirm.val();
+
+                // 인증번호 조건을 검사
+                if (/^.+$/.test(emailConfirmValue)) {
+                    emailConfirmValidated = true;
+                    $('#locationInput').prop('disabled', false);
+
+                } else {
+                    locationValidated = false;
+                    // 지역 조건을 만족하지 않으면 다음 입력 필드 비활성화
+                    $('#locationInput').prop('disabled', true);
                 }
             }
 
@@ -264,6 +323,7 @@
             $('#idInput').on('input', validateId);
             $('#passwdInput').on('input', validatePassword);
             $('#emailInput').on('input', validateEmail);
+            $('#emailConfirm').on('input', validateEmailConfirm);
             $('#locationInput').on('input', validateLocation);
             $('#jobInput').on('input', validateJob);
 

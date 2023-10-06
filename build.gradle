@@ -52,6 +52,8 @@ dependencies {
 	implementation 'com.jhlabs:filters:2.0.235-1'
 	implementation 'com.mortennobel:java-image-scaling:0.8.6'
 
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
 tasks.named('test') {

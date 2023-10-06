@@ -141,10 +141,28 @@ public class textController {
 
     }
 
+    @GetMapping("/select")
+    public ModelAndView selectMbti() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/selectMbti/selectPage2");
+
+        return view;
+
+    }
+
     @GetMapping("/login")
     public ModelAndView login() {
         ModelAndView view = new ModelAndView();
         view.setViewName("views/logIn/logInPage");
+
+        return view;
+
+    }
+
+    @GetMapping("/coupleTest")
+    public ModelAndView test() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/coupleZone/coupleZoneList_backUp");
 
         return view;
 

@@ -179,13 +179,11 @@
       <div class="form">
         <form  id="frm" enctype="">
           <div class="row">
-            <div class="col">
-              <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                <label for="postPerson">받는 사람</label>
-                <input type="text" class="form-control" id="postPerson"  name="postReceiver"
-                       placeholder="닉네임을 입력하세요. (최대 30자)" th:value="${nick}" maxlength="30" style="height: 80px; width: 500px;">
-                <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
-              </div>
+            <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
+              <label for="postPerson">받는 사람</label>
+              <input type="text" class="form-control" id="postPerson"  name="postReceiver"
+                     placeholder="닉네임을 입력하세요." th:value="${nick}" maxlength="30" style="height: 80px; width: 500x;">
+              <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
             </div>
             <div class="col">
               <div class="btn-group">
