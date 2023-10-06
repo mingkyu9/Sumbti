@@ -166,11 +166,14 @@ public class FriendController {
     // 좋아요 목록에 추가
     @PostMapping("/saveFriendLikeList")
     @ResponseBody
-    public Map<String, Object> saveLikeList(@RequestParam(value="userId", defaultValue = "test1") String userId,
-                                            @RequestParam(value="userTo", defaultValue = "test10") String userTo){
+    public Map<String, Object> saveLikeList(@RequestParam(value="likeToUser") String userTo,
+                                            HttpSession session){
         Map<String, Object> resultMap = new HashMap<>();
+        // 세션에 저장되어있는 정보 가져오기
+        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
+        // 로그인유저 id와 좋아요버튼유저의 id를 파라미터로 전달
         Map<String, Object> param = new HashMap<>();
-        param.put("userId", userId);
+        param.put("userId", login.getUserId());
         param.put("userTo", userTo);
         
         try {

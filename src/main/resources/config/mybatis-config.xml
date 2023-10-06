@@ -24,6 +24,8 @@
       <typeAlias type="app.sum.bti.login.vo.LoginVO$LoginInfo" alias="loginInfo"/>
       <typeAlias type="app.sum.bti.login.vo.LoginVO$LoginUserInfo" alias="loginUserInfo"/>
 
+      <!--메인화면-->
+      <typeAlias type="app.sum.bti.mainView.vo.mainViewVO$LankList" alias="lankList"/>
   </typeAliases>
 
 
