@@ -28,8 +28,8 @@ public class BoardVO {
 
 		private int boardNum;
 		private String boardTitle;
-		private String boardMbti;
-		private String userId;
+		private String userMbti;
+		private String userNick;
 		private int boardLike;
 		private String boardTime;
 	}
@@ -67,8 +67,8 @@ public class BoardVO {
 	@Data
 	public static class Request{
 
-		private int boardNum;
 		private String boardTitle;
+		private String category;
 		private String userId;
 		private String boardContents;
 

@@ -18,26 +18,27 @@
     </select>
 
     <select id="getBoardList"  parameterType="map"   resultType="boardList">
-        select
-        board_num,
-        board_title,
-        user_id,
-        board_mbti,
-        board_like,
-        board_time
-        from board
+
+        select b.board_num ,
+        b.board_title,
+        ifnull(u.user_nick , '없음') as user_nick,
+        ifnull(u.user_mbti, 'enfp') as user_mbti,
+        b.board_time
+        from board b
+        left join user_info u on b.user_id  = u.user_id
         <if test='categoryId != null and categoryId != ""'>
             where category_id = #{categoryId}
         </if>
         order by board_num desc
         limit #{start}, #{end}
+
     </select>
 
 
 
-    <insert id="writeBoard" parameterType="boardCreate" useGeneratedKeys="true" keyProperty="boardNum">
-        insert into board(board_title, board_contents, user_id)
-        values(#{boardTitle}, #{boardContents},  #{userId} )
+    <insert id="writeBoard" parameterType="boardCreate" >
+        insert into board(board_title, board_contents, user_id, category_id)
+        values(#{boardTitle}, #{boardContents},  #{userId}, #{category} )
     </insert>
 
 

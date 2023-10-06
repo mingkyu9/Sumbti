@@ -169,10 +169,11 @@
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <colgroup>
-                            <col width="40%" />
+                            <col width="10%" />
                             <col width="30%" />
-                            <col width="12%" />
-                            <col width="18%" />
+                            <col width="20%" />
+                            <col width="15%" />
+                            <col width="25%" />
                         </colgroup>
                         <thead>
                         <th>글번호</th>
@@ -180,7 +181,6 @@
                         <th>닉네임</th>
                         <th>mbti</th>
                         <th>날짜</th>
-                        <th>좋아요 수</th>
                         </thead>
                         <tbody id="tableBody">
                         <tr th:each="vo : ${data.list}">
@@ -190,10 +190,9 @@
                                     <span th:text="${vo.boardTitle}"></span>
                                 </a>
                             </td>
-                            <td class="nickName">[[${vo.userId} ]]</td>
-                            <td class="mbti">[[${vo.boardMbti} ]]</td>
+                            <td class="nickName">[[${vo.userNick} ]]</td>
+                            <td class="mbti">[[${vo.userMbti} ]]</td>
                             <td class="date">[[${vo.boardTime} ]]</td>
-                            <td class="">[[${vo.boardLike} ]]</td>
                         </tr>
                         </tbody>
                     </table>
@@ -243,20 +242,6 @@
             });
         });
 
-
-
-        //하트 애니메이션
-        document.addEventListener('DOMContentLoaded', function() {
-            const heartButton = document.getElementById('likeBtn');
-
-            // 하트 클릭 이벤트 처리
-            heartButton.addEventListener('click', () => {
-                heartButton.classList.add('active'); // 애니메이션 활성화
-                setTimeout(() => {
-                    heartButton.classList.remove('active'); // 일정 시간 후 애니메이션 비활성화
-                }, 1000); // 2초 후에 애니메이션 비활성화
-            });
-        })
 
         // write 버튼 클릭 이벤트 처리
         document.addEventListener('DOMContentLoaded', function() {

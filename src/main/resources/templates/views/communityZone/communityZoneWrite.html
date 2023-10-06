@@ -232,7 +232,7 @@
                                 <span class="selected">일상</span>
                                 <div class="caret"></div>
                             </div>
-                            <ul class="menu">
+                            <ul class="menu" id="category">
                                 <li class="active">일상</li>
                                 <li>같이해요</li>
                                 <li>고민상담</li>
@@ -240,14 +240,14 @@
                         </div>
                     </div>
                     <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                        <label for="communityTitle">제목</label>
-                        <input type="text" class="form-control" id="communityTitle"  name="communityTitle"
+                        <label for="boardTitle">제목</label>
+                        <input type="text" class="form-control" id="boardTitle"  name="boardTitle"
                                placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px;">
                         <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                        <label for="communityContents">내용</label>
-                        <textarea type="text" class="form-control" id="communityContents"   name="communityContents"
+                        <label for="boardContents">내용</label>
+                        <textarea type="text" class="form-control" id="boardContents"   name="boardContents"
                                   maxlength="500" style="height: 350px; overflow-y: auto;"></textarea>
                         <div class="char-limit-message" id="charLimitMessage">최대 500자까지만 작성 가능합니다.</div>
                     </div>
@@ -322,8 +322,8 @@
     });
 
     function validated() {
-        const communityTitle = $('#communityTitle');
-        const communityContents = $('#communityContents');
+        const communityTitle = $('#boardTitle');
+        const communityContents = $('#boardContents');
 
         if($.trim( communityTitle.val() ).length === 0 ) {
             alert('제목을 입력하십시오.');
@@ -358,6 +358,20 @@
             const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
             //form 데이터 만들기
             const formData = new FormData(formObj);
+            const category = $('#category').find('li.active').text();
+
+            switch(category){
+                case '일상':
+                    formData.append("category", 'DAILY');
+                    break;
+                case '고민상담':
+                    formData.append("category", 'CONSULT');
+                    break;
+                case '같이해요':
+                    formData.append("category", 'TOGETHER');
+                    break;
+            }
+
             $.ajax(
                 {
                     url: '/comm/add',
