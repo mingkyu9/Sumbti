@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="app.sum.bti.login.mapper.LoginMapper">
+
+    <select id = "checkUserInfo" parameterType="loginInfo" resultType="int">
+        select count(*)
+            from user_info
+        where user_id = #{userId} and user_pw = #{userPw}
+    </select>
+
+    <select id="getLoginUserInfo" parameterType="loginInfo" resultType="loginUserInfo">
+        select  user_id,
+                user_name,
+                user_nick,
+                user_gender,
+                user_mbti
+        from  user_info
+           where user_id = #{userId} and user_pw = #{userPw}
+    </select>
+
+</mapper>

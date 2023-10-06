@@ -6,7 +6,7 @@
 
         select post_num,
                post_title,
-               post_time,
+               DATE_FORMAT(post_time, '%y.%m.%d')  as post_time,
                post_sender,
                post_receiver,
                post_zone,
@@ -26,13 +26,28 @@
                post_sender,
                post_time,
                post_contents,
+               update_date,
                u.user_nick,
                u.user_mbti
         from  post_box as p
             LEFT JOIN user_info as u ON p.post_sender = u.user_id
-        where p.post_num = #{postNum};
+        where p.post_num = #{postNum}
 
     </select>
+
+    <!-- 쪽지보내기 -->
+    <insert id="postSend" parameterType="sendPost">
+        insert into post_box (post_title, post_contents, post_sender, post_receiver)
+             values(#{postTitle}, #{postContents}, #{postSender},
+                  (select user_id from user_info where user_nick = #{postReceiver}))
+    </insert>
+
+    <!-- 쪽지 보내기 -->
+    <insert id="postSend" parameterType="sendPost">
+          insert into post_box (post_title, post_contents, post_sender, post_receiver)
+           values(#{postTitle}, #{postContents}, #{postSender},
+          (select user_id from user_info where user_nick = #{postReceiver}))
+    </insert>
 
 
 </mapper>

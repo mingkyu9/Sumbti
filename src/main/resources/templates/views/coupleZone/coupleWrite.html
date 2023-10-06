@@ -237,7 +237,7 @@
             const listBtn = document.getElementById('listBtn');
 
             listBtn.addEventListener('click', function() {
-                window.location.href = '/couple/recommand';
+                window.location.href = '/coupleZoneList';
             });
         });
 
@@ -262,7 +262,7 @@
                 ).done(function(data){
                     if(data.resultCode === 200) {
                         alert('상세정보가 등록되었습니다.');
-                        location.href = '/zone';    // 리스트로 가기
+                        location.href = '/coupleZoneList';    // 커플 리스트 메인으로 가기
                     }else {
                         alert('상세정보 등록에 실패하였습니다.');
                         return false;

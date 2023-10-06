@@ -135,8 +135,6 @@
       min-width: 160px;
       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
       z-index: 1;
-      max-height: 200px;
-      overflow-y: auto;
     }
 
     .dropdown:hover .dropdown-content {
@@ -182,51 +180,22 @@
             <div class="col">
               <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                 <label for="postPerson">받는 사람</label>
-                <input type="text" class="form-control" id="postPerson"  name="postReceiver"
-                       placeholder="닉네임을 입력하세요. (최대 30자)" th:value="${nick}" maxlength="30" style="height: 80px; width: 500px;">
+                <input type="text" class="form-control" id="postPerson"  name="postPerson"
+                       placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px; width: 500px;">
                 <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
               </div>
             </div>
             <div class="col">
               <div class="btn-group">
                 <div class="dropdown">
-                  <button type="button" class="btn btn-outline-danger" style="font-size: 28px; height: 100%; width: 135px">
-                    커플존
+                  <button type="button" class="btn btn-outline-warning" style="font-size: 50px;">
+                    +
                   </button>
                   <div class="dropdown-content">
                     <a href="#">항목 1</a>
                     <a href="#">항목 2</a>
                     <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="btn-group">
-                <div class="dropdown">
-                  <button type="button" class="btn btn-outline-success" style="font-size: 28px; height: 100%; width: 150px;">
-                    프렌드존
-                  </button>
-                  <div class="dropdown-content">
-                    <a href="#">항목 1</a>
-                    <a href="#">항목 2</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-                    <a href="#">항목 3</a>
-
+                    <!-- 원하는 항목들을 추가하세요 -->
                   </div>
                 </div>
               </div>
@@ -242,7 +211,7 @@
           <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
             <label for="postContents">내용</label>
             <textarea type="text" class="form-control" id="postContents"   name="postContents"
-                      maxlength="500" style="height: 500px; overflow-y: auto;" placeholder="내용을 입력하세요."></textarea>
+                      maxlength="500" style="height: 500px; overflow-y: auto;"></textarea>
             <div class="char-limit-message" id="charLimitMessage">최대 500자까지만 작성 가능합니다.</div>
           </div>
           <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
@@ -312,33 +281,35 @@
       const listBtn = document.getElementById('listBtn');
 
       listBtn.addEventListener('click', function() {
-        window.location.href = '/postBoxList';
+        window.location.href = '/post/inbox/list';
       });
     });
 
-    function send() {
+    function save() {
 
       if(validated()) {
 
-        const formObj = $('#frm')[0];
+        // ajax 로 파일을 포함한 데이터를 전송하기 위해서는 form 객체를 생성
+        const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
         //form 데이터 만들기
         const formData = new FormData(formObj);
 
         $.ajax(
                 {
-                  url: '/sendPost',
+                  url: '/board/add',
                   type: 'post',
                   dataType : 'json',
                   contentType: false,  //전송할 타입 제거
                   processData : false, //ajax 전송 파라메터 없음
+                  enctype:'mutipart/form-data',
                   data : formData
                 }
         ).done(function(data){
-          if(data.resultCode == 200) {
-            alert('쪽지를 보냈습니다.');
-            location.href = '/postBoxList';    // 리스트로 가기
+          if(data.resultCode === 200) {
+            alert('글이 등록되었습니다.');
+            location.href = '/board/list';    // 리스트로 가기
           }else {
-            alert('쪽지보내기에 실패하였습니다.');
+            alert('글등록이 실패하였습니다');
             return false;
           }
         }).fail(function(xhr, error, status) {
