@@ -44,12 +44,11 @@
         }
 
         .heart {
-            height:20px;
-            width: 20px;
-            background-color: #f20044;
+            height:40px;
+            width: 40px;
+            color: #f20044;
             position: relative;
-            transform: rotate(-45deg);
-            box-shadow: -10px 10px 90px #f20044;
+            /*box-shadow: -10px 10px 90px #f20044;*/
             margin-right: 20px;
         }
 
@@ -59,39 +58,39 @@
 
         @keyframes heartBeat {
             0% {
-                transform: rotate(-45deg) scale(1.4);
+                transform: scale(1.4);
             }
             80% {
-                transform: rotate(-45deg) scale(1.0);
+                transform: scale(1.0);
             }
             100% {
-                transform: rotate(-45deg) scale(1.4);
+                transform: scale(1.4);
             }
         }
 
-        .heart:before {
-            content:'';
-            position: absolute;
-            height:20px;
-            width: 20px;
-            background-color: #f20044;
-            right: -3%;
-            bottom: 52%;
-            border-radius: 50px;
-            box-shadow: -10px 10px 90px #f20044;
-        }
+        /*.heart:before {*/
+        /*    content:'';*/
+        /*    position: absolute;*/
+        /*    height:20px;*/
+        /*    width: 20px;*/
+        /*    background-color: #f20044;*/
+        /*    right: -3%;*/
+        /*    bottom: 52%;*/
+        /*    border-radius: 50px;*/
+        /*    box-shadow: -10px 10px 90px #f20044;*/
+        /*}*/
 
-        .heart:after {
-            content:'';
-            position: absolute;
-            height:20px;
-            width: 20px;
-            background-color: #f20044;
-            right: -52%;
-            bottom: 3%;
-            border-radius: 50px;
-            box-shadow: -10px 10px 90px #f20044;
-        }
+        /*.heart:after {*/
+        /*    content:'';*/
+        /*    position: absolute;*/
+        /*    height:20px;*/
+        /*    width: 20px;*/
+        /*    background-color: #f20044;*/
+        /*    right: -52%;*/
+        /*    bottom: 3%;*/
+        /*    border-radius: 50px;*/
+        /*    box-shadow: -10px 10px 90px #f20044;*/
+        /*}*/
 
         .modal {
             display: none;
@@ -258,33 +257,10 @@
                     </div>
 
                     <div class="likeArea">
-                        <div class="heart" th:id="|likeBtn_${vo.userId}|" th:onclick="likeBtnEvent([[${vo.userId}]]);"></div>
+                        <div class="heart" th:id="|likeBtn_${vo.userId}|" th:onclick="likeBtnEvent([[${vo.userId}]]);"><ion-icon name="heart" class="heart" id="likeBtn"></ion-icon></div>
                         <span th:id="|likeCount_${vo.userId}|">[[${vo.likeCount}]]</span>
                         <button type="button" class="btn btn-info" th:id="|postBtn_${vo.userId}|" th:onclick="sendPost([[${vo.userNick}]]);"
                                 style="margin-left: 30px; font-size: 20px;">쪽지</button>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3  col-md-4  col-sm-6  col-xs-12 profile-card"
-                     style="font-size: 20px; text-align: center; font-family: 'GmarketSanslight', sans-serif;">
-
-                    <span >
-                        <a href="javascript:void(0)">노래하는</a>
-			        </span>
-
-                    <br>
-
-                    <span>닉네임</span>
-
-                    <div class="profile-image" style="display: flex; justify-content: center; align-items: center; margin-left:10px;">
-                        <img class="thumbnail img-responsive" th:src="@{/img/profileIcon/m-entp.png}" th:style="'max-width: 120px;'">
-                    </div>
-
-                    <div class="likeArea">
-                        <div class="heart" id="likeBtn"></div>
-                        <span id="likeCount">35</span>
-                        <button type="button" class="btn btn-info" style="margin-left: 30px; font-size: 20px;">쪽지</button>
                     </div>
 
                 </div>
@@ -358,7 +334,8 @@
             </div>
         </div>
     </div>
-
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     <script>
 

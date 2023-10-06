@@ -183,6 +183,15 @@ public class textController {
 
     }
 
+    @GetMapping("/coupleTest")
+    public ModelAndView test() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("views/coupleZone/coupleZoneList_backUp");
+
+        return view;
+
+    }
+
 
     @GetMapping
     @ResponseBody
