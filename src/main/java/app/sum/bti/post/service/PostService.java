@@ -3,6 +3,7 @@ package app.sum.bti.post.service;
 import app.sum.bti.post.mapper.PostMapper;
 import app.sum.bti.post.vo.PostVO;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,4 +38,13 @@ public class PostService {
 
 
 
+    // 커플 좋아요 유저 리스트 가져오기
+    public List<PostVO.LikeUserList> coList(Map<String,Object> userId) throws SQLException{
+         return mapper.coList(userId);
+    }
+
+    // 프렌드 좋아요 유저 리스트 가져오기
+    public List<PostVO.LikeUserList> frList(Map<String,Object> userId) throws SQLException {
+        return mapper.frList(userId);
+    }
 }

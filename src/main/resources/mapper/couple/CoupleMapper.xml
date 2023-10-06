@@ -51,7 +51,7 @@
 
     <!-- 커플 좋아요 리스트에 해당 버튼유저 추가 -->
     <insert id="coupleAddLikeList"  parameterType="map">
-        insert into like_list_couple (like_from, like_to)
+        insert into like_list_couple (couple_like_from, couple_like_to)
                               values (#{userId}, #{userTo})
     </insert>
 
