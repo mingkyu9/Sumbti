@@ -17,6 +17,7 @@ public class PostVO {
         private String userGender;
         private String userMbti;
         private String images;
+
     }
 
     @Data
@@ -28,20 +29,17 @@ public class PostVO {
         private String userMbti;
         private String postContents;
         private String postSender;
+
     }
 
-    
-    // 쪽지보내기
+    //쪽지 보내기
     @Data
-    public static class SendPost{
-
+    public static class SendPost {
         private String postTitle;
         private String postContents;
         private String postSender;
         private String postReceiver;
     }
-
-    @Data
     public static class LikeUserList{
         private String userNick;
     }

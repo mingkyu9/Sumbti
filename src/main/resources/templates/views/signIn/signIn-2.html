@@ -261,7 +261,7 @@
             </div>
             <div class="btn-area" style="display: flex; justify-content: space-between;">
                 <button type="button" class="btn btn-outline-secondary" id="preBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">< 이전</button>
-                <button type="button" class="btn btn-outline-secondary" id="nextBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">가입 완료</button>
+                <button type="button" class="btn btn-outline-secondary" id="nextBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">다음 ></button>
             </div>
         </div>
     </div>
@@ -376,8 +376,8 @@
                 data: formData
             }).done(function (data) {
                 if (data.resultCode === 200) {
-                    alert('회원가입이 등록되었습니다.');
-                    location.href = '/board/list';
+                    alert('정보 입력이 완료 되었습니다. mbti 선택 화면으로 이동합니다.');
+                    location.href = '/select';
                 } else {
                     alert('회원가입이 실패하였습니다');
                     return false;

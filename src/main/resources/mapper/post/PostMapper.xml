@@ -57,4 +57,10 @@
             LEFT JOIN like_list_friend l ON u.user_id = l.friend_like_to
         where l.friend_like_from = #{userId}
     </select>
+
+
+
+    <delete id="delPost" parameterType="map">
+        delete from post_box where post_num = ${postNum}
+    </delete>
 </mapper>

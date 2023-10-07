@@ -30,6 +30,14 @@ public class PostService {
     public void postSend(PostVO.SendPost param) throws SQLException{
            mapper.postSend(param);
     }
+
+
+    public void delPost(Map<String, Object> param) throws SQLException {
+          mapper.delPost(param);
+    }
+
+
+
     // 커플 좋아요 유저 리스트 가져오기
     public List<PostVO.LikeUserList> coList(Map<String,Object> userId) throws SQLException{
          return mapper.coList(userId);
