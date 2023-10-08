@@ -8,6 +8,7 @@ class SumbtiApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

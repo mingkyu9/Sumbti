@@ -19,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class BoardController {
-
+	
 	private final BoardService service;
 
 	@GetMapping("/list")
@@ -27,17 +27,17 @@ public class BoardController {
 									  @RequestParam(value="categoryId", defaultValue ="")  String categoryId) {
 		ModelAndView view = new ModelAndView();
 		view.setViewName("views/communityZone/communityZoneList");
-
+		
 		BoardVO.Response response = null;
 		Map<String, Object> param = new HashMap<>();
 		param.put("nowPageNumber",  nowPageNumber);
 		param.put("categoryId",  categoryId);
-
+		
 		try {
-
+			
 			response  = service.getBoardList(param);
 			view.addObject("data", response);
-
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -116,7 +116,7 @@ public class BoardController {
 		return view;
 	}
 
-	//삭제
+
 	@GetMapping("/del/{boardNum}")
 	public ModelAndView deleteBoard(@PathVariable int boardNum) {
 		ModelAndView view = new ModelAndView();
@@ -164,6 +164,7 @@ public class BoardController {
 		Map<String, Object> resultMap = new HashMap<>();
 
 		try {
+
 			int result = service.updateBoard(boardUpdate);
 
 			if(result > 0) {
@@ -178,6 +179,6 @@ public class BoardController {
 		}
 
 		return resultMap;
-	}
 
+	}
 }
