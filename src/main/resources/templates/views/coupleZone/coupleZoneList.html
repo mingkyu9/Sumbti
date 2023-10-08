@@ -257,7 +257,7 @@
                     </div>
 
                     <div class="likeArea">
-                        <div class="heart" th:id="|likeBtn_${vo.userId}|" th:onclick="likeBtnEvent([[${vo.userId}]]);"><ion-icon name="heart" class="heart" id="likeBtn"></ion-icon></div>
+                        <div><ion-icon class="heart" name="heart" th:data-luCheck="${vo.likeYouCheck}" th:id="${vo.userId}"></ion-icon></div>
                         <span th:id="|likeCount_${vo.userId}|">[[${vo.likeCount}]]</span>
                         <button type="button" class="btn btn-info" th:id="|postBtn_${vo.userId}|" th:onclick="sendPost([[${vo.userNick}]]);"
                                 style="margin-left: 30px; font-size: 20px;">쪽지</button>
@@ -340,22 +340,43 @@
     <script>
 
 
-
         /* 좋아요 버튼 이벤트 */
         document.addEventListener('DOMContentLoaded', function() {
             let isActive = {}; // 각 버튼의 활성화 상태를 저장하는 객체
-
+            let isHeartClicked ={}; // 체크상태인지 유무 저장하는 객체
             // 모든 하트 버튼 선택
             const heartButtons = document.querySelectorAll('.heart');
 
             heartButtons.forEach(function(button) {
                 const userId = button.getAttribute('id'); // 각 버튼의 사용자 ID 가져오기
+                const like_you_check = button.getAttribute('data-luCheck'); // 각 버튼의 name속성에 저장한 좋아요 유무 가져오기
                 console.log(userId);
+                console.log(like_you_check);
+
                 let likeCount = document.getElementById('likeCount_' + userId).innerText;
+
+                //이거 꼭 이렇게 비교해야되나..
+                if(parseInt(like_you_check) > 0){
+                    // 빨간색으로 색상 표시
+                    button.style.color = '#f20044';
+                    isHeartClicked[userId]= true;
+                }else{
+                    // 회색으로 색상 표시
+                    button.style.color = '#808080';
+                    isHeartClicked[userId]= false;
+                }
+
                 // 각 버튼에 대한 클릭 이벤트 처리
                 button.addEventListener('click', () => {
 
                     if (!isActive[userId]) {
+                        if(!isHeartClicked[userId]){
+                            button.style.color = '#f20044';
+                            isHeartClicked[userId]= true;
+                        }else{
+                            button.style.color = '#808080';
+                            isHeartClicked[userId]= false;
+                        }
                         button.classList.add('active'); // 애니메이션 활성화
 
                         // 애니메이션을 비활성화 및 하트를 숨기는 타이머 설정
