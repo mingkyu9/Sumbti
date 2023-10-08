@@ -242,13 +242,17 @@
                     <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="communityTitle">제목</label>
                         <input type="text" class="form-control" id="communityTitle"  name="communityTitle"
-                               placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px;">
+                               placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px;"
+                               th:value="${detail.boardTitle}">
                         <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="communityContents">내용</label>
-                        <textarea type="text" class="form-control" id="communityContents"   name="communityContents"
-                                  maxlength="500" style="height: 350px; overflow-y: auto;"  placeholder="내용을 입력하세요."></textarea>
+                        <textarea type="text" class="form-control" id="communityContents" name="communityContents"
+                                  maxlength="500" style="height: 350px; overflow-y: auto;"
+                                  placeholder="내용을 입력하세요."
+                                  th:text="${detail.boardContents}"></textarea>
+
                         <div class="char-limit-message" id="charLimitMessage">최대 500자까지만 작성 가능합니다.</div>
                     </div>
                     <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
@@ -361,7 +365,7 @@
 
                 $.ajax(
                     {
-                        url: '/board/add',
+                        url: '/comm/add',
                         type: 'post',
                         dataType : 'json',
                         contentType: false,  //전송할 타입 제거
@@ -372,7 +376,7 @@
                 ).done(function(data){
                     if(data.resultCode === 200) {
                         alert('수정이 완료되었습니다.');
-                        location.href = '/board/list';    // 리스트로 가기
+                        location.href = '/comm/list';    // 리스트로 가기
                     }else {
                         alert('글 수정이 실패하였습니다');
                         return false;
