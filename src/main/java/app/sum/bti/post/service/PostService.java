@@ -42,8 +42,6 @@ public class PostService {
     }
 
 
-
-
     // 커플 좋아요 유저 리스트 가져오기
     public List<PostVO.LikeUserList> coList(Map<String,Object> userId) throws SQLException{
          return mapper.coList(userId);
