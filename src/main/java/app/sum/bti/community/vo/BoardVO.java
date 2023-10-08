@@ -32,6 +32,7 @@ public class BoardVO {
 		private String userNick;
 		private int boardLike;
 		private String boardTime;
+		private String CategoryId;
 	}
 
 	@Data
@@ -66,7 +67,6 @@ public class BoardVO {
 
 	@Data
 	public static class Request{
-
 		private String boardTitle;
 		private String category;
 		private String userId;
