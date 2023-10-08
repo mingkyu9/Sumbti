@@ -19,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class BoardController {
-	
+
 	private final BoardService service;
 
 	@GetMapping("/list")
@@ -27,23 +27,23 @@ public class BoardController {
 									  @RequestParam(value="categoryId", defaultValue ="")  String categoryId) {
 		ModelAndView view = new ModelAndView();
 		view.setViewName("views/communityZone/communityZoneList");
-		
+
 		BoardVO.Response response = null;
 		Map<String, Object> param = new HashMap<>();
 		param.put("nowPageNumber",  nowPageNumber);
 		param.put("categoryId",  categoryId);
-		
+
 		try {
-			
+
 			response  = service.getBoardList(param);
 			view.addObject("data", response);
-			
+
 		}catch (Exception e) {
 			 e.printStackTrace();
 		}
-		
+
 	    log.info("========  end  board list ======");
-		
+
 		return view;
 	}
 
@@ -68,7 +68,7 @@ public class BoardController {
 
 			//로그인된 사용자 정보 가져오기
 			LoginVO.LoginUserInfo user = (LoginVO.LoginUserInfo)
-								request.getSession().getAttribute("loginUserInfo");
+					request.getSession().getAttribute("loginUserInfo");
 
 
 			//로그인 상태일때만 글쓸 수 있게하고 아니면 오류
@@ -92,7 +92,6 @@ public class BoardController {
 		return resultMap;
 
 	}
-
 	//상세보기
 	@GetMapping("/content")
 	public ModelAndView  boardDetailView(@RequestParam(value="nowPageNumber", defaultValue ="0")  int nowPageNumber,
@@ -102,7 +101,7 @@ public class BoardController {
 
 		view.addObject("nowPageNumber", nowPageNumber);
 		view.addObject("boardNum", boardNum);
-		view.setViewName("views/communityZone/communityZoneContent");
+		view.setViewName("views/communityZone/communityZoneDetail");
 
 		try {
 
@@ -117,9 +116,9 @@ public class BoardController {
 		return view;
 	}
 
-
+	//삭제
 	@GetMapping("/del/{boardNum}")
-	public ModelAndView deleteBoard(@PathVariable("boardNum") int boardNum) {
+	public ModelAndView deleteBoard(@PathVariable int boardNum) {
 		ModelAndView view = new ModelAndView();
 		view.setViewName("redirect:/comm/list?nowPageNumber=0");
 		try {
@@ -142,7 +141,7 @@ public class BoardController {
 
 		view.addObject("nowPageNumber", nowPageNumber);
 		view.addObject("boardNum", boardNum);
-		view.setViewName("views/board/boardUpdateNote");
+		view.setViewName("views/communityZone/communityZoneModify");
 
 		try {
 
@@ -165,9 +164,6 @@ public class BoardController {
 		Map<String, Object> resultMap = new HashMap<>();
 
 		try {
-
-
-
 			int result = service.updateBoard(boardUpdate);
 
 			if(result > 0) {
@@ -182,6 +178,6 @@ public class BoardController {
 		}
 
 		return resultMap;
-
 	}
+
 }
