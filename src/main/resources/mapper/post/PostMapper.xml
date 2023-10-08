@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="app.sum.bti.post.mapper.PostMapper">
 
+    <!-- 받은 메세지 리스트 -->
     <select id="getPostList"  parameterType="map" resultType="postList">
 
         select post_num,
@@ -58,9 +59,32 @@
         where l.friend_like_from = #{userId}
     </select>
 
-
-
+    <!-- 쪽지 삭제  -->
     <delete id="delPost" parameterType="map">
         delete from post_box where post_num = ${postNum}
     </delete>
+
+
+    <select id="sentPostList"  parameterType="map" resultType="postList">
+
+        SELECT  pb.post_num,
+                pb.post_title,
+                DATE_FORMAT(pb.post_time, '%y.%m.%d') as post_time,
+                pb.post_sender,
+                pb.post_receiver,
+                pb.post_zone,
+                u.user_nick,
+                u.user_gender,
+                u.user_mbti
+        FROM post_box pb
+        LEFT JOIN user_info u ON pb.post_receiver = u.user_id
+        WHERE pb.post_sender = #{userId};
+
+        <!-- ${#userId} -->
+    </select>
+
+
+
+
+
 </mapper>

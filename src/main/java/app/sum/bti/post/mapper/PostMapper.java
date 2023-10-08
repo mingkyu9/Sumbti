@@ -23,6 +23,9 @@ public interface PostMapper {
    //쪽지 삭제하기
    public  void delPost(Map<String, Object> param) throws SQLException;
 
+   //보낸 쪽지함 리스트 가져오기
+   public  List<PostVO.PostList> sentPostList(Map<String, Object> userId) throws SQLException;
+
 
 
 

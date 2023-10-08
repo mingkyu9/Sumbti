@@ -130,4 +130,37 @@ public class PostController {
         }
         return resultMap;
     }
+
+    @GetMapping("/sentPostList")
+    public ModelAndView sentPostList() {
+        ModelAndView view = new ModelAndView();
+        Map<String,Object> param = new HashMap<>();
+        param.put("userId","test12");
+        try {
+
+            List<PostVO.PostList> sList = postService.sentPostList(param);
+
+            sList = sList.stream().map( obj-> {
+                String mbti = obj.getUserMbti();
+                String img = "/img/profileIcon/" + (obj.getUserGender().equals("남자") ? "m-"+mbti+".png" :"f-"+mbti+".png");
+                obj.setImages(img);
+                return obj;
+            }).toList();
+
+
+            view.addObject("sentPostList",sList);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        view.setViewName("views/postBox/postSentList");
+        return view;
+
+    }
+
+
+
+
+
+
 }

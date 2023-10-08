@@ -239,12 +239,13 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <th><img th:src="@{/img/profileIcon/f-enfj.png}" id="profileIcon"></th>
+                        <tr th:each="vo:${sentPostList}">
+                            <th><img th:src="@{${vo.images}}" id="profileIcon"></th>
                             <td class="truncate-title">
-                                <a href="/your-link-here">일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십일이삼사오륙칠팔구십</a>
+                                <a th:href="@{postDetail(postNum=${vo.postNum})}">[[${vo.postTitle}]]</a>
                             </td>
-                            <td class="truncate-nickname">일이삼사오륙칠</td>
-                            <td class="truncate-zone">날짜드가야함</td>
+                            <td class="truncate-nickname">[[${vo.userNick}]]</td>
+                            <td class="truncate-zone">[[${vo.postTime}]]</td>
                         </tr>
                         </tbody>
                     </table>
