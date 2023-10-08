@@ -164,10 +164,10 @@
             <div id="communityZoneLogo">
                 <img th:src="@{/img/logo/communityZone.png}">
             </div>
-            <input type="hidden" id="nowPageNumber" name="nowPageNumber" th:value="*{detail.boardNum}">
+            <input type="hidden" id="boardNum" name="boardNum"  th:value="${detail.boardNum}">
+            <input type="hidden" id="nowPageNumber" name="nowPageNumber" th:value="${nowPageNumber}">
             <div class="titleArea">
-                <div class="title">
-                    <span>일이삼사오륙칠팔구십일이삼사오륙칠팔구십</span>
+                <div class="title" th:utext="${detail.boardTitle}">
                 </div>
                 <div class="info">
                     <span class="infoDetail">닉네임</span>
@@ -175,51 +175,37 @@
                     <span class="infoDetail">23.09.22</span>
                 </div>
             </div>
-            <textarea class="contentArea">내용이 들어갈 예정</textarea>
+            <textarea class="contentArea" th:utext="${detail.boardContents}"></textarea>
         </div>
         <div class="likeArea">
             <div class="heart" id="likeBtn"></div>
             <span id="likeCount">35</span>
         </div>
+    </section>
         <div class="btn-area">
             <button type="button" class="btn btn-secondary btn-lg" id="listBtn" onclick="goList();">목록</button>
             <button type="button" class="btn btn-danger btn-lg" id="cancelBtn" onclick="del();">삭제</button>
             <button type="button" class="btn btn-primary btn-lg" id="saveBtn" onclick="mdofiy();" >글 수정</button>
         </div>
 
-    </section>
+
 
     <script>
         function mdofiy() {
             location.href  ='/comm/modify/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardNum=' + $('#boardNum').val() ;
         }
+
         function del() {
             const isConfirm = confirm('정말 삭제하시겠습니까?');
 
-            if(isConfirm) {
+            if (isConfirm) {
                 location.href = '/comm/del/' + $('#boardNum').val();
             }
-
         }
         function goList(){
             location.Href = '/comm/list?nowPageNumber=' + $('#nowPageNumber').val();
         }
 
-
-
-
-        //하트 애니메이션
-        document.addEventListener('DOMContentLoaded', function () {
-            const heartButton = document.getElementById('likeBtn');
-
-            // 하트 클릭 이벤트 처리
-            heartButton.addEventListener('click', () => {
-                heartButton.classList.add('active'); // 애니메이션 활성화
-                setTimeout(() => {
-                    heartButton.classList.remove('active'); // 일정 시간 후 애니메이션 비활성화
-                }, 1000); // 2초 후에 애니메이션 비활성화
-            });
-        })
 
         document.addEventListener('DOMContentLoaded', function () {
             const listBtn = document.getElementById('listBtn');
@@ -228,7 +214,6 @@
                 window.location.href = '/comm/list';
             });
         });
-
 
     </script>
 </div>
