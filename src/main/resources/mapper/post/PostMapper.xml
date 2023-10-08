@@ -27,7 +27,6 @@
                post_sender,
                post_time,
                post_contents,
-               update_date,
                u.user_nick,
                u.user_mbti
         from  post_box as p
@@ -77,7 +76,7 @@
                 u.user_gender,
                 u.user_mbti
         FROM post_box pb
-        LEFT JOIN user_info u ON pb.post_receiver = u.user_id
+             LEFT JOIN user_info u ON pb.post_receiver = u.user_id
         WHERE pb.post_sender = #{userId};
 
         <!-- ${#userId} -->
