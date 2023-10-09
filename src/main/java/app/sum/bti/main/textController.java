@@ -99,7 +99,7 @@ public class textController {
     @GetMapping("/post/inbox/list")
     public ModelAndView postInboxList() {
         ModelAndView view = new ModelAndView();
-        view.setViewName("views/postBox/postInboxList");
+        view.setViewName("views/postBox/postInboxList_backUp");
 
         return view;
 
