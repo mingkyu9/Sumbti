@@ -32,7 +32,8 @@ public class BoardVO {
 		private String userNick;
 		private int boardLike;
 		private String boardTime;
-		private String CategoryId;
+		private String categoryId;
+
 	}
 
 	@Data
@@ -61,7 +62,7 @@ public class BoardVO {
 		//private MultipartFile[] attachFile;
 		//java 8 이후부터 사용가능
 		// Date 보다 정확한 표현
-		private LocalDateTime updateDate;
+		private String updateDate;
 
 	}
 

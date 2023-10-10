@@ -240,25 +240,27 @@
                         </div>
                     </div>
                     <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                        <label for="communityTitle">제목</label>
-                        <input type="text" class="form-control" id="communityTitle"  name="communityTitle"
+                        <label for="boardTitle">제목</label>
+                        <input type="text" class="form-control" id="boardTitle"  name="boardTitle"
                                placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px;"
                                th:value="${detail.boardTitle}">
                         <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                        <label for="communityContents">내용</label>
-                        <textarea type="text" class="form-control" id="communityContents" name="communityContents"
+                        <label for="boardContents">내용</label>
+                        <textarea type="text" class="form-control" id="boardContents" name="boardContents"
                                   maxlength="500" style="height: 350px; overflow-y: auto;"
                                   placeholder="내용을 입력하세요."
                                   th:text="${detail.boardContents}"></textarea>
 
                         <div class="char-limit-message" id="charLimitMessage">최대 500자까지만 작성 가능합니다.</div>
                     </div>
+                    <input type="hidden" id="boardNum" name="boardNum"  th:value="${detail.boardNum}">
                     <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
                 </form>
             </div>
             <div class="btn-area" style="height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">
+
                 <button type="button" class="btn btn-primary btn-lg" id="saveBtn"  onclick="save();">수정</button>
                 <button type="button" class="btn btn-secondary btn-lg" id="listBtn">취소</button>
             </div>
@@ -296,8 +298,8 @@
         });
 
         // 입력 필드 글자 수 체크
-        const communityTitle = document.getElementById('communityTitle');
-        const communityContents = document.getElementById('communityContents');
+        const communityTitle = document.getElementById('boardTitle');
+        const communityContents = document.getElementById('boardContents');
 
         communityTitle.addEventListener('input', function() {
             const inputValue = this.value;
@@ -326,8 +328,8 @@
         });
 
         function validated() {
-            const communityTitle = $('#communityTitle');
-            const communityContents = $('#communityContents');
+            const communityTitle = $('#boardTitle');
+            const communityContents = $('#boardContents');
 
             if($.trim( communityTitle.val() ).length === 0 ) {
                 alert('제목을 입력하십시오.');
@@ -365,13 +367,12 @@
 
                 $.ajax(
                     {
-                        url: '/comm/add',
+                        url: '/comm/modify',
                         type: 'post',
-                        dataType : 'json',
+                        dataType: 'json',
                         contentType: false,  //전송할 타입 제거
-                        processData : false, //ajax 전송 파라메터 없음
-                        enctype:'mutipart/form-data',
-                        data : formData
+                        processData: false, //ajax 전송 파라메터 없음
+                        data: formData
                     }
                 ).done(function(data){
                     if(data.resultCode === 200) {
