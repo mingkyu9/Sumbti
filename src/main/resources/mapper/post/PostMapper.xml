@@ -89,8 +89,18 @@
                 u.user_mbti
         FROM post_box pb
              LEFT JOIN user_info u ON pb.post_receiver = u.user_id
-        WHERE pb.post_sender = #{userId};
-
+        WHERE pb.post_sender = #{userId}
+        <choose>
+            <when test="orderType !=null and orderType == 'day'">
+                order by post_time desc
+            </when>
+            <when test="orderType !=null and orderType == 'nick'">
+                order by u.user_nick desc
+            </when>
+            <otherwise>
+                order by post_time desc
+            </otherwise>
+        </choose>
         <!-- ${#userId} -->
     </select>
 
