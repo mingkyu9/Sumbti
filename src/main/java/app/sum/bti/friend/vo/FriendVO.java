@@ -18,6 +18,7 @@ public class FriendVO {
         private String hateMbti;
         private String detailIntro;
         private int likeCount; //  현재 리스트 인물을 좋아요한 카운트
+        private int likeYouCheck; //  접속유저가 현재 리스트 인물을 좋아요한 유무
         private String images;
 
     }

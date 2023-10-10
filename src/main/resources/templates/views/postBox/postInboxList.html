@@ -208,7 +208,7 @@
                             <a class="nav-link active">받은 편지함</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/sendPostList">보낸 편지함</a>
+                            <a class="nav-link" href="/sentPostList">보낸 편지함</a>
                         </li>
 
                     </ul>
@@ -237,7 +237,7 @@
                             <th style="width: 10%;">날짜</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="postBoxTbody">
                         <tr th:each="vo:${postList}">
                             <th><img th:src="@{${vo.images}}" id="profileIcon"></th>
                             <td class="truncate-title">
@@ -250,7 +250,6 @@
                     </table>
                 </div>
             </div>
-            <th style="width: 20%;">[[${vo.image}]]</th>
 
 
 
@@ -288,6 +287,8 @@
                         option.classList.remove('active');
                     });
                     option.classList.add('active');
+
+                    updateData(option.innerText);
                 });
             });
         });
@@ -357,6 +358,50 @@
         }
 
 
+        function updateData(option) {
+            const orderType = option ==='날짜순' ? 'day' : 'nick';
+
+            $.ajax({
+                url : '/postbox/list/data',
+                type: 'get',
+                dataType :'json',
+                data : {
+                    orderType : orderType
+                }
+            }).done(function (data) {
+                drawData(data.postList);
+            }).fail(function (xhr, status, error) {
+               alert(status);
+            });
+        }
+
+
+        function drawData(postList) {
+            console.log(111)
+            //리스트 초기화
+           const postBoxTbody =  $('#postBoxTbody');
+            postBoxTbody.empty();
+
+            $.each(postList, function (index, obj){
+                let tr = `<tr>
+                            <th><img src="@@images@@" id="profileIcon"></th>
+                            <td class="truncate-title">
+                                <a href="postDetail(@@postNum@@)">@@postTitle@@</a>
+                            </td>
+                            <td class="truncate-nickname">@@nick@@</td>
+                            <td class="truncate-zone">@@postTime@@</td>
+                        </tr>`
+
+                tr = tr.replaceAll('@@images@@', obj.images);
+                tr = tr.replaceAll('@@postNum@@', obj.postNum);
+                tr = tr.replaceAll('@@postTitle@@', obj.postTitle);
+                tr = tr.replaceAll('@@nick@@', obj.userNick);
+                tr = tr.replaceAll('@@postTime@@', obj.postTime);
+                postBoxTbody.append(tr);
+            });
+
+            goToPage(currentPage);
+        }
 
         // 페이지 로딩 시 Pagination 초기화 및 첫 페이지 표시
         $(document).ready(function () {

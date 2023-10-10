@@ -17,7 +17,6 @@ public class PostVO {
         private String userGender;
         private String userMbti;
         private String images;
-
     }
 
     @Data
@@ -29,7 +28,6 @@ public class PostVO {
         private String userMbti;
         private String postContents;
         private String postSender;
-
     }
 
     //쪽지 보내기
@@ -40,6 +38,9 @@ public class PostVO {
         private String postSender;
         private String postReceiver;
     }
+
+
+    @Data
     public static class LikeUserList{
         private String userNick;
     }

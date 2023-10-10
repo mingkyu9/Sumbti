@@ -114,23 +114,23 @@
 
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="friendTitle">소개글</label>
-                        <input type="text" class="form-control" id="friendTitle"  name="detailIntro" placeholder="간결하지만 확실한 소개를 해보세요! (최대 20자)" maxlength="20">
-                        <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
+                        <input type="text" class="form-control" id="friendTitle"  name="detailIntro" placeholder="간결하지만 확실한 소개를 해보세요! (최대 8자)" maxlength="8">
+                        <div class="char-limit-message">최대 8자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="friendHobby">취미</label>
-                        <input type="text" class="form-control" id="friendHobby"   name="detailHobby" placeholder="많은 취미를 공유해보세요! (최대 20자)" maxlength="20">
-                        <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
+                        <input type="text" class="form-control" id="friendHobby"   name="detailHobby" placeholder="많은 취미를 공유해보세요! (최대 8자)" maxlength="8">
+                        <div class="char-limit-message">최대 8자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="friendFood">좋아하는 음식</label>
-                        <input type="text" class="form-control" id="friendFood"   name="detailFood" placeholder="나의 sumBTI와 같이 먹고 싶은 음식은? (최대 20자)" maxlength="20">
-                        <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
+                        <input type="text" class="form-control" id="friendFood"   name="detailFood" placeholder="나의 sumBTI와 같이 먹고 싶은 음식은? (최대 8자)" maxlength="8">
+                        <div class="char-limit-message">최대 8자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="friendPet">반려동물</label>
-                        <input type="text" class="form-control" id="friendPet"   name="detailPat" placeholder="반려동물 유무 및 소개를 해보세요! (최대 20자)" maxlength="20">
-                        <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
+                        <input type="text" class="form-control" id="friendPet"   name="detailPat" placeholder="반려동물 유무 및 소개를 해보세요! (최대 8자)" maxlength="8">
+                        <div class="char-limit-message">최대 8자까지만 작성 가능합니다.</div>
                     </div>
 
                     <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
@@ -153,11 +153,11 @@
 
         friendTitle.addEventListener('input', function() {
             const inputValue = this.value;
-            const charLimit = 20;
+            const charLimit = 8;
 
             if (inputValue.length > charLimit) {
                 friendTitle.classList.add('invalid-input'); // 클래스 추가
-                charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
+                charLimitMessage.textContent = '최대 8자까지만 작성 가능합니다.';
             } else {
                 friendTitle.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';
@@ -166,11 +166,11 @@
 
         friendHobby.addEventListener('input', function() {
             const inputValue = this.value;
-            const charLimit = 20;
+            const charLimit = 8;
 
             if (inputValue.length > charLimit) {
                 friendHobby.classList.add('invalid-input'); // 클래스 추가
-                charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
+                charLimitMessage.textContent = '최대 8자까지만 작성 가능합니다.';
             } else {
                 friendHobby.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';
@@ -179,11 +179,11 @@
 
         friendFood.addEventListener('input', function() {
             const inputValue = this.value;
-            const charLimit = 20;
+            const charLimit = 8;
 
             if (inputValue.length > charLimit) {
                 friendFood.classList.add('invalid-input'); // 클래스 추가
-                charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
+                charLimitMessage.textContent = '최대 8자까지만 작성 가능합니다.';
             } else {
                 friendFood.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';
@@ -192,11 +192,11 @@
 
         friendPet.addEventListener('input', function() {
             const inputValue = this.value;
-            const charLimit = 20;
+            const charLimit = 8;
 
             if (inputValue.length > charLimit) {
                 friendPet.classList.add('invalid-input'); // 클래스 추가
-                charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
+                charLimitMessage.textContent = '최대 8자까지만 작성 가능합니다.';
             } else {
                 friendPet.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';

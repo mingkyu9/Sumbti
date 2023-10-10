@@ -41,10 +41,17 @@
             margin-bottom : 6px;
         }
 
+        /* 중앙 정렬을 위한 스타일 */
+        .center-container {
+            display: flex;
+            flex-direction: column; /* 세로 중앙 정렬 */
+            align-items: center; /* 가로 중앙 정렬 */
+            justify-content: center; /* 세로 방향에서 중앙 정렬 */
+        }
+
         .int-area  {
             width : 520px;
             position : relative;
-            margin-left: 80px;
             margin-top : 20px;
             margin-bottom: 30px;
         }
@@ -98,7 +105,7 @@
         }
 
         .btn-area button  {
-            width : 80%;
+            width : 540px;
             height : 50px;
             background : #9966;
             color : #fff;
@@ -178,8 +185,8 @@
             width: 100%;
             height: 30px;
             line-height: 30px;
-            text-align: right;
-            padding-right : 30px;
+            text-align: center;
+            /*padding-right : 30px;*/
             margin-bottom: 30px;
             font-family: 'GmarketSansLight', sans-serif
         }
@@ -200,20 +207,23 @@
                     <img th:src="@{/img/logo/sumBTI.png}">
                 </div>
                 <form id = "form" action = "<%=rootPath%>/login" method = "POST">
-                    <div class = "int-area">
-                        <input type = "text" name = "userId" id = "id" autocomplete = "off" required>
-                        <label for ="id">USERNAME</label>
+                    <div class="center-container">
+                        <div class="int-area">
+                            <input type="text" name="userId" id="id" autocomplete="off" required>
+                            <label for="id">USERNAME</label>
+                        </div>
+                        <div class="int-area">
+                            <input type="password" name="userPw" id="pw" autocomplete="off" required>
+                            <label for="pw">PASSWORD</label>
+                        </div>
+                        <div class="btn-area">
+                            <button type="button" id="login" value="LOGIN">로그인</button>
+                        </div>
+                        <div class="caption">
+                            <a href="/signin">회원가입하기</a>
+                        </div>
                     </div>
-                    <div class = "int-area">
-                        <input type = "password" name = "userPw" id = "pw" autocomplete = "off" required>
-                        <label for ="pw">PASSWORD</label>
-                    </div>
-                    <div class = "btn-area">
-                        <button type = "button" id = "login" value="LOGIN">로그인</button>
-                    </div>
-                    <div class = "caption">
-                        <a href = "/signin/first">회원가입하기</a>
-                    </div>
+
                 </form>
             </section>
 
@@ -266,6 +276,22 @@
                     }).fail(function(xhr,error,status){
                         alert('로그인 실패\n 관리자에게 문의 해주세요');
                     });
+                }
+            });
+
+            // 아이디 입력 필드에서 엔터 키 누를 때 로그인 버튼을 클릭
+            $('#id').on('keydown', function(event){
+                if(event.keyCode === 13) { // 엔터 키의 keyCode는 13
+                    event.preventDefault(); // 엔터 키의 기본 동작(폼 제출)을 막음
+                    $('#login').click(); // 로그인 버튼 클릭
+                }
+            });
+
+            // 패스워드 입력 필드에서 엔터 키 누를 때 로그인 버튼을 클릭
+            $('#pw').on('keydown', function(event){
+                if(event.keyCode === 13) { // 엔터 키의 keyCode는 13
+                    event.preventDefault(); // 엔터 키의 기본 동작(폼 제출)을 막음
+                    $('#login').click(); // 로그인 버튼 클릭
                 }
             });
         }
