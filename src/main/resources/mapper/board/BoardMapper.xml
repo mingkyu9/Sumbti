@@ -3,6 +3,7 @@
 <mapper namespace="app.sum.bti.community.mapper.BoardMapper">
 
     <resultMap type="boardDetail"    id="detailBoard">
+        <result property="boardNum" column="board_num" />
         <result property="boardTitle" column="board_title" />
         <result property="userId" column="board_owner" />
         <result property="boardContents" column="board_contents" />
@@ -20,16 +21,16 @@
     <select id="getBoardList"  parameterType="map"   resultType="boardList">
 
         select b.board_num ,
-               b.board_title,
-               b.board_time,
-               b.category_id,
-               u.user_nick ,
-               u.user_mbti
+        b.board_title,
+        b.category_id,
+        b.board_time,
+        u.user_nick ,
+        u.user_mbti
         from board b
-            INNER JOIN user_info u ON b.user_id = u.user_id
+        inner join user_info u on b.user_id  = u.user_id
 
         <if test='categoryId != null and categoryId != ""'>
-            where b.category_id = #{categoryId}
+            where category_id = #{categoryId}
         </if>
         order by board_num desc
         limit #{start}, #{end}

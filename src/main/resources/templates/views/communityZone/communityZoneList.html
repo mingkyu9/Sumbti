@@ -169,7 +169,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <colgroup>
-                            <col width="16%" />
+                            <col width="12%" />
                             <col width="36%" />
                             <col width="30%" />
                             <col width="18%" />
@@ -183,7 +183,7 @@
                         <tbody id="tableBody">
                         <tr th:each="vo : ${data.list}">
                            <!-- <td class="nickName">[[${vo.boardNum} ]]</td>-->
-                            <td>
+                            <td class="CategoryId">[[${vo.CategoryId} ]]</td>
                             </td>
                             <td>
                                 <a href="javascript:void(0);" th:onclick="'goDetail(' + ${vo.boardNum} + ');'">
@@ -193,8 +193,6 @@
                             <td class="nickName">[[${vo.userNick} ]]</td>
                             <td class="date">[[${vo.boardTime} ]]</td>
                         </tr>
-
-
                         </tbody>
                     </table>
                 </div>

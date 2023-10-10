@@ -22,39 +22,66 @@ public class PostController {
 
     //메세지 내용 가져오기
     @GetMapping("/postBoxList")
-    public ModelAndView getPostList() {
-        ModelAndView view  = new ModelAndView();
-        Map<String,Object> param = new HashMap<String,Object>();
-        param.put("userId","tes10");
-            try {
-                List<PostVO.PostList> postList = postService.getPostList(param);
-                // 반복 돌리지 않고 스트림으로 처리?
-                postList = postList.stream().map( obj-> {
-                    String mbti = obj.getUserMbti();
-                    String img = "/img/profileIcon/" + (obj.getUserGender().equals("남자") ? "m-"+mbti+".png" :"f-"+mbti+".png");
-                    obj.setImages(img);
-                    return obj;
-                }).toList();
-                view.addObject("postList",postList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            view.setViewName("views/postBox/postInboxList");
-            return view;
+    public ModelAndView getPostList(HttpSession session) {
+        ModelAndView view = new ModelAndView();
+        LoginVO.LoginUserInfo users = (LoginVO.LoginUserInfo) session.getAttribute("loginUserInfo");
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userId", users == null ? "test1" : users.getUserId());
+        try {
+            List<PostVO.PostList> postList = postService.getPostList(param);
+            // 반복 돌리지 않고 스트림으로 처리?
+            postList = postList.stream().map(obj -> {
+                String mbti = obj.getUserMbti();
+                String img = "/img/profileIcon/" + (obj.getUserGender().equals("남자") ? "m-" + mbti + ".png" : "f-" + mbti + ".png");
+                obj.setImages(img);
+                return obj;
+            }).toList();
+            view.addObject("postList", postList);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        view.setViewName("views/postBox/postInboxList");
+        return view;
+    }
+
+    //메세지 리스트 정렬
+    @GetMapping("/postbox/list/data")
+    @ResponseBody
+    public Map<String, Object> getPostListData(@RequestParam("orderType") String orderType, HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<>();
+        LoginVO.LoginUserInfo users = (LoginVO.LoginUserInfo) session.getAttribute("loginUserInfo");
+        Map<String, Object> param = new HashMap<>();
+        param.put("userId", users == null ? "test1" : users.getUserId());
+        param.put("orderType", orderType);
+
+        try {
+            List<PostVO.PostList> postList = postService.getPostList(param);
+            // 반복 돌리지 않고 스트림으로 처리?
+            postList = postList.stream().map(obj -> {
+                String mbti = obj.getUserMbti();
+                String img = "/img/profileIcon/" + (obj.getUserGender().equals("남자") ? "m-" + mbti + ".png" : "f-" + mbti + ".png");
+                obj.setImages(img);
+                return obj;
+            }).toList();
+            resultMap.put("postList", postList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultMap;
+    }
 
 
     // 디테일 화면
     @GetMapping("/postDetail")
-    public ModelAndView DetailPostBox(@RequestParam (value = "postNum") int postNum) {
-        ModelAndView view  = new ModelAndView();
-        Map<String,Object> param = new HashMap<String,Object>();
-        param.put("postNum",postNum);
-        view.addObject("postNum",postNum);
+    public ModelAndView DetailPostBox(@RequestParam(value = "postNum") int postNum) {
+        ModelAndView view = new ModelAndView();
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("postNum", postNum);
+        view.addObject("postNum", postNum);
         try {
             PostVO.PostDetail postDetail = postService.getPostDetail(param);
 
-            view.addObject("postDetail",postDetail);
+            view.addObject("postDetail", postDetail);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +92,7 @@ public class PostController {
     // 보낸쪽지함
     @GetMapping("/sendPostList")
     public ModelAndView sendPostView() {
-        ModelAndView view  = new ModelAndView();
+        ModelAndView view = new ModelAndView();
         view.setViewName("views/postBox/postSentList");
         return view;
     }
@@ -74,18 +101,18 @@ public class PostController {
     @GetMapping("/sendPostView")
     public ModelAndView sendPostList(@RequestParam(value = "nick", defaultValue = "") String nick,
                                      HttpSession session) {
-        ModelAndView view  = new ModelAndView();
-        Map<String,Object> param  = new HashMap<>();
+        ModelAndView view = new ModelAndView();
+        Map<String, Object> param = new HashMap<>();
         // 세션에 저장되어있는 정보 가져오기
-        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
+        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo) session.getAttribute("loginUserInfo");
         param.put("userId", login.getUserId());
 
-        try{
-            List<PostVO.LikeUserList> coList =  postService.coList(param);
-            view.addObject("coList",coList);
-            List<PostVO.LikeUserList> frList =  postService.frList(param);
-            view.addObject("frList",frList);
-        }catch (Exception e){
+        try {
+            List<PostVO.LikeUserList> coList = postService.coList(param);
+            view.addObject("coList", coList);
+            List<PostVO.LikeUserList> frList = postService.frList(param);
+            view.addObject("frList", frList);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -95,39 +122,98 @@ public class PostController {
     }
 
 
-
     @PostMapping("/sendPost")
     @ResponseBody
-    public Map<String, Object> PostSend(@ModelAttribute PostVO.SendPost sendRequest, HttpSession session){
+    public Map<String, Object> PostSend(@ModelAttribute PostVO.SendPost sendRequest, HttpSession session) {
         Map<String, Object> resultMap = new HashMap<>();
         // 세션에 저장되어있는 정보 가져오기
-        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
+        LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo) session.getAttribute("loginUserInfo");
         sendRequest.setPostSender(login.getUserId());
 
         try {
             postService.postSend(sendRequest);
-            resultMap.put("resultCode",200);
-        }catch (Exception e){
-            resultMap.put("resultCode",500);
+            resultMap.put("resultCode", 200);
+        } catch (Exception e) {
+            resultMap.put("resultCode", 500);
             e.printStackTrace();
         }
         return resultMap;
     }
 
-//쪽지삭제
+    //쪽지삭제
     @PostMapping("/deletePost")
     @ResponseBody
-    public Map<String, Object> deletePost(@RequestParam (value = "postNum") String num){
+    public Map<String, Object> deletePost(@RequestParam(value = "postNum") String num) {
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> param = new HashMap<>();
-        param.put("postNum",num);
+        param.put("postNum", num);
         try {
             postService.delPost(param);
-            resultMap.put("resultCode",200);
-        }catch (Exception e){
-            resultMap.put("resultCode",500);
+            resultMap.put("resultCode", 200);
+        } catch (Exception e) {
+            resultMap.put("resultCode", 500);
             e.printStackTrace();
         }
         return resultMap;
     }
+
+    //보낸편지함 리스트 내용 가져오기
+    @GetMapping("/sentPostList")
+    public ModelAndView sentPostList(HttpSession session) {
+        ModelAndView view = new ModelAndView();
+        Map<String, Object> param = new HashMap<>();
+        LoginVO.LoginUserInfo users = (LoginVO.LoginUserInfo) session.getAttribute("loginUserInfo");
+        param.put("userId", users.getUserId());
+        try {
+
+            List<PostVO.PostList> sList = postService.sentPostList(param);
+
+            sList = sList.stream().map(obj -> {
+                String mbti = obj.getUserMbti();
+                String img = "/img/profileIcon/" + (obj.getUserGender().equals("남자") ? "m-" + mbti + ".png" : "f-" + mbti + ".png");
+                obj.setImages(img);
+                return obj;
+            }).toList();
+            view.addObject("sentPostList", sList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        view.setViewName("views/postBox/postSentList");
+        return view;
+
+    }
+
+    //보낸 편지함 리스트 정렬
+    @GetMapping("/sentPostList/data")
+    @ResponseBody
+    public Map<String, Object> sentPostListData(@RequestParam("orderType") String orderType, HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<>();
+        LoginVO.LoginUserInfo users = (LoginVO.LoginUserInfo) session.getAttribute("loginUserInfo");
+        Map<String, Object> param = new HashMap<>();
+        param.put("userId", users == null ? "test1" : users.getUserId());
+        param.put("orderType", orderType);
+
+        try {
+
+            List<PostVO.PostList> sList = postService.sentPostList(param);
+
+            sList = sList.stream().map(obj -> {
+                String mbti = obj.getUserMbti();
+                String img = "/img/profileIcon/" + (obj.getUserGender().equals("남자") ? "m-" + mbti + ".png" : "f-" + mbti + ".png");
+                obj.setImages(img);
+                return obj;
+            }).toList();
+            resultMap.put("sentPostList", sList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultMap;
+    }
+
+
+
+
+
 }

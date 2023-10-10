@@ -94,6 +94,11 @@
             font-family: 'GmarketSansLight', sans-serif
         }
 
+        .nav-item {
+            font-family: 'GmarketSansBold', sans-serif;
+            font-size: 25px;
+        }
+
     </style>
 </th:block>
 <!-- main_layout 에 속할 페이지 이기때문에 내용만 있으면 된다 -->
@@ -107,24 +112,24 @@
                 <form  id="frm" enctype="">
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="coupleTitle">소개글</label>
-                        <input type="text" class="form-control" id="coupleTitle"  name="detailIntro" placeholder="간결하지만 확실한 소개를 해보세요! (최대 20자)" maxlength="20">
-                        <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
+                        <input type="text" class="form-control" id="coupleTitle"  name="detailIntro" placeholder="간결하지만 확실한 소개를 해보세요! (최대 8자)" maxlength="8">
+                        <div class="char-limit-message">최대 8자까지만 작성 가능합니다.</div>
                     </div>
 
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="coupleHobby">취미</label>
-                        <input type="text" class="form-control" id="coupleHobby"   name="detailHobby" placeholder="많은 취미를 공유해보세요! (최대 20자)" maxlength="20">
-                        <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
+                        <input type="text" class="form-control" id="coupleHobby"   name="detailHobby" placeholder="많은 취미를 공유해보세요! (최대 8자)" maxlength="8">
+                        <div class="char-limit-message">최대 8자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="coupleFood">좋아하는 음식</label>
-                        <input type="text" class="form-control" id="coupleFood"   name="detailFood" placeholder="나의 sumBTI와 같이 먹고 싶은 음식은? (최대 20자)" maxlength="20">
-                        <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
+                        <input type="text" class="form-control" id="coupleFood"   name="detailFood" placeholder="나의 sumBTI와 같이 먹고 싶은 음식은? (최대 8자)" maxlength="8">
+                        <div class="char-limit-message">최대 8자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="couplePet">반려동물</label>
-                        <input type="text" class="form-control" id="couplePet"   name="detailPat" placeholder="반려동물 유무 및 소개를 해보세요! (최대 20자)" maxlength="20">
-                        <div class="char-limit-message">최대 20자까지만 작성 가능합니다.</div>
+                        <input type="text" class="form-control" id="couplePet"   name="detailPat" placeholder="반려동물 유무 및 소개를 해보세요! (최대 8자)" maxlength="8">
+                        <div class="char-limit-message">최대 8자까지만 작성 가능합니다.</div>
                     </div>
 
                     <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
@@ -149,11 +154,11 @@
 
         coupleTitle.addEventListener('input', function() {
             const inputValue = this.value;
-            const charLimit = 20;
+            const charLimit = 8;
 
             if (inputValue.length > charLimit) {
                 coupleTitle.classList.add('invalid-input'); // 클래스 추가
-                charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
+                charLimitMessage.textContent = '최대 8자까지만 작성 가능합니다.';
             } else {
                 coupleTitle.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';
@@ -162,11 +167,11 @@
 
         coupleHobby.addEventListener('input', function() {
             const inputValue = this.value;
-            const charLimit = 20;
+            const charLimit = 8;
 
             if (inputValue.length > charLimit) {
                 coupleHobby.classList.add('invalid-input'); // 클래스 추가
-                charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
+                charLimitMessage.textContent = '최대 8자까지만 작성 가능합니다.';
             } else {
                 coupleHobby.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';
@@ -175,11 +180,11 @@
 
         coupleFood.addEventListener('input', function() {
             const inputValue = this.value;
-            const charLimit = 20;
+            const charLimit = 8;
 
             if (inputValue.length > charLimit) {
                 coupleFood.classList.add('invalid-input'); // 클래스 추가
-                charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
+                charLimitMessage.textContent = '최대 8자까지만 작성 가능합니다.';
             } else {
                 coupleFood.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';
@@ -188,11 +193,11 @@
 
         couplePet.addEventListener('input', function() {
             const inputValue = this.value;
-            const charLimit = 20;
+            const charLimit = 8;
 
             if (inputValue.length > charLimit) {
                 couplePet.classList.add('invalid-input'); // 클래스 추가
-                charLimitMessage.textContent = '최대 20자까지만 작성 가능합니다.';
+                charLimitMessage.textContent = '최대 8자까지만 작성 가능합니다.';
             } else {
                 couplePet.classList.remove('invalid-input'); // 클래스 제거
                 charLimitMessage.textContent = '';

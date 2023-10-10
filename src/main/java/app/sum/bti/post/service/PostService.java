@@ -37,6 +37,10 @@ public class PostService {
     }
 
 
+    public List<PostVO.PostList> sentPostList(Map<String, Object> userId) throws Exception {
+        return mapper.sentPostList(userId);
+    }
+
 
     // 커플 좋아요 유저 리스트 가져오기
     public List<PostVO.LikeUserList> coList(Map<String,Object> userId) throws SQLException{
