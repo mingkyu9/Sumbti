@@ -32,7 +32,7 @@ public class BoardVO {
 		private String userNick;
 		private int boardLike;
 		private String boardTime;
-		private String CategoryId;
+		private String categoryId;
 	}
 
 	@Data

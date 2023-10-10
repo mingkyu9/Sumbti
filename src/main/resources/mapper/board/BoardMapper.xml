@@ -22,13 +22,14 @@
         select b.board_num ,
                b.board_title,
                b.board_time,
+               b.category_id,
                u.user_nick ,
                u.user_mbti
         from board b
-            left join user_info u on b.user_id  = u.user_id
+            INNER JOIN user_info u ON b.user_id = u.user_id
 
         <if test='categoryId != null and categoryId != ""'>
-            where category_id = #{categoryId}
+            where b.category_id = #{categoryId}
         </if>
         order by board_num desc
         limit #{start}, #{end}

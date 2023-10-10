@@ -18,7 +18,7 @@
         FROM user_info u
             LEFT JOIN detail_info_friend di ON u.user_id = di.user_id
         WHERE
-            u.user_gender != (SELECT user_gender FROM user_info WHERE user_id = #{userId})
+            u.user_id != #{userId})
         AND
             u.user_id IN (SELECT user_id FROM detail_info_friend);
 

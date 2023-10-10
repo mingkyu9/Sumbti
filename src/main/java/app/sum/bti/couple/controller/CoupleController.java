@@ -23,6 +23,10 @@ public class CoupleController {
     @GetMapping("/coupleZoneList")
     public ModelAndView getCoupleList(HttpSession session){
         ModelAndView view  = new ModelAndView();
+        if(session.getAttribute("loginUserInfo") == null){
+            view.setViewName("views/logIn/logInPage");
+            return view;
+        }
         // 세션에 저장되어있는 정보 가져오기
         LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
         // 쿼리에 전달할 파라미터 만들기

@@ -122,11 +122,10 @@
                 <form  id="frm">
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="idInput">아이디 입력</label>
-                        <input type="text" class="form-control" id="idInput"  name="idInput" maxlength="20">
-                        <button type="buttom" id="idCheck" name="idCheck" onclick="checkSameId();">아이디중복확인</button>
                         <div class="input-group-append">
-                            <input type="text" class="form-control" id="idInput"  name="idInput" maxlength="20">
-                            <button class="btn btn-info" type="button" id="idConfirmButton" a href="sendMail">중복 확인</button>
+                            <input type="text" class="form-control" id="idInput"  name="idInput" maxlength="20" oninput="updateVariable(this)">
+<!--                            <button class="btn btn-info" type="button" id="idConfirmButton" onclick="checkSameId();" a href="sendMail">아이디중복확인</button>-->
+                            <button class="btn btn-info" type="button" id="idConfirmButton" onclick="checkSameId();">아이디중복확인</button>
                         </div>
                         <div style="font-family: 'GmarketSansLight', sans-serif; font-size: 20px; margin-top: 15px;">영어, 숫자 포함 6자 이상</div>
                     </div>
@@ -145,14 +144,14 @@
                         <label for="emailInput">이메일 입력</label>
                         <div class="input-group-append">
                             <input type="text" class="form-control" id="emailInput"   name="emailInput" maxlength="20">
-                            <button class="btn btn-info" type="button" id="authenticationButton" a href="sendMail">인증</button>
+                            <button class="btn btn-info" type="button" id="authenticationButton" onclick="checkEmail();">인증</button>
                         </div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="emailConfirm">인증 번호 입력</label>
                         <div class="input-group-append">
                             <input type="text" class="form-control" id="emailConfirm"   name="emailConfirm" maxlength="20">
-                            <button class="btn btn-info" type="button" id="emailConfirmButton" a href="sendMail">확인</button>
+                            <button class="btn btn-info" type="button" id="emailConfirmButton" onclick="checkCode();">확인</button>
                         </div>
                     </div>
                     <div class="form-group" style="margin-left:60px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
@@ -165,20 +164,32 @@
                     </div>
 
                     <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
+                    <input type="hidden" id="confrimCode" name="confrimCode" value="">
                 </form>
             </div>
             <div class="btn-area">
-                <button type="button" class="btn btn-outline-secondary" id="nextBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">다음 ></button>
+                <button type="button" class="btn btn-outline-secondary" id="nextBtn" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">다음 ></button>
             </div>
         </div>
     </div>
     <script>
 
+        // 각 입력 필드에 대한 상태를 저장할 변수
+        let idValidated = false;
+        let passwdValidated = false;
+        let passwdConfirmValidated = false;
+        let emailValidated = false;
+        let emailConfirmValidated = false;
+        let locationValidated = false;
+        let jobValidated = false;
+
         $(document).ready(function() {
             // 페이지 로드 시 실행할 초기화 함수
             function initializePage() {
                 // 모든 입력 필드를 비활성화
-                $('#idCheck').prop('disabled', true);
+                $('#nextBtn').prop('disabled', true);
+                $('#authenticationButton').prop('disabled', true);
+                $('#idConfirmButton').prop('disabled', true);
                 $('#passwdInput').prop('disabled', true);
                 $('#passwdConfirm').prop('disabled', true);
                 $('#emailInput').prop('disabled', true);
@@ -190,14 +201,6 @@
             // 초기화 함수 호출
             initializePage();
 
-            // 각 입력 필드에 대한 상태를 저장할 변수
-            let idValidated = false;
-            let passwdValidated = false;
-            let emailValidated = false;
-            let emailConfirmValidated = false;
-            let locationValidated = false;
-            let jobValidated = false;
-
             // 아이디 입력 필드의 조건 검사 함수
             function validateId() {
                 const idInput = $('#idInput');
@@ -205,10 +208,20 @@
 
                 // 아이디 조건을 검사
                 if (/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/.test(idValue)) {
-                     idValidated = true; //이거 왜 있는거야 지금은? 나중에 사용하라고 만들어준건가.
 
                     // 아이디 조건을 만족하면 다음 입력 필드 활성화
-                    $('#idCheck').prop('disabled', false);
+                    $('#idConfirmButton').prop('disabled', false);
+                }else{
+                    // 아이디 조건을 만족하지 못하면 그대로 비활성화
+                    $('#nextBtn').prop('disabled', true);
+                    $('#authenticationButton').prop('disabled', true);
+                    $('#idConfirmButton').prop('disabled', true);
+                    $('#passwdInput').prop('disabled', true);
+                    $('#passwdConfirm').prop('disabled', true);
+                    $('#emailInput').prop('disabled', true);
+                    $('#emailConfirm').prop('disabled', true);
+                    $('#locationInput').prop('disabled', true);
+                    $('#jobInput').prop('disabled', true);
                 }
             }
 
@@ -225,12 +238,16 @@
                 } else {
                     passwdValidated = false;
                     // 비밀번호 조건을 만족하지 않으면 다음 입력 필드 비활성화
+                    $('#nextBtn').prop('disabled', true);
+                    $('#passwdConfirm').prop('disabled', true);
                     $('#emailInput').prop('disabled', true);
                     $('#emailConfirm').prop('disabled', true);
-                    $('#passwdConfirm').prop('disabled', true);
+                    $('#locationInput').prop('disabled', true);
+                    $('#jobInput').prop('disabled', true);
                 }
             }
 
+            // 비밀번호확인 입력 필드의 조건 검사 함수
             function validatePasswordConfirm() {
                 const passwdInput = $('#passwdInput').val();
                 const passwdConfirmInput = $('#passwdConfirm').val();
@@ -241,12 +258,15 @@
                 if (passwdInput === passwdConfirmInput) {
                     passwordMatchMessage.show();
                     passwordNotMatchMessage.hide();
+                    passwdConfirmValidated = true;
                     // 비밀번호가 일치하면 다음 입력 필드 활성화
                     $('#emailInput').prop('disabled', false);
                 } else {
                     passwordMatchMessage.hide();
                     passwordNotMatchMessage.show();
+                    passwdConfirmValidated = false;
                     // 비밀번호가 일치하지 않으면 다음 입력 필드 비활성화
+                    $('#nextBtn').prop('disabled', true);
                     $('#emailInput').prop('disabled', true);
                     $('#emailConfirm').prop('disabled', true);
                     $('#locationInput').prop('disabled', true);
@@ -258,25 +278,7 @@
             $('#passwdConfirm').on('input', validatePasswordConfirm);
 
 
-            // 이메일 입력 필드의 조건 검사 함수
-            function validateEmail() {
-                const emailInput = $('#emailInput');
-                const emailValue = emailInput.val();
 
-                // 이메일 조건을 검사
-                if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailValue)) {
-                    emailValidated = true;
-                    // 이메일 조건을 만족하면 다음 입력 필드 활성화
-                    $('#emailConfirm').prop('disabled', false);
-
-                } else {
-                    emailValidated = false;
-                    // 이메일 조건을 만족하지 않으면 다음 입력 필드 비활성화
-                    $('#locationInput').prop('disabled', true);
-                    $('#jobInput').prop('disabled', true);
-
-                }
-            }
 
             // 이메일 입력 필드의 조건 검사 함수
             function validateEmail() {
@@ -284,32 +286,36 @@
                 const emailValue = emailInput.val();
 
                 // 이메일 조건을 검사
-                if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailValue)) {
+                if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/.test(emailValue)) {
                     emailValidated = true;
                     // 이메일 조건을 만족하면 다음 입력 필드 활성화
-                    $('#emailConfirm').prop('disabled', false);
-
+                    $('#authenticationButton').prop('disabled', false);
                 } else {
                     emailValidated = false;
                     // 이메일 조건을 만족하지 않으면 다음 입력 필드 비활성화
+                    $('#authenticationButton').prop('disabled', true);
+                    $('#emailConfirm').prop('disabled', true);
                     $('#locationInput').prop('disabled', true);
                     $('#jobInput').prop('disabled', true);
 
                 }
             }
 
+            // 이메일 인증번호 확인 함수
             function validateEmailConfirm() {
                 const emailConfirm = $('#emailConfirm');
                 const emailConfirmValue = emailConfirm.val();
 
+
                 // 인증번호 조건을 검사
                 if (/^.+$/.test(emailConfirmValue)) {
                     emailConfirmValidated = true;
-                    $('#locationInput').prop('disabled', false);
+                    $('#authenticationButton').prop('disabled', false);
 
                 } else {
-                    locationValidated = false;
+                    emailConfirmValidated = false;
                     // 지역 조건을 만족하지 않으면 다음 입력 필드 비활성화
+                    $('#authenticationButton').prop('disabled', true);
                     $('#locationInput').prop('disabled', true);
                 }
             }
@@ -322,7 +328,7 @@
                 if (/^.+$/.test(locationValue)) {
                     locationValidated = true;
                     $('#jobInput').prop('disabled', false);
-
+                    $('#nextBtn').prop('disabled', false);
                 } else {
                     locationValidated = false;
                     // 지역 조건을 만족하지 않으면 다음 입력 필드 비활성화
@@ -340,23 +346,76 @@
 
         });
 
+        //-----------------------------------------------------------
+
+        //아이디 입력창 바뀌면 다시 인증하도록 설정
+        function updateVariable(inputElement) {
+            idValidated = false;
+        }
+
+        //이메일 입력창 바뀌면 다시 인증하도록 설정
+        function updateVariable(inputElement) {
+            idValidated = false;
+        }
+
+        // 인증코드 확인버튼 함수
+        function checkCode(){
+            const inputEmailConfirm = $('#emailConfirm').val();
+            if(inputEmailConfirm === $('#confrimCode').val()){
+                alert('인증되었습니다.');
+                emailConfirmValidated = true;
+                $('#locationInput').prop('disabled', false);
+            }else{
+                alert('인증번호가 잘못되었습니다.');
+                emailConfirmValidated = false;
+                $('#locationInput').prop('disabled', true);
+            }
+        }
+
+
+        //이메일 인증버튼 함수
+        function checkEmail(){
+            const inputEmail = $('#emailInput').val();
+            console.log(inputEmail);
+            $.ajax({
+                type: 'post',
+                url: '/checkEmails',
+                data: {
+                    EmailCheck: inputEmail
+                },
+                dataType: 'json'
+            }).done(function (data) {
+                if (data.resultCode === 200) {
+                    alert('이메일을 확인하여 인증번호를 입력해주세요.');
+                    document.getElementById("confrimCode").value = data.confirmCode;
+                    $('#emailConfirm').prop('disabled', false);
+                } else if (data.resultCode === 201) {
+                    alert('인증번호 발송실패.\n 다시시도해주세요');
+                    $('#emailInput').focus();
+                }
+            }).fail(function (xhr, error, status) {
+                alert(error);
+            });
+        }
+
         // 사용가능 ID 인지 확인하는 함수
         function checkSameId(){
             let checkIdValidated = false;
             const inputId = $('#idInput').val();
+            console.log(inputId);
             $.ajax({
                 type: 'post',
                 url: '/checkIdVal',
-                data:JSON.stringify ({
+                data: {
                     checkId: inputId
-                }),
-                contentType: 'application/json',
+                },
                 dataType: 'json'
             }).done(function (data) {
                 if (data.resultCode === 200) {
                     console.log(data);
                     alert('사용가능한 아이디 입니다.');
                     $('#passwdInput').prop('disabled', false);
+                    idValidated = true;
                 } else if (data.resultCode === 201) {
                     alert('이미 등록된 아이디 입니다?\n 사용할 수 없는 아이디 입니다.');
                     $('#idInput').focus();
@@ -372,7 +431,33 @@
             const nextBtn = document.getElementById('nextBtn');
 
             nextBtn.addEventListener('click', function() {
+
                 if (validated()) {
+                    const formObj = $('#frm')[0];
+                    //form 데이터 만들기
+                    const formData = new FormData(formObj);
+
+                    $.ajax(
+                        {
+                            url: '/nextStep',
+                            type: 'post',
+                            dataType : 'json',
+                            contentType: false,
+                            processData : false,
+                            data : formData
+                        }
+                    ).done(function(data){
+                        if(data.resultCode === 200) {
+                            alert('상세정보가 등록되었습니다.');
+                            location.href = '/coupleZoneList';    // 커플 리스트 메인으로 가기
+                        }else {
+                            alert('상세정보 등록에 실패하였습니다.');
+                            return false;
+                        }
+                    }).fail(function(xhr, error, status) {
+                        alert(error);
+                    });
+
                     window.location.href = '/signin/second';
                 } else {
                     alert('모두 입력해야 다음 페이지로 이동할 수 있습니다.');

@@ -171,11 +171,11 @@
                     <input type="hidden" id="genderSelection" name="genderSelection"> <!-- Hidden input to store the selected gender -->
                     <div class="gender-options" style="margin-bottom: 50px;">
                         <div class="gender-option">
-                            <input type="checkbox" id="femaleCheckbox" class="gender-checkbox" value="남자">
+                            <input type="checkbox" id="femaleCheckbox" class="gender-checkbox" value="male">
                             <label for="femaleCheckbox"><img th:src="@{/img/profileIcon/female.png}" alt="female" style="width: 150px;"></label>
                         </div>
                         <div class="gender-option">
-                            <input type="checkbox" id="maleCheckbox" class="gender-checkbox" value="여자">
+                            <input type="checkbox" id="maleCheckbox" class="gender-checkbox" value="female">
                             <label for="maleCheckbox"><img th:src="@{/img/profileIcon/male.png}" alt="male" style="width: 150px;"></label>
                         </div>
                     </div>
@@ -295,7 +295,7 @@
         // 체크 박스 선택 처리를 담당하는 JavaScript
         const femaleCheckbox = document.getElementById('femaleCheckbox');
         const maleCheckbox = document.getElementById('maleCheckbox');
-        const genderInput = document.getElementById('genderSelection');
+        const genderInput = document.getElementById('genderInput');
 
         femaleCheckbox.addEventListener('change', function () {
             if (femaleCheckbox.checked) {

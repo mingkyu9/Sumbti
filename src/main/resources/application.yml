@@ -6,6 +6,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
 #    url: jdbc:mariadb://localhost:13306/it_academy?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
@@ -65,3 +66,18 @@ logging:
         type:
           descriptor:
             sql: trace
+#            qxgmllxdsjiwxnuz
+#이메일
+  spring:
+    mail:
+      host: smtp.gmail.com
+      port: 587
+      username: wehomehi@gmail.com
+      password: qxgmllxdsjiwxnuz
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+
