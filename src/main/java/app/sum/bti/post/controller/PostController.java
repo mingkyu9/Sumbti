@@ -174,8 +174,6 @@ public class PostController {
                 obj.setImages(img);
                 return obj;
             }).toList();
-
-
             view.addObject("sentPostList", sList);
 
         } catch (Exception e) {
@@ -185,6 +183,37 @@ public class PostController {
         return view;
 
     }
+
+    //보낸 편지함 리스트 정렬
+    @GetMapping("/sentPostList/data")
+    @ResponseBody
+    public Map<String, Object> sentPostListData(@RequestParam("orderType") String orderType, HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<>();
+        LoginVO.LoginUserInfo users = (LoginVO.LoginUserInfo) session.getAttribute("loginUserInfo");
+        Map<String, Object> param = new HashMap<>();
+        param.put("userId", users == null ? "test1" : users.getUserId());
+        param.put("orderType", orderType);
+
+        try {
+
+            List<PostVO.PostList> sList = postService.sentPostList(param);
+
+            sList = sList.stream().map(obj -> {
+                String mbti = obj.getUserMbti();
+                String img = "/img/profileIcon/" + (obj.getUserGender().equals("남자") ? "m-" + mbti + ".png" : "f-" + mbti + ".png");
+                obj.setImages(img);
+                return obj;
+            }).toList();
+            resultMap.put("sentPostList", sList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultMap;
+    }
+
+
+
 
 
 }

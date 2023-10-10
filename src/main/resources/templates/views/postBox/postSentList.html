@@ -237,7 +237,7 @@
                             <th style="width: 10%;">작성시간</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sendPostBody">
                         <tr>
                         <tr th:each="vo:${sentPostList}">
                             <th><img th:src="@{${vo.images}}" id="profileIcon"></th>
@@ -286,7 +286,10 @@
                         option.classList.remove('active');
                     });
                     option.classList.add('active');
+                    updateData(option.innerText);
                 });
+
+
             });
         });
 
@@ -353,6 +356,51 @@
                 pagination.append(pageButton);
             }
         }
+
+        function updateData(option) {
+            const orderType = option ==='날짜순' ? 'day' : 'nick';
+
+            $.ajax({
+                url : '/sentPostList/data',
+                type: 'get',
+                dataType :'json',
+                data : {
+                    orderType : orderType
+                }
+            }).done(function (data) {
+                drawData(data.sentPostList);
+            }).fail(function (xhr, status, error) {
+                alert(status);
+            });
+        }
+
+        function drawData(sentPostList) {
+            console.log(111)
+            //리스트 초기화
+            const sendPostBody =  $('#sendPostBody');
+            sendPostBody.empty();
+
+            $.each(sentPostList, function (index, obj){
+                let tr = `<tr>
+                            <th><img src="@@images@@" id="profileIcon"></th>
+                            <td class="truncate-title">
+                                <a href="postDetail(@@postNum@@)">@@postTitle@@</a>
+                            </td>
+                            <td class="truncate-nickname">@@nick@@</td>
+                            <td class="truncate-zone">@@postTime@@</td>
+                        </tr>`
+
+                tr = tr.replaceAll('@@images@@', obj.images);
+                tr = tr.replaceAll('@@postNum@@', obj.postNum);
+                tr = tr.replaceAll('@@postTitle@@', obj.postTitle);
+                tr = tr.replaceAll('@@nick@@', obj.userNick);
+                tr = tr.replaceAll('@@postTime@@', obj.postTime);
+                sendPostBody.append(tr);
+            });
+
+            goToPage(currentPage);
+        }
+
 
         // 페이지 로딩 시 Pagination 초기화 및 첫 페이지 표시
         $(document).ready(function () {
