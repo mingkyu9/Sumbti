@@ -242,146 +242,153 @@
                     <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="communityTitle">제목</label>
                         <input type="text" class="form-control" id="communityTitle"  name="communityTitle"
-                               placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px;">
+                               placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px;"
+                               th:value="${detail.boardTitle}">
                         <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
                         <label for="communityContents">내용</label>
-                        <textarea type="text" class="form-control" id="communityContents"   name="communityContents"
-                                  maxlength="500" style="height: 350px; overflow-y: auto;"  placeholder="내용을 입력하세요."></textarea>
+                        <textarea type="text" class="form-control" id="communityContents" name="communityContents"
+                                  maxlength="500" style="height: 350px; overflow-y: auto;"
+                                  placeholder="내용을 입력하세요."
+                                  th:text="${detail.boardContents}"></textarea>
+
                         <div class="char-limit-message" id="charLimitMessage">최대 500자까지만 작성 가능합니다.</div>
                     </div>
-            <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
-            </form>
-        </div>
-        <div class="btn-area" style="height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">
-            <button type="button" class="btn btn-primary btn-lg" id="saveBtn"  onclick="save();">수정</button>
-            <button type="button" class="btn btn-secondary btn-lg" id="listBtn">취소</button>
+                    <input type="hidden" id="nowPageNumber" name="nowPageNumber"  th:value="${nowPageNumber}">
+                </form>
+            </div>
+            <div class="btn-area" style="height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">
+                <button type="button" class="btn btn-primary btn-lg" id="saveBtn"  onclick="save();">수정</button>
+                <button type="button" class="btn btn-secondary btn-lg" id="listBtn">취소</button>
+            </div>
         </div>
     </div>
-</div>
-<script>
+    <script>
 
-    const dropdowns = document.querySelectorAll('.dropdown');
+        const dropdowns = document.querySelectorAll('.dropdown');
 
-    dropdowns.forEach(dropdown => {
-        const select = dropdown.querySelector('.select');
-        const caret = dropdown.querySelector('.caret');
-        const menu = dropdown.querySelector('.menu');
-        const options = dropdown.querySelectorAll('.menu li');
-        const selected = dropdown.querySelector('.selected');
+        dropdowns.forEach(dropdown => {
+            const select = dropdown.querySelector('.select');
+            const caret = dropdown.querySelector('.caret');
+            const menu = dropdown.querySelector('.menu');
+            const options = dropdown.querySelectorAll('.menu li');
+            const selected = dropdown.querySelector('.selected');
 
-        select.addEventListener('click', () => {
-            select.classList.toggle('select-clicked');
-            caret.classList.toggle('caret-rotate');
-            menu.classList.toggle('menu-open');
-        });
+            select.addEventListener('click', () => {
+                select.classList.toggle('select-clicked');
+                caret.classList.toggle('caret-rotate');
+                menu.classList.toggle('menu-open');
+            });
 
-        options.forEach(option => {
-            option.addEventListener('click', () => {
-                selected.innerText = option.innerText;
-                select.classList.remove('select-clicked');
-                caret.classList.remove('caret-rotate');
-                menu.classList.remove('menu-open');
-                options.forEach(option => {
-                    option.classList.remove('active');
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    selected.innerText = option.innerText;
+                    select.classList.remove('select-clicked');
+                    caret.classList.remove('caret-rotate');
+                    menu.classList.remove('menu-open');
+                    options.forEach(option => {
+                        option.classList.remove('active');
+                    });
+                    option.classList.add('active');
                 });
-                option.classList.add('active');
             });
         });
-    });
 
-    // 입력 필드 글자 수 체크
-    const communityTitle = document.getElementById('communityTitle');
-    const communityContents = document.getElementById('communityContents');
+        // 입력 필드 글자 수 체크
+        const communityTitle = document.getElementById('communityTitle');
+        const communityContents = document.getElementById('communityContents');
 
-    communityTitle.addEventListener('input', function() {
-        const inputValue = this.value;
-        const charLimit = 30;
+        communityTitle.addEventListener('input', function() {
+            const inputValue = this.value;
+            const charLimit = 30;
 
-        if (inputValue.length > charLimit) {
-            communityTitle.classList.add('invalid-input'); // 클래스 추가
-            charLimitMessage.textContent = '최대 30자까지만 작성 가능합니다.';
-        } else {
-            communityTitle.classList.remove('invalid-input'); // 클래스 제거
-            charLimitMessage.textContent = '';
-        }
-    });
-
-    communityContents.addEventListener('input', function() {
-        const inputValue = this.value;
-        const charLimit = 500;
-
-        if (inputValue.length > charLimit) {
-            communityContents.classList.add('invalid-textarea'); // 클래스 추가
-            charLimitMessage.textContent = '최대 500자까지만 작성 가능합니다.';
-        } else {
-            communityContents.classList.remove('invalid-textarea'); // 클래스 제거
-            charLimitMessage.textContent = '';
-        }
-    });
-
-    function validated() {
-        const communityTitle = $('#communityTitle');
-        const communityContents = $('#communityContents');
-
-        if($.trim( communityTitle.val() ).length === 0 ) {
-            alert('제목을 입력하십시오.');
-            communityTitle.focus();
-            return false;
-        }
-
-        if($.trim( communityContents.val() ).length === 0 ) {
-            alert('내용을 입력하십시오.');
-            communityContents.focus();
-            return false;
-        }
-
-        return true;
-    }
-
-
-    // 취소 버튼 클릭 이벤트 처리
-    document.addEventListener('DOMContentLoaded', function() {
-        const listBtn = document.getElementById('listBtn');
-
-        listBtn.addEventListener('click', function() {
-            window.location.href = '/comm/list';
+            if (inputValue.length > charLimit) {
+                communityTitle.classList.add('invalid-input'); // 클래스 추가
+                charLimitMessage.textContent = '최대 30자까지만 작성 가능합니다.';
+            } else {
+                communityTitle.classList.remove('invalid-input'); // 클래스 제거
+                charLimitMessage.textContent = '';
+            }
         });
-    });
 
-    function save() {
+        communityContents.addEventListener('input', function() {
+            const inputValue = this.value;
+            const charLimit = 500;
 
-        if(validated()) {
+            if (inputValue.length > charLimit) {
+                communityContents.classList.add('invalid-textarea'); // 클래스 추가
+                charLimitMessage.textContent = '최대 500자까지만 작성 가능합니다.';
+            } else {
+                communityContents.classList.remove('invalid-textarea'); // 클래스 제거
+                charLimitMessage.textContent = '';
+            }
+        });
 
-            // ajax 로 파일을 포함한 데이터를 전송하기 위해서는 form 객체를 생성
-            const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
-            //form 데이터 만들기
-            const formData = new FormData(formObj);
+        function validated() {
+            const communityTitle = $('#communityTitle');
+            const communityContents = $('#communityContents');
 
-            $.ajax(
-                {
-                    url: '/board/add',
-                    type: 'post',
-                    dataType : 'json',
-                    contentType: false,  //전송할 타입 제거
-                    processData : false, //ajax 전송 파라메터 없음
-                    enctype:'mutipart/form-data',
-                    data : formData
-                }
-            ).done(function(data){
-                if(data.resultCode === 200) {
-                    alert('수정이 완료되었습니다.');
-                    location.href = '/board/list';    // 리스트로 가기
-                }else {
-                    alert('글 수정이 실패하였습니다');
-                    return false;
-                }
-            }).fail(function(xhr, error, status) {
-                alert(error);
+            if($.trim( communityTitle.val() ).length === 0 ) {
+                alert('제목을 입력하십시오.');
+                communityTitle.focus();
+                return false;
+            }
+
+            if($.trim( communityContents.val() ).length === 0 ) {
+                alert('내용을 입력하십시오.');
+                communityContents.focus();
+                return false;
+            }
+
+            return true;
+        }
+
+
+        // 취소 버튼 클릭 이벤트 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            const listBtn = document.getElementById('listBtn');
+
+            listBtn.addEventListener('click', function() {
+                window.location.href = '/comm/list';
             });
-        }//endif
-    }
-</script>
+        });
+
+        function save() {
+
+            if(validated()) {
+
+                // ajax 로 파일을 포함한 데이터를 전송하기 위해서는 form 객체를 생성
+                const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
+                //form 데이터 만들기
+                const formData = new FormData(formObj);
+
+                $.ajax(
+                    {
+                        url: '/comm/add',
+                        type: 'post',
+                        dataType : 'json',
+                        contentType: false,  //전송할 타입 제거
+                        processData : false, //ajax 전송 파라메터 없음
+                        enctype:'mutipart/form-data',
+                        data : formData
+                    }
+                ).done(function(data){
+                    if(data.resultCode === 200) {
+                        alert('수정이 완료되었습니다.');
+                        location.href = '/comm/list';    // 리스트로 가기
+                    }else {
+                        alert('글 수정이 실패하였습니다');
+                        return false;
+                    }
+                }).fail(function(xhr, error, status) {
+                    alert(error);
+                });
+            }//endif
+        }
+        function mdofiy() {
+            location.href  ='/modify/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardNum=' + $('#boardNum').val() ;
+        }
+    </script>
 </div>
 </html>

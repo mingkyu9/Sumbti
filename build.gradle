@@ -48,6 +48,11 @@ dependencies {
 	implementation 'org.webjars:font-awesome:5.15.3'
 
 	implementation 'org.json:json:20230227'
+	//이미지 리사이즈
+	implementation 'com.jhlabs:filters:2.0.235-1'
+	implementation 'com.mortennobel:java-image-scaling:0.8.6'
+
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 }
 

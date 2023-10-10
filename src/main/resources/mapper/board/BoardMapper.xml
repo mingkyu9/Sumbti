@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.sum.bti.community.mapper.BoardMapper">
+
+    <resultMap type="boardDetail"    id="detailBoard">
+        <result property="boardTitle" column="board_title" />
+        <result property="userId" column="board_owner" />
+        <result property="boardContents" column="board_contents" />
+
+    </resultMap>
+
+    <select id="getBoardTotal" parameterType="map" resultType="int">
+        select count(board_num) as cnt
+        from board
+        <if test='categoryId != null and categoryId != ""'>
+            where category_id = #{categoryId}
+        </if>
+    </select>
+
+    <select id="getBoardList"  parameterType="map"   resultType="boardList">
+
+        select b.board_num ,
+               b.board_title,
+               b.board_time,
+               u.user_nick ,
+               u.user_mbti
+        from board b
+            left join user_info u on b.user_id  = u.user_id
+
+        <if test='categoryId != null and categoryId != ""'>
+            where category_id = #{categoryId}
+        </if>
+        order by board_num desc
+        limit #{start}, #{end}
+
+    </select>
+
+
+
+    <insert id="writeBoard" parameterType="boardCreate" >
+        insert into board(board_title, board_contents, user_id, category_id)
+        values(#{boardTitle}, #{boardContents},  #{userId}, #{category} )
+    </insert>
+
+
+
+    <select id="getBoardDetail"  parameterType="map"   resultMap="detailBoard">
+        select  board_num,
+                board_title,
+                user_id,
+                board_like,
+                board_contents,
+
+                date_format(board_time, '%Y-%m-%d %H:%i:%s') as board_time
+        from board
+        where board_num = #{boardNum}
+    </select>
+    <delete id="deleteBoard"  parameterType="map">
+        delete from  board  where board_num  = #{boardNum}
+    </delete>
+    <update id="updateBoard"   parameterType="boardUpdate">
+        update board
+        <set>
+            <if test="boardTitle neq null  and  boardTitle neq ''  ">
+                board_title = #{boardTitle},
+            </if>
+            <if test="boardContents  neq null  and  boardContents   neq ''  ">
+                board_contents = #{boardContents},
+            </if>
+            <if test="updateDate  neq null ">
+                board_time = #{updateDate},
+            </if>
+        </set>
+        where board_num =  #{boardNum}
+
+    </update>
+
+    <update id="updateBoardLike" parameterType="map">
+
+        update  file_board
+        set board_like = board_like + 1
+        where board_num = #{boardNum}
+
+    </update>
+</mapper>
+
+
+
+
+
+
+

@@ -12,6 +12,7 @@
                 u.love_mbti,
                 u.hate_mbti,
                (select count(*) from like_list_couple lk WHERE lk.couple_like_to = u.user_id) as like_count,
+               (select count(*) from like_list_couple lk WHERE lk.couple_like_from = #{userId} and lk.couple_like_to = u.user_id) as like_you_check,
                 di.detail_intro
         FROM user_info u
               LEFT JOIN detail_info_couple di ON u.user_id = di.user_id

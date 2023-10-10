@@ -212,7 +212,7 @@
                         <button type = "button" id = "login" value="LOGIN">로그인</button>
                     </div>
                     <div class = "caption">
-                        <a href = "/signin/first">회원가입하기</a>
+                        <a href = "/signin">회원가입하기</a>
                     </div>
                 </form>
             </section>
@@ -266,6 +266,14 @@
                     }).fail(function(xhr,error,status){
                         alert('로그인 실패\n 관리자에게 문의 해주세요');
                     });
+                }
+            });
+
+            // 패스워드 입력 필드에서 엔터 키 누를 때 로그인 버튼을 클릭
+            $('#pw').on('keydown', function(event){
+                if(event.keyCode === 13) { // 엔터 키의 keyCode는 13
+                    event.preventDefault(); // 엔터 키의 기본 동작(폼 제출)을 막음
+                    $('#login').click(); // 로그인 버튼 클릭
                 }
             });
         }

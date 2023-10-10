@@ -232,7 +232,7 @@
                                 <span class="selected">일상</span>
                                 <div class="caret"></div>
                             </div>
-                            <ul class="menu">
+                            <ul class="menu" id="category">
                                 <li class="active">일상</li>
                                 <li>같이해요</li>
                                 <li>고민상담</li>
@@ -240,14 +240,14 @@
                         </div>
                     </div>
                     <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                        <label for="communityTitle">제목</label>
-                        <input type="text" class="form-control" id="communityTitle"  name="boardTitle"
+                        <label for="boardTitle">제목</label>
+                        <input type="text" class="form-control" id="boardTitle"  name="boardTitle"
                                placeholder="제목을 입력하세요. (최대 30자)" maxlength="30" style="height: 80px;">
                         <div class="char-limit-message">최대 30자까지만 작성 가능합니다.</div>
                     </div>
                     <div class="form-group" style="margin-left:10px; margin-bottom: 50px; font-size:30px; font-family: 'GmarketSansMedium', sans-serif;">
-                        <label for="communityContents">내용</label>
-                        <textarea type="text" class="form-control" id="communityContents"   name="boardContents"
+                        <label for="boardContents">내용</label>
+                        <textarea type="text" class="form-control" id="boardContents"   name="boardContents"
                                   maxlength="500" style="height: 350px; overflow-y: auto;"></textarea>
                         <div class="char-limit-message" id="charLimitMessage">최대 500자까지만 작성 가능합니다.</div>
                     </div>
@@ -256,7 +256,7 @@
         </div>
         <div class="btn-area" style="height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">
             <button type="button" class="btn btn-primary btn-lg" id="saveBtn"  onclick="save();">등록</button>
-            <button type="button" class="btn btn-secondary btn-lg" id="listBtn">취소</button>
+            <button type="button" class="btn btn-primary btn-lg" id="listBtn"  onclick="goList();">목록</button>
         </div>
     </div>
 </div>
@@ -322,8 +322,8 @@
     });
 
     function validated() {
-        const communityTitle = $('#communityTitle');
-        const communityContents = $('#communityContents');
+        const communityTitle = $('#boardTitle');
+        const communityContents = $('#boardContents');
 
         if($.trim( communityTitle.val() ).length === 0 ) {
             alert('제목을 입력하십시오.');
@@ -352,36 +352,52 @@
 
     function save() {
 
-        if(validated()) {
+        if (validated()) {
 
             // ajax 로 파일을 포함한 데이터를 전송하기 위해서는 form 객체를 생성
             const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
             //form 데이터 만들기
             const formData = new FormData(formObj);
+            const category = $('#category').find('li.active').text();
+
+            switch(category){
+                case '일상':
+                    formData.append("category", 'DAILY');
+                    break;
+                case '고민상담':
+                    formData.append("category", 'CONSULT');
+                    break;
+                case '같이해요':
+                    formData.append("category", 'TOGETHER');
+                    break;
+            }
 
             $.ajax(
                 {
-                    url: '/saveComm',
+                    url: '/comm/add',
                     type: 'post',
-                    dataType : 'json',
+                    dataType: 'json',
                     contentType: false,  //전송할 타입 제거
-                    processData : false, //ajax 전송 파라메터 없음
-                    data : formData
+                    processData: false, //ajax 전송 파라메터 없음
+                    data: formData
                 }
-            ).done(function(data){
-                if(data.resultCode === 200) {
+            ).done(function (data) {
+                if (data.resultCode === 200) {
                     alert('글이 등록되었습니다.');
-                    location.href = '/board/list';    // 리스트로 가기
-                }else {
+                    location.href = '/comm/list';    // 리스트로 가기
+                } else {
                     alert('글등록이 실패하였습니다');
                     return false;
                 }
-            }).fail(function(xhr, error, status) {
+            }).fail(function (xhr, error, status) {
                 alert(error);
             });
         }//endif
     }
+        function goList(){
+            location.href = '/comm/list?nowPageNumber=' + $('#nowPageNumber').val();
 
+         }
 </script>
 </div>
 </html>
