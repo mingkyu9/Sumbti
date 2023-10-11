@@ -20,7 +20,7 @@ public class MailService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, false);
 
-        helper.setFrom("kangie3@naver.com");
+        helper.setFrom(""); //보내는 사람(본인) 이메일 을 적어주시면 됩니다.
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(text);
