@@ -37,7 +37,7 @@
         select post_num,
                post_title,
                post_sender,
-               post_time,
+               DATE_FORMAT(post_time, '%y.%m.%d')  as post_time,
                post_contents,
                u.user_nick,
                u.user_mbti

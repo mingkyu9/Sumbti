@@ -44,6 +44,19 @@ spring:
     restart:
       enabled: true
 
+  #이메일 인증
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: saemi9501@gmail.com # 앱 비밀번호 발급받은 google 계정
+    password: blhhqfhgtmhtyjxs  # 발급받은 앱 비밀번호 (16자리 입니다.) -> 복붙
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+
 
 
 #마이바티스 설정
