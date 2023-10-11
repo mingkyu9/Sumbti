@@ -12,15 +12,19 @@
                 u.user_nick,
                 u.love_mbti,
                 u.hate_mbti,
-                (select count(*) from like_list_friend lk WHERE lk.friend_like_to = u.user_id) as like_count,
-                (select count(*) from like_list_friend lk WHERE lk.friend_like_from = #{userId} and lk.friend_like_to = u.user_id) as like_you_check,
+               (select count(*) from like_list_friend lk WHERE lk.friend_like_to = u.user_id) as like_count,
+               (select count(*) from like_list_friend lk WHERE lk.friend_like_from = #{userId} and lk.friend_like_to = u.user_id) as like_you_check,
                 di.detail_intro
         FROM user_info u
-        LEFT JOIN detail_info_friend di ON u.user_id = di.user_id
+            LEFT JOIN detail_info_friend di ON u.user_id = di.user_id
         WHERE
-        u.user_id IN (SELECT user_id FROM detail_info_friend);
+            u.user_id != #{userId}
+        AND
+            u.user_id IN (SELECT user_id FROM detail_info_friend)
 
     </select>
+
+
 
 
     <!-- 상세정보 저장하기 -->

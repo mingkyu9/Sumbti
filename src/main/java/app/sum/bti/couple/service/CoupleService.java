@@ -2,16 +2,14 @@ package app.sum.bti.couple.service;
 
 import app.sum.bti.couple.mapper.CoupleMapper;
 import app.sum.bti.couple.vo.CoupleVO;
+import app.sum.bti.friend.vo.FriendVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +20,40 @@ public class CoupleService {
 
 
     public List<CoupleVO.CoupleList> getCoupleList(Map<String,Object> param) throws SQLException {
-        return mapper.getCoupleList(param);
+
+        List<CoupleVO.CoupleList> list = mapper.getCoupleList(param);
+        List<CoupleVO.CoupleList> checkList = new ArrayList<>();
+        String hateMbti = (String)param.get("userHateMbti");
+
+        if( hateMbti != null) {
+            String[] hateUser = hateMbti.split("");
+            if (hateUser.length == 0 || hateUser == null) {
+                Collections.sort(list, new Comparator<CoupleVO.CoupleList>() {
+                    @Override
+                    public int compare(CoupleVO.CoupleList couple1, CoupleVO.CoupleList couple2) {
+                        return Integer.compare(couple2.getLikeCount(), couple1.getLikeCount());// 내림차순으로 변경
+                    }// 내림차순으로 변경
+
+                });
+                return list;
+            } else {
+                for (CoupleVO.CoupleList coupleList : list) {
+                    boolean flag = true;
+                    for (String mbti : hateUser) {
+                        if (coupleList.getUserMbti().contains(mbti)) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        checkList.add(coupleList);
+                    }
+                }
+                return checkList;
+            }
+        }else{
+            return list;
+        }
     }
 
 

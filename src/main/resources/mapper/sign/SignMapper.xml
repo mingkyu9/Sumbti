@@ -2,11 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="app.sum.bti.sign.mapper.SignMapper">
 
+    <!-- 아이디 중복확인 -->
     <select id="checkEqualId" parameterType="map" resultType="int">
         select count(*)
         from user_info
             where user_id = #{checkId}
     </select>
 
+    <!-- 닉네임 중복확인 -->
+    <select id="checkEqualNick" parameterType="map" resultType="int">
+        select count(*)
+        from user_info
+            where user_nick = #{checkNick}
+    </select>
 
+    <!-- 회원가입 -->
+    <insert id="signInsert" parameterType="signInfo" >
+        insert into user_info
+                    (user_id, user_name, user_pw, user_nick, user_gender, user_email,
+                     user_mbti, love_mbti, hate_mbti, user_addr, user_job)
+                values (#{idInput},'추가하기', #{passwdInput}, #{nameInput}, #{genderSelection}, #{emailInput},
+                        #{myMbti}, #{loveMbti}, #{hateMbti}, #{locationInput}, #{jobInput})
+    </insert>
 </mapper>

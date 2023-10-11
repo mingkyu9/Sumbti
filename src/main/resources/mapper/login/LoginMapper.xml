@@ -14,7 +14,8 @@
                 user_name,
                 user_nick,
                 user_gender,
-                user_mbti
+                user_mbti,
+                hate_mbti
         from  user_info
            where user_id = #{userId} and user_pw = #{userPw}
     </select>

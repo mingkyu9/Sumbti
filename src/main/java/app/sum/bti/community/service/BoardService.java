@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +63,7 @@ public class BoardService {
 
 	@Transactional
 	public int writeBoard(BoardVO.Request boardRequest) throws Exception {
-		boardRequest.setUserId("amin");
+
 		int result = mapper.writeBoard(boardRequest);
 
 		return result;
@@ -81,7 +82,8 @@ public class BoardService {
 
 		//현재 시간을 가져온다 -서버 시간 기준
 		LocalDateTime nowTime = LocalDateTime.now();
-		updateBoard.setUpdateDate(nowTime);
+		String updateTime = nowTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		updateBoard.setUpdateDate(updateTime);
 
 		// 게시글을 업데이트
 		result = mapper.updateBoard(updateBoard);

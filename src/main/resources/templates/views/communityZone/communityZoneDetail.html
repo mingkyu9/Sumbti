@@ -184,13 +184,16 @@
     </section>
         <div class="btn-area">
             <button type="button" class="btn btn-secondary btn-lg" id="listBtn" onclick="goList();">목록</button>
-            <button type="button" class="btn btn-danger btn-lg" id="cancelBtn" onclick="del();">삭제</button>
-            <button type="button" class="btn btn-primary btn-lg" id="saveBtn" onclick="mdofiy();" >글 수정</button>
+            <div id="test12" th:if="${connectUser eq detail.userId}">
+                <button type="button" class="btn btn-danger btn-lg" id="cancelBtn" onclick="del();">삭제</button>
+                <button type="button" class="btn btn-primary btn-lg" id="saveBtn" onclick="mdofiy();" >글 수정</button>
+            </div>
         </div>
 
 
 
     <script>
+            console.log($('#test12'));
         function mdofiy() {
             location.href  ='/comm/modify/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardNum=' + $('#boardNum').val() ;
         }

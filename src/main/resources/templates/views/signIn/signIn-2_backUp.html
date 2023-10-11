@@ -164,8 +164,6 @@
                             <img th:src="@{/img/profileIcon/add-photo.png}" alt="Profile Picture" id="profilePicturePreview" style="cursor: pointer; max-width: 150px;">
                         </div>
                         <div class="center-input">
-                            <input type="button" id="checkNickname" name="checkNickname" onclick="checkNick();">
-                              <label for="checkNickname">닉네임 중복확인</label>
                             <input type="text" class="form-control custom-name-input" id="nameInput"   name="nameInput" placeholder="닉네임을 입력하세요." maxlength="20">
                         </div>
                     </div>
@@ -173,11 +171,11 @@
                     <input type="hidden" id="genderSelection" name="genderSelection"> <!-- Hidden input to store the selected gender -->
                     <div class="gender-options" style="margin-bottom: 50px;">
                         <div class="gender-option">
-                            <input type="checkbox" id="femaleCheckbox" class="gender-checkbox" value="남자">
+                            <input type="checkbox" id="femaleCheckbox" class="gender-checkbox" value="male">
                             <label for="femaleCheckbox"><img th:src="@{/img/profileIcon/female.png}" alt="female" style="width: 150px;"></label>
                         </div>
                         <div class="gender-option">
-                            <input type="checkbox" id="maleCheckbox" class="gender-checkbox" value="여자">
+                            <input type="checkbox" id="maleCheckbox" class="gender-checkbox" value="female">
                             <label for="maleCheckbox"><img th:src="@{/img/profileIcon/male.png}" alt="male" style="width: 150px;"></label>
                         </div>
                     </div>
@@ -187,35 +185,35 @@
                     <div class="mbtiChk text-center" style="margin-bottom: 80px;">
 
                         <div class="form-check form-check-inline" >
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="loveChooseMBTI"  value="e">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="chooseMBTI"  value="option1">
                             <label class="form-check-label" for="inlineCheckbox1">E</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="loveChooseMBTI" value="i">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="chooseMBTI" value="option2">
                             <label class="form-check-label" for="inlineCheckbox2">I</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="loveChooseMBTI" value="n">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox3">N</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="loveChooseMBTI" value="s">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox4">S</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="loveChooseMBTI" value="f">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox5">F</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" name="loveChooseMBTI" value="t">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox6">T</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" name="loveChooseMBTI" value="j">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox7">J</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox8" name="loveChooseMBTI" value="p">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox8" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox8">P</label>
                         </div>
                     </div>
@@ -225,35 +223,35 @@
                     <div class="mbtiChk text-center" style="margin-bottom: 80px;">
 
                         <div class="form-check form-check-inline" >
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox9" name="hateChooseMBTI"  value="e">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="chooseMBTI"  value="option1">
                             <label class="form-check-label" for="inlineCheckbox1">E</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox10" name="hateChooseMBTI" value="i">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="chooseMBTI" value="option2">
                             <label class="form-check-label" for="inlineCheckbox2">I</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox11" name="hateChooseMBTI" value="n">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox3">N</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox12" name="hateChooseMBTI" value="s">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox4">S</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox13" name="hateChooseMBTI" value="f">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox5">F</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox14" name="hateChooseMBTI" value="t">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox6">T</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox15" name="hateChooseMBTI" value="j">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox7">J</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox16" name="hateChooseMBTI" value="p">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox8" name="chooseMBTI" value="option3">
                             <label class="form-check-label" for="inlineCheckbox8">P</label>
                         </div>
                     </div>
@@ -263,41 +261,14 @@
             </div>
             <div class="btn-area" style="display: flex; justify-content: space-between;">
                 <button type="button" class="btn btn-outline-secondary" id="preBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">< 이전</button>
-                <button type="button" class="btn btn-outline-secondary" id="nextBtn"  onclick="next();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">다음 ></button>
+                <button type="button" class="btn btn-outline-secondary" id="nextBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">다음 ></button>
             </div>
         </div>
     </div>
     <script>
 
-        function checkNick(){
-            const inputNick = $('#nameInput').val();
-            console.log(inputNick);
-            $.ajax({
-                type: 'post',
-                url: '/checkNickVal',
-                data: {
-                    checkNick: inputNick
-                },
-                dataType: 'json'
-            }).done(function (data) {
-                if (data.resultCode === 200) {
-                    console.log(data);
-                    alert('사용가능한 닉네임 입니다.');
-                    $('#nextBtn').prop('disabled', false);
-
-                } else if (data.resultCode === 201) {
-                    alert('이미 등록된 닉네임 입니다\n 다른 닉네임을 사용하세요.');
-                    $('#nameInput').focus();
-                }
-            }).fail(function (xhr, error, status) {
-                alert(error);
-            });
-        }
-
         //프로필 사진 업로드
         $(document).ready(function () {
-
-            $('#nextBtn').prop('disabled', true);
             // When the profile picture image is clicked, trigger the file input click event
             $('#profilePicturePreview').click(function () {
                 $('#profilePicture').click();
@@ -324,7 +295,7 @@
         // 체크 박스 선택 처리를 담당하는 JavaScript
         const femaleCheckbox = document.getElementById('femaleCheckbox');
         const maleCheckbox = document.getElementById('maleCheckbox');
-        const genderInput = document.getElementById('genderSelection');
+        const genderInput = document.getElementById('genderInput');
 
         femaleCheckbox.addEventListener('change', function () {
             if (femaleCheckbox.checked) {
@@ -365,7 +336,7 @@
             });
         });
 
-        function next() {
+        function save() {
             // 프로필 사진이 선택되었는지 확인
             const profilePictureInput = $('#profilePicture');
             const profilePicturePreview = $('#profilePicturePreview');
@@ -395,27 +366,25 @@
             const formObj = $('#frm')[0];
             const formData = new FormData(formObj);
 
-            $.ajax(
-                {
-                    url: '/nextStep2',
-                    type: 'post',
-                    dataType : 'json',
-                    contentType: false,
-                    processData : false,
-                    data : formData
-                }
-            ).done(function(data){
-                if(data.resultCode === 200) {
+            $.ajax({
+                url: '/board/add',
+                type: 'post',
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                enctype: 'mutipart/form-data',
+                data: formData
+            }).done(function (data) {
+                if (data.resultCode === 200) {
                     alert('정보 입력이 완료 되었습니다. mbti 선택 화면으로 이동합니다.');
-                    location.href = '/selectMbtiGo';    // 커플 리스트 메인으로 가기
-                }else {
+                    location.href = '/select';
+                } else {
                     alert('회원가입이 실패하였습니다');
                     return false;
                 }
-            }).fail(function(xhr, error, status) {
+            }).fail(function (xhr, error, status) {
                 alert(error);
             });
-
         }
     </script>
 </div>

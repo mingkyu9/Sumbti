@@ -163,56 +163,30 @@
             </section>
         </div>
         <div class="btn-area" style="display: flex; justify-content: space-between;">
-            <button type="button" class="btn btn-outline-secondary" id="preBtn"  onclick="back();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">< 이전</button>
+            <button type="button" class="btn btn-outline-secondary" id="preBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">< 이전</button>
             <button type="button" class="btn btn-outline-secondary" id="nextBtn"  onclick="save();" style="border-radius: 15px; height: 60px; font-family: 'GmarketSansLight', sans-serif; font-size: 30px;">가입 완료</button>
         </div>
     </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script>
-
-        function save() {
-            const myMbti = document.querySelector('.textBox').value;
-            if (myMbti != null) {
-                $.ajax({
-                    type: 'post',
-                    url: '/singComplete',
-                    data: {
-                        mbtiCheck: myMbti
-                    },
-                    dataType: 'json'
-                }).done(function (data) {
-                    if (data.resultCode === 200) {
-                        alert('회원가입이 완료되었습니다.\n로그인페이지로 이동합니다.');
-                        location.href = "/loginGo"
-                    } else if (data.resultCode === 201) {
-                        alert('회원가입에 실패하였습니다.\n 다시 시도해보세요');
-                    }
-                }).fail(function (xhr, error, status) {
-                    alert(error);
-                });
-            } else {
-                alert('MBTI를 선택해주세요');
-                document.querySelector('.textBox').focus();
-            }
+        function show(anything) {
+            document.querySelector('.textBox').value = anything;
         }
-            function show(anything) {
-                document.querySelector('.textBox').value = anything;
-            }
 
-            let dropdown = document.querySelector('.dropdown');
-            dropdown.onclick = function () {
-                dropdown.classList.toggle('active');
-            }
+        let dropdown = document.querySelector('.dropdown');
+        dropdown.onclick = function () {
+            dropdown.classList.toggle('active');
+        }
 
-            // 이전 버튼 클릭 이벤트 처리
-            document.addEventListener('DOMContentLoaded', function () {
-                const preBtn = document.getElementById('preBtn');
+        // 이전 버튼 클릭 이벤트 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            const preBtn = document.getElementById('preBtn');
 
-                preBtn.addEventListener('click', function () {
-                    window.location.href = '/signin/second';
-                });
+            preBtn.addEventListener('click', function() {
+                window.location.href = '/signin/second';
             });
+        });
 
     </script>
 </div>
