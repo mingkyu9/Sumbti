@@ -99,55 +99,55 @@
             margin-bottom: 20px;
         }
 
-        .heart {
-            height: 20px;
-            width: 20px;
-            background-color: #f20044;
-            position: relative;
-            transform: rotate(-45deg);
-            box-shadow: -10px 10px 90px #f20044;
-            margin-right: 20px;
-        }
+        /*.heart {*/
+        /*    height: 20px;*/
+        /*    width: 20px;*/
+        /*    background-color: #f20044;*/
+        /*    position: relative;*/
+        /*    transform: rotate(-45deg);*/
+        /*    box-shadow: -10px 10px 90px #f20044;*/
+        /*    margin-right: 20px;*/
+        /*}*/
 
-        .heart.active {
-            animation: heartBeat 0.6s linear infinite;
-        }
+        /*.heart.active {*/
+        /*    animation: heartBeat 0.6s linear infinite;*/
+        /*}*/
 
-        @keyframes heartBeat {
-            0% {
-                transform: rotate(-45deg) scale(1.4);
-            }
-            80% {
-                transform: rotate(-45deg) scale(1.0);
-            }
-            100% {
-                transform: rotate(-45deg) scale(1.4);
-            }
-        }
+        /*@keyframes heartBeat {*/
+        /*    0% {*/
+        /*        transform: rotate(-45deg) scale(1.4);*/
+        /*    }*/
+        /*    80% {*/
+        /*        transform: rotate(-45deg) scale(1.0);*/
+        /*    }*/
+        /*    100% {*/
+        /*        transform: rotate(-45deg) scale(1.4);*/
+        /*    }*/
+        /*}*/
 
-        .heart:before {
-            content: '';
-            position: absolute;
-            height: 20px;
-            width: 20px;
-            background-color: #f20044;
-            right: -3%;
-            bottom: 52%;
-            border-radius: 50px;
-            box-shadow: -10px 10px 90px #f20044;
-        }
+        /*.heart:before {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    height: 20px;*/
+        /*    width: 20px;*/
+        /*    background-color: #f20044;*/
+        /*    right: -3%;*/
+        /*    bottom: 52%;*/
+        /*    border-radius: 50px;*/
+        /*    box-shadow: -10px 10px 90px #f20044;*/
+        /*}*/
 
-        .heart:after {
-            content: '';
-            position: absolute;
-            height: 20px;
-            width: 20px;
-            background-color: #f20044;
-            right: -52%;
-            bottom: 3%;
-            border-radius: 50px;
-            box-shadow: -10px 10px 90px #f20044;
-        }
+        /*.heart:after {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    height: 20px;*/
+        /*    width: 20px;*/
+        /*    background-color: #f20044;*/
+        /*    right: -52%;*/
+        /*    bottom: 3%;*/
+        /*    border-radius: 50px;*/
+        /*    box-shadow: -10px 10px 90px #f20044;*/
+        /*}*/
 
         .nav-item {
             font-family: 'GmarketSansBold', sans-serif;
@@ -177,13 +177,13 @@
             </div>
             <textarea class="contentArea" th:utext="${detail.boardContents}"></textarea>
         </div>
-        <div class="likeArea">
-            <div class="heart" id="likeBtn"></div>
-            <span id="likeCount">35</span>
-        </div>
+<!--        <div class="likeArea">-->
+<!--            <div class="heart" id="likeBtn"></div>-->
+<!--            <span id="likeCount">35</span>-->
+<!--        </div>-->
     </section>
         <div class="btn-area">
-            <button type="button" class="btn btn-secondary btn-lg" id="listBtn" onclick="goList();">목록</button>
+            <button type="button" class="btn btn-secondary btn-lg" id="listBtn" onclick="goList();" style="margin-right: 10px;">목록</button>
             <div id="test12" th:if="${connectUser eq detail.userId}">
                 <button type="button" class="btn btn-danger btn-lg" id="cancelBtn" onclick="del();">삭제</button>
                 <button type="button" class="btn btn-primary btn-lg" id="saveBtn" onclick="mdofiy();" >글 수정</button>

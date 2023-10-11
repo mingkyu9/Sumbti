@@ -125,7 +125,7 @@
                         <div class="input-group-append">
                             <input type="text" class="form-control" id="idInput"  name="idInput" maxlength="20" oninput="updateVariable(this)">
 <!--                            <button class="btn btn-info" type="button" id="idConfirmButton" onclick="checkSameId();" a href="sendMail">아이디중복확인</button>-->
-                            <button class="btn btn-info" type="button" id="idConfirmButton" onclick="checkSameId();">아이디중복확인</button>
+                            <button class="btn btn-info" type="button" id="idConfirmButton" onclick="checkSameId();">중복확인</button>
                         </div>
                         <div style="font-family: 'GmarketSansLight', sans-serif; font-size: 20px; margin-top: 15px;">영어, 숫자 포함 6자 이상</div>
                     </div>
@@ -417,7 +417,7 @@
                     $('#passwdInput').prop('disabled', false);
                     idValidated = true;
                 } else if (data.resultCode === 201) {
-                    alert('이미 등록된 아이디 입니다?\n 사용할 수 없는 아이디 입니다.');
+                    alert('이미 등록된 아이디 입니다.');
                     $('#idInput').focus();
                 }
             }).fail(function (xhr, error, status) {
