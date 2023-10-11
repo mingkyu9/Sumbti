@@ -34,20 +34,23 @@ public class SignService {
 
         List<String> lMbti = singInfo.getLoveChooseMBTI();
         List<String> hMbti = singInfo.getHateChooseMBTI();
-
-        // StringBuilder를 사용하여 문자열을 연결
-        StringBuilder result = new StringBuilder();
-        for (String str : lMbti) {
-            result.append(str);
+        String defaultValue ="";
+        if(lMbti != null) {
+            // StringBuilder를 사용하여 문자열을 연결
+            StringBuilder result = new StringBuilder();
+            for (String str : lMbti) {
+                result.append(str);
+            }
+            singInfo.setLoveMbti(result.toString());
         }
-        singInfo.setLoveMbti(result.toString());
 
-        StringBuilder result2 = new StringBuilder();
-        for (String str : hMbti) {
-            result2.append(str);
+        if(hMbti != null) {
+            StringBuilder result2 = new StringBuilder();
+            for (String str : hMbti) {
+                result2.append(str);
+            }
+            singInfo.setHateMbti(result2.toString());
         }
-        singInfo.setHateMbti(result2.toString());
-
 
         return mapper.signInsert(singInfo);
     }

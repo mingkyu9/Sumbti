@@ -170,9 +170,9 @@
                 <div class="title" th:utext="${detail.boardTitle}">
                 </div>
                 <div class="info">
-                    <span class="infoDetail">닉네임</span>
-                    <span class="infoDetail">mbti</span>
-                    <span class="infoDetail">23.09.22</span>
+                    <span class="infoDetail" th:text="${detail.userNick}"></span>
+                    <span class="infoDetail" th:text="${detail.userMbti}"></span>
+                    <span class="infoDetail" th:text="${detail.updateDate}"></span>
                 </div>
             </div>
             <textarea class="contentArea" th:utext="${detail.boardContents}"></textarea>

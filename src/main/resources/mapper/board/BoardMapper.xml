@@ -48,14 +48,16 @@
 
 
     <select id="getBoardDetail"  parameterType="map"   resultMap="detailBoard">
-        select  board_num,
-                board_title,
-                user_id,
-                board_like,
-                board_contents,
-
-                date_format(board_time, '%Y-%m-%d %H:%i:%s') as board_time
-        from board
+        select  b.board_num,
+                b.board_title,
+                u.user_nick,
+                u.user_mbti,
+                b.user_id,
+                b.board_like,
+                b.board_contents,
+                date_format(b.board_time, '%Y-%m-%d %H:%i:%s') as board_time
+        from board b
+                 inner join user_info u on b.user_id  = u.user_id
         where board_num = #{boardNum}
     </select>
     <delete id="deleteBoard"  parameterType="map">

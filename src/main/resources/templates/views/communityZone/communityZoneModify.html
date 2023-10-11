@@ -232,7 +232,7 @@
                                 <span class="selected">일상</span>
                                 <div class="caret"></div>
                             </div>
-                            <ul class="menu">
+                            <ul class="menu" id="category">
                                 <li class="active">일상</li>
                                 <li>같이해요</li>
                                 <li>고민상담</li>
@@ -364,6 +364,20 @@
                 const formObj = $('#frm')[0]; // form 객체 는 배열타입으로  반환...
                 //form 데이터 만들기
                 const formData = new FormData(formObj);
+
+                const category = $('#category').find('li.active').text();
+
+                switch(category){
+                    case '일상':
+                        formData.append("category", '일상');
+                        break;
+                    case '고민상담':
+                        formData.append("category", '고민상담');
+                        break;
+                    case '같이해요':
+                        formData.append("category", '같이해요');
+                        break;
+                }
 
                 $.ajax(
                     {

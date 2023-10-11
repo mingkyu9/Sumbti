@@ -64,6 +64,7 @@ public class BoardVO {
 		//java 8 이후부터 사용가능
 		// Date 보다 정확한 표현
 		private String updateDate;
+		private String category;
 
 	}
 
