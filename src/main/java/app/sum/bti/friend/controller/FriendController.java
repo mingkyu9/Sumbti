@@ -26,11 +26,18 @@ public class FriendController {
     @GetMapping("/friendZoneList")
     public ModelAndView getFriendList(HttpSession session){
         ModelAndView view  = new ModelAndView();
+
+        //로그인 유저가 아니면 로그인화면으로
+        if(session.getAttribute("loginUserInfo") == null){
+            view.setViewName("views/logIn/logInPage");
+            return view;
+        }
+
         // 세션에 저장되어있는 정보 가져오기
         LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
         Map<String,Object> params = new HashMap<String,Object>();
         params.put("userId",login.getUserId());
-
+        params.put("userHateMbti",login.getHateMbti());
         try {
             List<FriendVO.FriendList> friendList = friendService.getFriendList(params);
             // 반복 돌리지 않고 스트림으로 처리?
@@ -54,6 +61,13 @@ public class FriendController {
     @GetMapping("/friendZoneSelectedList")
     public ModelAndView getCoupleListPick(HttpSession session){
         ModelAndView view  = new ModelAndView();
+
+        //로그인 유저가 아니면 로그인화면으로
+        if(session.getAttribute("loginUserInfo") == null){
+            view.setViewName("views/logIn/logInPage");
+            return view;
+        }
+
         // 세션에 저장되어있는 정보 가져오기
         LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
         Map<String,Object> params = new HashMap<String,Object>();
@@ -79,8 +93,15 @@ public class FriendController {
 
     // FriendZone 글쓰기 화면 (그냥도 들어올수 있나?)
     @GetMapping("/friendWrite")
-    public ModelAndView getWriteDetail(){
+    public ModelAndView getWriteDetail(HttpSession session){
         ModelAndView view  = new ModelAndView();
+
+        //로그인 유저가 아니면 로그인화면으로
+        if(session.getAttribute("loginUserInfo") == null){
+            view.setViewName("views/logIn/logInPage");
+            return view;
+        }
+
         view.setViewName("views/friendZone/friendWrite");
         return view;
     }

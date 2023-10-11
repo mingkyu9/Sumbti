@@ -18,11 +18,13 @@
         FROM user_info u
             LEFT JOIN detail_info_friend di ON u.user_id = di.user_id
         WHERE
-            u.user_id != #{userId})
+            u.user_id != #{userId}
         AND
-            u.user_id IN (SELECT user_id FROM detail_info_friend);
+            u.user_id IN (SELECT user_id FROM detail_info_friend)
 
     </select>
+
+
 
 
     <!-- 상세정보 저장하기 -->

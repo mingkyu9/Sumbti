@@ -184,24 +184,16 @@
     </section>
         <div class="btn-area">
             <button type="button" class="btn btn-secondary btn-lg" id="listBtn" onclick="goList();">목록</button>
+            <div id="test12" th:if="${connectUser eq detail.userId}">
                 <button type="button" class="btn btn-danger btn-lg" id="cancelBtn" onclick="del();">삭제</button>
                 <button type="button" class="btn btn-primary btn-lg" id="saveBtn" onclick="mdofiy();" >글 수정</button>
+            </div>
         </div>
 
 
 
     <script>
-        var userId = "${userId}";  // Thymeleaf 예시
-        var postUserId = "${postUserId}";  // Thymeleaf 예시
-
-        // 페이지 로드 완료 후 로직 실행
-        window.onload = function() {
-            if(userId === postUserId) {
-                // 로그인한 사용자가 게시글 작성자인 경우 버튼 표시
-                document.getElementById('cancelBtn').style.display = 'block';
-                document.getElementById('saveBtn').style.display = 'block';
-            }
-        };
+            console.log($('#test12'));
         function mdofiy() {
             location.href  ='/comm/modify/view?nowPageNumber='  + $('#nowPageNumber').val() +'&boardNum=' + $('#boardNum').val() ;
         }

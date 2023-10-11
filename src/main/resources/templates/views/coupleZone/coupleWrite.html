@@ -269,7 +269,7 @@
                         alert('상세정보가 등록되었습니다.');
                         location.href = '/coupleZoneList';    // 커플 리스트 메인으로 가기
                     }else {
-                        alert('상세정보 등록에 실패하였습니다.');
+                        alert('이미 등록하셨습니다.\n수정 및 삭제를 원하시면 마이페이지로 이동해주세요..');
                         return false;
                     }
                 }).fail(function(xhr, error, status) {

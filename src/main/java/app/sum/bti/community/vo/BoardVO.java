@@ -27,6 +27,7 @@ public class BoardVO {
 	public static class BoardList{
 
 		private int boardNum;
+		private String userId;
 		private String boardTitle;
 		private String userMbti;
 		private String userNick;

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layout/main_layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
+        @font-face {
+            font-family: 'GmarketSansMedium';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansLight';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansBold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #communityZoneLogo {
+            text-align: left;
+        }
+
+        #communityZoneLogo img {
+            max-width: 500px;
+        }
+
+        .likeArea {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .heart {
+            height:20px;
+            width: 20px;
+            background-color: #f20044;
+            position: relative;
+            transform: rotate(-45deg);
+            box-shadow: -10px 10px 90px #f20044;
+            margin-right: 20px;
+        }
+
+        .heart.active {
+            animation: heartBeat 0.6s linear infinite;
+        }
+
+        @keyframes heartBeat {
+            0% {
+                transform: rotate(-45deg) scale(1.4);
+            }
+            80% {
+                transform: rotate(-45deg) scale(1.0);
+            }
+            100% {
+                transform: rotate(-45deg) scale(1.4);
+            }
+        }
+
+        .heart:before {
+            content:'';
+            position: absolute;
+            height:20px;
+            width: 20px;
+            background-color: #f20044;
+            right: -3%;
+            bottom: 52%;
+            border-radius: 50px;
+            box-shadow: -10px 10px 90px #f20044;
+        }
+
+        .heart:after {
+            content:'';
+            position: absolute;
+            height:20px;
+            width: 20px;
+            background-color: #f20044;
+            right: -52%;
+            bottom: 3%;
+            border-radius: 50px;
+            box-shadow: -10px 10px 90px #f20044;
+        }
+
+        .category {
+            height: 60px;
+            width: 100%;
+            background: #c7d0dc;
+            font-family: 'GmarketSansMedium', sans-serif;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px; /* 좌우 여백 추가 */
+            border-radius: 5px;
+        }
+
+        .category a {
+            text-decoration: none; /* 밑줄 제거 */
+            color: black; /* 글자 색상을 검은색으로 설정 */
+            padding-right: 20px; /* 각 카테고리 뒤에 오른쪽 여백 추가 */
+            margin-right: 20px; /* 각 카테고리 사이에 수직 선을 만들기 위한 여백 추가 */
+            border-right: 1px solid black; /* 수직 선 스타일 설정 */
+        }
+
+        .category a:last-child {
+            margin-right: 0; /* 마지막 카테고리의 오른쪽 여백 제거 */
+            border-right: none; /* 마지막 카테고리의 수직 선 제거 */
+        }
+
+        .contentsArea {
+            margin-top: 20px;
+            background: white;
+            height: 500px; /* 높이를 조정해주세요. */
+        }
+
+        table {
+            font-size: 20px; /* 폰트 크기를 조정해주세요. */
+        }
+
+        th, td {
+            text-align: center; /* 가운데 정렬 */
+        }
+
+        th {
+            font-family: 'GmarketSansMedium', sans-serif;
+        }
+
+        td {
+            font-family: 'GmarketSansLight', sans-serif;
+        }
+
+        .nav-item {
+            font-family: 'GmarketSansBold', sans-serif;
+            font-size: 25px;
+        }
+
+    </style>
+
+</th:block>
+
+<div layout:fragment="content">
+    <section class="content">
+        <div class="container">
+            <div id="communityZoneLogo">
+                <img th:src="@{/img/logo/communityZone.png}">
+            </div>
+            <input type="hidden"  id="nowPageNumber"  name ="nowPageNumber"th:value="${data.nowPageNumber}">
+            <div class="row" style="margin-top: 15px; justify-content: flex-end; font-family: 'GmarketSansLight', sans-serif;">
+                <div class="col-md-6" style="text-align: right; margin-bottom:20px;">
+                    <button type="button" class="btn btn-primary" id="writeBtn" >글 쓰기</button>
+                </div>
+            </div>
+            <div class="category" id="categoryDiv">
+                <a href="#" data-category="">전체보기</a>
+                <a href="#" data-category="DAILY">일상</a>
+                <a href="#" data-category="TOGETHER">같이해요</a>
+                <a href="#" data-category="CONSULT">고민상담</a>
+            </div>
+            <div class="contentsArea">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col width="12%" />
+                            <col width="36%" />
+                            <col width="30%" />
+                            <col width="18%" />
+                        </colgroup>
+                        <thead>
+                        <th>카테고리</th>
+                        <th>글제목</th>
+                        <th>닉네임</th>
+                        <th>날짜</th>
+                        </thead>
+                        <tbody id="tableBody">
+                        <tr th:each="vo : ${data.list}">
+                           <!-- <td class="nickName">[[${vo.boardNum} ]]</td>-->
+                            <td class="CategoryId">[[${vo.CategoryId} ]]</td>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" th:onclick="'goDetail(' + ${vo.boardNum} + ');'">
+                                    <span th:text="${vo.boardTitle}"></span>
+                                </a>
+                            </td>
+                            <td class="nickName">[[${vo.userNick} ]]</td>
+                            <td class="date">[[${vo.boardTime} ]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center" id="pageArea" th:utext="${data.pageHTML}" style="margin-top: 200px;"></ul>
+    </nav>
+
+
+    <script>
+        function goDetail(boardNum) {
+            const nowPageNumber = $('#nowPageNumber').val();
+            location.href ='/comm/content?nowPageNumber='+ nowPageNumber + "&boardNum=" + boardNum;
+        }
+
+        function movePage(nowPageNumber) {
+            location.href ="/comm/list?nowPageNumber="+ nowPageNumber  ;
+        }
+        function writerBoard() {
+            location.href ='/comm/add/view?nowPageNumber=' + $('#nowPageNumber').val();
+        }
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var categoryDiv = document.getElementById('categoryDiv');
+
+            // <div> 내부의 클릭 이벤트 처리
+            categoryDiv.addEventListener('click', function(event) {
+                event.preventDefault(); // 링크의 기본 동작을 막음
+
+                // 클릭된 요소가 <a> 태그인 경우에만 처리
+                if (event.target.tagName === 'A') {
+                    var selectedCategory = event.target.getAttribute('data-category'); // 선택된 카테고리 가져오기
+                    var nowPageNumber = document.getElementById('nowPageNumber').value; // 현재 페이지 번호 가져오기
+                    var url = '/comm/list?nowPageNumber=' + nowPageNumber + '&categoryId=' +selectedCategory ;
+                    window.location.href = url; // 새로운 URL로 이동
+                }
+            });
+        });
+
+
+        // write 버튼 클릭 이벤트 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            const writeBtn = document.getElementById('writeBtn');
+
+            writeBtn.addEventListener('click', function() {
+                location.href = '/comm/add/view?nowPageNumber=' + $('#nowPageNumber').val();
+            });
+        });
+
+        // 텍스트를 지정한 길이로 자르고 "..."을 추가하는 함수
+        function truncateText(text, maxLength) {
+            if (text.length > maxLength) {
+                return text.substring(0, maxLength) + "...";
+            }
+            return text;
+        }
+
+        // 테이블 셀의 텍스트 처리
+
+        document.addEventListener('DOMContentLoaded', function () {
+            //const titleCells = document.querySelectorAll('.title'); // 글제목 셀
+            const nickNameCells = document.querySelectorAll('.nickName'); // 닉네임 셀
+            //
+            // titleCells.forEach(function (cell) {
+            //     const originalText = cell.innerText;
+            //     const truncatedText = truncateText(originalText, 12); // 12자 이상인 경우 "..." 추가
+            //     cell.innerText = truncatedText;
+            // });
+
+            nickNameCells.forEach(function (cell) {
+                const originalText = cell.innerText;
+                const truncatedText = truncateText(originalText, 5); // 5자 이상인 경우 "..." 추가
+                cell.innerText = truncatedText;
+            });
+        });
+
+        // 페이지당 행 개수
+        const rowsPerPage = 10;
+
+        // 현재 페이지 번호 초기화
+        let currentPage = 0;
+
+        // // 페이지 이동 함수
+        // function goToPage(pageNumber) {
+        //     currentPage = pageNumber;
+        //     const startIndex = currentPage * rowsPerPage;
+        //     const endIndex = startIndex + rowsPerPage;
+        //
+        //     // 모든 행 숨김
+        //     $('tbody tr').hide();
+        //
+        //     // 현재 페이지의 행만 표시
+        //     $('tbody tr').slice(startIndex, endIndex).show();
+        // }
+
+        // // 페이지 이동 버튼 생성 및 초기화
+        // function initializePagination() {
+        //     const totalRows = $('tbody tr').length;
+        //     const totalPages = Math.ceil(totalRows / rowsPerPage);
+        //     const pagination = $('#pageArea');
+        //
+        //     // Pagination 초기화
+        //     pagination.empty();
+        //
+        //     // Pagination 버튼 생성
+        //     for (let i = 1; i <= totalPages; i++) {
+        //         const pageButton = $('<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>');
+        //         pageButton.click(function () {
+        //             goToPage(i - 1); // 페이지 번호가 0부터 시작하므로 1을 뺍니다.
+        //         });
+        //         pagination.append(pageButton);
+        //     }
+        // }
+        //
+        // // 페이지 로딩 시 Pagination 초기화 및 첫 페이지 표시
+        // $(document).ready(function () {
+        //     initializePagination();
+        //     goToPage(currentPage);
+        // });
+
+    </script>
+</div>
+</html>

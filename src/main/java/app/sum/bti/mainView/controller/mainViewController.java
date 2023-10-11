@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -17,8 +18,14 @@ public class mainViewController {
 
     private final mainViewService service;
     @GetMapping("/mainView")
-    public ModelAndView main() {
+    public ModelAndView main(HttpSession session) {
         ModelAndView view = new ModelAndView();
+
+        //로그인 유저가 아니면 로그인화면으로
+        if(session.getAttribute("loginUserInfo") == null){
+            view.setViewName("views/logIn/logInPage");
+            return view;
+        }
 
         try {
             List<mainViewVO.LankList> coLank = service.coLank();

@@ -17,6 +17,7 @@ public class LoginVO {
         private String userNick;
         private String userGender;
         private String userMbti;
+        private String hateMbti;
     }
 
 }

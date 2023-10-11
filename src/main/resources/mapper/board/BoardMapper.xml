@@ -5,7 +5,7 @@
     <resultMap type="boardDetail"    id="detailBoard">
         <result property="boardNum" column="board_num" />
         <result property="boardTitle" column="board_title" />
-        <result property="userId" column="board_owner" />
+        <result property="userId" column="user_id" />
         <result property="boardContents" column="board_contents" />
 
     </resultMap>
@@ -21,11 +21,12 @@
     <select id="getBoardList"  parameterType="map"   resultType="boardList">
 
         select b.board_num ,
-        b.board_title,
-        b.category_id,
-        b.board_time,
-        u.user_nick ,
-        u.user_mbti
+               b.board_title,
+               b.category_id,
+               b.board_time,
+               u.user_nick ,
+               u.user_mbti,
+               u.user_id
         from board b
         inner join user_info u on b.user_id  = u.user_id
 

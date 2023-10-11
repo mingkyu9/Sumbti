@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -23,16 +24,19 @@ public class CoupleController {
     @GetMapping("/coupleZoneList")
     public ModelAndView getCoupleList(HttpSession session){
         ModelAndView view  = new ModelAndView();
+
+        //로그인 유저가 아니면 로그인화면으로
         if(session.getAttribute("loginUserInfo") == null){
             view.setViewName("views/logIn/logInPage");
             return view;
         }
+
         // 세션에 저장되어있는 정보 가져오기
         LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
         // 쿼리에 전달할 파라미터 만들기
         Map<String,Object> params = new HashMap<String,Object>();
         params.put("userId",login.getUserId());
-
+        params.put("userHateMbti",login.getHateMbti());
         try {
             List<CoupleVO.CoupleList> coupleList = coupleService.getCoupleList(params);
             // 반복 돌리지 않고 스트림으로 처리?
@@ -56,6 +60,13 @@ public class CoupleController {
     @GetMapping("/coupleZoneSelectedList")
     public ModelAndView getCoupleListPick(HttpSession session){
         ModelAndView view  = new ModelAndView();
+
+        //로그인 유저가 아니면 로그인화면으로
+        if(session.getAttribute("loginUserInfo") == null){
+            view.setViewName("views/logIn/logInPage");
+            return view;
+        }
+
         // 세션에 저장되어있는 정보 가져오기
         LoginVO.LoginUserInfo login = (LoginVO.LoginUserInfo)session.getAttribute("loginUserInfo");
         // 쿼리에 전달할 파라미터 만들기
@@ -171,8 +182,15 @@ public class CoupleController {
 
     //상세정보 입력화면
     @GetMapping("/DetailInformation")
-    public ModelAndView saveDetailInfo(){
+    public ModelAndView saveDetailInfo(HttpSession session){
         ModelAndView view  = new ModelAndView();
+
+        //로그인 유저가 아니면 로그인화면으로
+        if(session.getAttribute("loginUserInfo") == null){
+            view.setViewName("views/logIn/logInPage");
+            return view;
+        }
+
         view.setViewName("views/coupleZone/coupleWrite");
 
         return view;

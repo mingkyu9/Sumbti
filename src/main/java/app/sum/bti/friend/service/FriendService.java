@@ -8,10 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +19,48 @@ public class FriendService {
 
     // FriendZoneList 유저 목록
     public List<FriendVO.FriendList> getFriendList(Map<String,Object> param) throws SQLException {
-        return mapper.getFriendList(param);
+        List<FriendVO.FriendList> list = mapper.getFriendList(param);
+        List<FriendVO.FriendList> checkList = new ArrayList<>();
+
+        String hateMbti = (String)param.get("userHateMbti");
+
+     if( hateMbti != null) {
+         String[] hateUser = hateMbti.split("");
+         if (hateUser.length == 0 || hateUser == null) {
+             Collections.sort(list, new Comparator<FriendVO.FriendList>() {
+                 @Override
+                 public int compare(FriendVO.FriendList friend1, FriendVO.FriendList friend2) {
+                     return Integer.compare(friend2.getLikeCount(), friend1.getLikeCount());// 내림차순으로 변경
+                 }// 내림차순으로 변경
+
+             });
+             return list;
+         } else {
+             for (FriendVO.FriendList friendList : list) {
+                 boolean flag = true;
+                 for (String mbti : hateUser) {
+                     if (friendList.getUserMbti().contains(mbti)) {
+                         flag = false;
+                         break;
+                     }
+                 }
+                 if (flag) {
+                     checkList.add(friendList);
+                 }
+             }
+
+             Collections.sort(checkList, new Comparator<FriendVO.FriendList>() {
+                 @Override
+                 public int compare(FriendVO.FriendList friend1, FriendVO.FriendList friend2) {
+                     return Integer.compare(friend2.getLikeCount(), friend1.getLikeCount());// 내림차순으로 변경
+                 }
+
+             });
+             return checkList;
+         }
+      }else{
+         return list;
+     }
     }
 
 
