@@ -42,11 +42,12 @@ public class BoardVO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Detail{
-
 		private int boardNum;
 		private String boardTitle;
 		private String boardMbti;
 		private String userId;
+		private String userNick;
+		private String userMbti;
 		private int boardLike;
 		private String boardTime;
 		private String boardContents;
