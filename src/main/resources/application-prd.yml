@@ -1,0 +1,12 @@
+server:
+  port: 9090
+
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    prefix: classpath:/templates/
+    suffix: .html
+
