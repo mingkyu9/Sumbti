@@ -5,3 +5,6 @@
 <img width="567" alt="image" src="https://github.com/mingkyu9/Sumbti/assets/114455898/c39a54c2-2372-4223-bc1e-4bd1c8326788">
 
 [sumBTI 기획서 2023.09.11 v0.1.pdf](https://github.com/mingkyu9/Sumbti/files/13539017/sumBTI.2023.09.11.v0.1.pdf)
+
+[AS 교육 정리.pdf](https://github.com/user-attachments/files/16814524/AS.pdf)
+
