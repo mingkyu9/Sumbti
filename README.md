@@ -6,5 +6,6 @@
 
 [sumBTI 기획서 2023.09.11 v0.1.pdf](https://github.com/mingkyu9/Sumbti/files/13539017/sumBTI.2023.09.11.v0.1.pdf)
 
-[AS 교육 정리.pdf](https://github.com/user-attachments/files/16814524/AS.pdf)
 
+
+[AS 교육 정리.docx](https://github.com/user-attachments/files/16927574/AS.docx)
