@@ -9,3 +9,4 @@
 
 
 [AS 교육 정리.docx](https://github.com/user-attachments/files/16927574/AS.docx)
+[근로소득원천징수부_1010_2024081204_20240930.pdf](https://github.com/user-attachments/files/17184062/_1010_2024081204_20240930.pdf)
