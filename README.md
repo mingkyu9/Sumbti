@@ -6,7 +6,3 @@
 
 [sumBTI 기획서 2023.09.11 v0.1.pdf](https://github.com/mingkyu9/Sumbti/files/13539017/sumBTI.2023.09.11.v0.1.pdf)
 
-
-
-[AS 교육 정리.docx](https://github.com/user-attachments/files/16927574/AS.docx)
-[근로소득원천징수부_1010_2024081204_20240930.pdf](https://github.com/user-attachments/files/17184062/_1010_2024081204_20240930.pdf)
